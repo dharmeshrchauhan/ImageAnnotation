@@ -10,6 +10,9 @@ import UIKit
 
 class ViewController: UIViewController,UIPickerViewDelegate {
 
+    @IBOutlet weak var colorView: UIView!
+    
+    
     var target : UIImageView?
     
     var textField : UITextField?
@@ -20,12 +23,17 @@ class ViewController: UIViewController,UIPickerViewDelegate {
     
     @IBOutlet weak var drawView: drawing!
     
-    //@IBOutlet weak var arrowImageView: UIImageView!
+    @IBOutlet weak var arrowImageView: UIImageView!
     
     //@IBOutlet weak var textField: UITextField!
 
+    @IBAction func selectColor(sender: AnyObject) {
+        
+        colorView.hidden = !colorView.hidden
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        colorView.hidden = true
     }
     
     @IBAction func saveImage(sender: AnyObject) {
