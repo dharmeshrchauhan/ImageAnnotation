@@ -12,7 +12,7 @@ class CircleView: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clearColor() //
     }
     
     required init(coder aDecoder: NSCoder) {
