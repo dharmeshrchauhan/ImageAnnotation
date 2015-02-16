@@ -9,9 +9,6 @@
 import UIKit
 
 class ViewController: UIViewController,UIPickerViewDelegate {
-
-    @IBOutlet weak var colorView: UIView!
-    
     
     var target : UIImageView?
     
@@ -23,17 +20,21 @@ class ViewController: UIViewController,UIPickerViewDelegate {
     
     @IBOutlet weak var drawView: drawing!
     
-    @IBOutlet weak var arrowImageView: UIImageView!
+    @IBOutlet weak var colorView: UIView!
+ 
+    @IBOutlet weak var colorButton: UIButton!
     
-    //@IBOutlet weak var textField: UITextField!
-
-    @IBAction func selectColor(sender: AnyObject) {
-        
-        colorView.hidden = !colorView.hidden
-    }
+    @IBOutlet weak var lineWidthView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         colorView.hidden = true
+        lineWidthView.hidden = true
+    }
+    
+    @IBAction func selectColor(sender: AnyObject) {
+        colorView.hidden = !colorView.hidden
+        lineWidthView.hidden = !lineWidthView.hidden
     }
     
     @IBAction func saveImage(sender: AnyObject) {
@@ -62,6 +63,7 @@ class ViewController: UIViewController,UIPickerViewDelegate {
     
     // Add arrow image into UIImageView at runtime
     @IBAction func addArrow(sender: AnyObject) {
+        
         target = UIImageView(image: UIImage(named: "arrow.png"))
         let size = self.view.bounds.size
         target?.center = CGPoint(x: size.width * 0.5, y: (size.height - 60) * 0.5)
@@ -82,6 +84,7 @@ class ViewController: UIViewController,UIPickerViewDelegate {
     
     // Add UITextView at runtime
     @IBAction func takeTextField(sender: AnyObject) {
+        
         textField = UITextField(frame: CGRect(x: 180, y: 190, width: 100, height: 35))
         textField?.textColor = UIColor.blueColor()
         textField?.text = "TextField"
@@ -95,6 +98,7 @@ class ViewController: UIViewController,UIPickerViewDelegate {
     }
     
     @IBAction func addRectangle(sender: AnyObject) {
+        
         /*imageViewRect = UIImageView(image: UIImage(named: "rectangle.png"))
         let size = self.view.bounds.size
         imageViewRect?.center = CGPoint(x: size.width * 0.5, y: (size.height - 60) * 0.5)
@@ -108,20 +112,7 @@ class ViewController: UIViewController,UIPickerViewDelegate {
     }
     
     @IBAction func addCircle(sender: AnyObject) {
-        
-        var touch: UITouch!
-    
-        var circleCenter = touch.locationInView(view)
-               
-        var circleWidth = CGFloat(25 + (arc4random() % 50))
-                
-        var circleHeight = circleWidth
-                
-        var circleView = CircleView(frame: CGRectMake(circleCenter.x, circleCenter.y, circleWidth, circleHeight))
-                
-        drawView.addSubview(circleView)
-           
-        
+       
         /*imageViewCircle = UIImageView(image: UIImage(named: "circle.png"))
         let size = self.view.bounds.size
         imageViewCircle?.center = CGPoint(x: size.width * 0.5, y: (size.height - 60) * 0.5)
@@ -165,7 +156,11 @@ class ViewController: UIViewController,UIPickerViewDelegate {
         } else if(button.titleLabel?.text == "Green") {
             color = UIColor.greenColor()
         }
+        
         drawView.drawColor = color
+        colorButton.backgroundColor = color
+        colorView.hidden = !colorView.hidden
+        lineWidthView.hidden = !lineWidthView.hidden
     }
     
     // Select a line width for draw a line
@@ -182,6 +177,8 @@ class ViewController: UIViewController,UIPickerViewDelegate {
             line_width = 4
         }
         drawView.l_w = line_width
+        lineWidthView.hidden = !lineWidthView.hidden
+        colorView.hidden = !colorView.hidden
     }
 }
 

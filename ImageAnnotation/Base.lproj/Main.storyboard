@@ -23,6 +23,11 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="docement.png" translatesAutoresizingMaskIntoConstraints="NO" id="a5b-9S-dSQ">
                                 <rect key="frame" x="8" y="41" width="303" height="486"/>
                             </imageView>
+                            <view multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ock-tq-lJ6" customClass="drawing" customModule="ImageAnnotation">
+                                <rect key="frame" x="7" y="41" width="304" height="486"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zuU-Sc-3B0">
                                 <rect key="frame" x="16" y="9" width="42" height="30"/>
                                 <constraints>
@@ -75,18 +80,17 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rlo-Xu-9zU">
                                 <rect key="frame" x="16" y="542" width="15" height="18"/>
-                                <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="15" id="YQQ-9c-Hhf"/>
                                 </constraints>
-                                <color key="tintColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Yellow">
-                                    <color key="titleColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                                 <connections>
-                                    <action selector="colorTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="K7Z-0S-Skn"/>
-                                    <action selector="selectColor:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="rCI-2M-UFV"/>
+                                    <action selector="selectColor:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="y1J-ZH-xdx"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X4s-fS-5qZ">
@@ -101,7 +105,7 @@
                                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Black">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
                                             <action selector="colorTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="6vP-xX-fe1"/>
@@ -116,7 +120,7 @@
                                         <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Red">
                                             <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="colorTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Oca-tm-Ywz"/>
@@ -130,7 +134,7 @@
                                         </constraints>
                                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Blue">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="colorTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="BPs-EJ-GQK"/>
@@ -145,7 +149,7 @@
                                         <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Green">
                                             <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="colorTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="qeM-w5-NPx"/>
@@ -157,7 +161,7 @@
                                         <color key="tintColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Yellow">
                                             <color key="titleColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="colorTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="JGd-Wx-AcQ"/>
@@ -184,11 +188,6 @@
                                     <constraint firstItem="Or6-Pi-9dU" firstAttribute="top" secondItem="K78-lk-jmz" secondAttribute="bottom" constant="7" id="v0O-gw-Ts8"/>
                                     <constraint firstItem="K78-lk-jmz" firstAttribute="top" secondItem="mPz-tl-IbA" secondAttribute="bottom" constant="7" id="v0n-7p-XFi"/>
                                 </constraints>
-                            </view>
-                            <view multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ock-tq-lJ6" customClass="drawing" customModule="ImageAnnotation">
-                                <rect key="frame" x="7" y="41" width="304" height="486"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <gestureRecognizers/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p0D-jS-Bcx">
                                 <rect key="frame" x="39" y="538" width="98" height="26"/>
@@ -309,8 +308,10 @@
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="colorButton" destination="Rlo-Xu-9zU" id="ptm-4a-mEc"/>
                         <outlet property="colorView" destination="X4s-fS-5qZ" id="RYW-Ol-9fC"/>
                         <outlet property="drawView" destination="ock-tq-lJ6" id="Mve-Rc-Nge"/>
+                        <outlet property="lineWidthView" destination="p0D-jS-Bcx" id="q1c-h1-dDx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -321,7 +322,7 @@
                     </connections>
                 </pinchGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="24" y="116"/>
+            <point key="canvasLocation" x="-19" y="24"/>
         </scene>
     </scenes>
     <resources>

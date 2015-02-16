@@ -21,7 +21,7 @@
 		1B6BDEA81A8DE37F00E3BD76 /* rectangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B6BDEA21A8DE37F00E3BD76 /* rectangle.png */; };
 		1B6BDEA91A8DE37F00E3BD76 /* roundRect.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B6BDEA31A8DE37F00E3BD76 /* roundRect.png */; };
 		1B6BDEAB1A8DFD6400E3BD76 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6BDEAA1A8DFD6400E3BD76 /* Line.swift */; };
-		1B6BDEAD1A8DFDF600E3BD76 /* drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6BDEAC1A8DFDF600E3BD76 /* drawing.swift */; };
+		1B998FEC1A91EE7C000A7AD8 /* drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B998FEB1A91EE7C000A7AD8 /* drawing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +53,7 @@
 		1B6BDEA21A8DE37F00E3BD76 /* rectangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rectangle.png; sourceTree = "<group>"; };
 		1B6BDEA31A8DE37F00E3BD76 /* roundRect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roundRect.png; sourceTree = "<group>"; };
 		1B6BDEAA1A8DFD6400E3BD76 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Line.swift; path = ../Line.swift; sourceTree = "<group>"; };
-		1B6BDEAC1A8DFDF600E3BD76 /* drawing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = drawing.swift; path = /Volumes/sagar/Public/Sagar/Labs/ViewDrawDemo/ViewDrawDemo/drawing.swift; sourceTree = "<absolute>"; };
+		1B998FEB1A91EE7C000A7AD8 /* drawing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = drawing.swift; path = ../drawing.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,7 +99,7 @@
 				1B6BDE7D1A8DE30C00E3BD76 /* AppDelegate.swift */,
 				1B6BDE7F1A8DE30C00E3BD76 /* ViewController.swift */,
 				1B6BDEAA1A8DFD6400E3BD76 /* Line.swift */,
-				1B6BDEAC1A8DFDF600E3BD76 /* drawing.swift */,
+				1B998FEB1A91EE7C000A7AD8 /* drawing.swift */,
 				1B42838F1A8E0A5E0028AE79 /* CircleView.swift */,
 				1B6BDE811A8DE30C00E3BD76 /* Main.storyboard */,
 				1B6BDE841A8DE30C00E3BD76 /* Images.xcassets */,
@@ -253,7 +253,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B6BDEAD1A8DFDF600E3BD76 /* drawing.swift in Sources */,
+				1B998FEC1A91EE7C000A7AD8 /* drawing.swift in Sources */,
 				1B4283901A8E0A5E0028AE79 /* CircleView.swift in Sources */,
 				1B6BDEAB1A8DFD6400E3BD76 /* Line.swift in Sources */,
 				1B6BDE801A8DE30C00E3BD76 /* ViewController.swift in Sources */,
