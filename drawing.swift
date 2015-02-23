@@ -46,13 +46,6 @@ class drawing: UIView {
         }
     }
     
-    // It handel runtime handlePan method
-//    @IBAction func handlePan(recognizer:UIPanGestureRecognizer) {
-//        let translation = recognizer.translationInView(self)
-//        recognizer.view!.center = CGPoint(x:recognizer.view!.center.x + translation.x, y:recognizer.view!.center.y + translation.y)
-//        recognizer.setTranslation(CGPointZero, inView: self)
-//    }
-    
     // It handel runtime handelPinch method
     @IBAction func handlePinch(recognizer : UIPinchGestureRecognizer) {
         recognizer.view!.transform = CGAffineTransformScale(recognizer.view!.transform,recognizer.scale, recognizer.scale)

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B4283901A8E0A5E0028AE79 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B42838F1A8E0A5E0028AE79 /* CircleView.swift */; };
 		1B6BDE7E1A8DE30C00E3BD76 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6BDE7D1A8DE30C00E3BD76 /* AppDelegate.swift */; };
 		1B6BDE801A8DE30C00E3BD76 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6BDE7F1A8DE30C00E3BD76 /* ViewController.swift */; };
 		1B6BDE831A8DE30C00E3BD76 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B6BDE811A8DE30C00E3BD76 /* Main.storyboard */; };
@@ -35,7 +34,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1B42838F1A8E0A5E0028AE79 /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CircleView.swift; path = ../CircleView.swift; sourceTree = "<group>"; };
 		1B6BDE781A8DE30C00E3BD76 /* ImageAnnotation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageAnnotation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B6BDE7C1A8DE30C00E3BD76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B6BDE7D1A8DE30C00E3BD76 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -100,7 +98,6 @@
 				1B6BDE7F1A8DE30C00E3BD76 /* ViewController.swift */,
 				1B6BDEAA1A8DFD6400E3BD76 /* Line.swift */,
 				1B998FEB1A91EE7C000A7AD8 /* drawing.swift */,
-				1B42838F1A8E0A5E0028AE79 /* CircleView.swift */,
 				1B6BDE811A8DE30C00E3BD76 /* Main.storyboard */,
 				1B6BDE841A8DE30C00E3BD76 /* Images.xcassets */,
 				1B6BDE861A8DE30C00E3BD76 /* LaunchScreen.xib */,
@@ -254,7 +251,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B998FEC1A91EE7C000A7AD8 /* drawing.swift in Sources */,
-				1B4283901A8E0A5E0028AE79 /* CircleView.swift in Sources */,
 				1B6BDEAB1A8DFD6400E3BD76 /* Line.swift in Sources */,
 				1B6BDE801A8DE30C00E3BD76 /* ViewController.swift in Sources */,
 				1B6BDE7E1A8DE30C00E3BD76 /* AppDelegate.swift in Sources */,

@@ -8,30 +8,39 @@
 
 import UIKit
 
-class ViewController: UIViewController,UIPickerViewDelegate {
+class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverControllerDelegate {
     
-    var target : UIImageView?
+//    var target : UIImageView?
+//    
+//    var textField : UITextField?
+//    
+//    var imageViewRect: UIImageView?
+//    
+//    var imageViewCircle: UIImageView?
+//  
+    var picker: UIImagePickerController? = UIImagePickerController()
     
-    var textField : UITextField?
+    var popover: UIPopoverController? = nil
     
-    var imageViewRect: UIImageView?
-    
-    var imageViewCircle: UIImageView?
+    @IBOutlet weak var btnClickMe: UIBarButtonItem!
+   
+    @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var drawView: drawing!
     
     @IBOutlet weak var colorView: UIView!
  
-    @IBOutlet weak var colorButton: UIButton!
-    
     @IBOutlet weak var lineWidthView: UIView!
+    
+    @IBOutlet weak var colorButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         colorView.hidden = true
         lineWidthView.hidden = true
+        picker?.delegate = self
     }
-    
+
     @IBAction func selectColor(sender: AnyObject) {
         colorView.hidden = !colorView.hidden
         lineWidthView.hidden = !lineWidthView.hidden
@@ -61,7 +70,88 @@ class ViewController: UIViewController,UIPickerViewDelegate {
         }
     }
     
-    // Add arrow image into UIImageView at runtime
+    @IBAction func btnImagePickerClicked(sender: AnyObject) {
+        
+        var alert:UIAlertController = UIAlertController(title: "Choose Image", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
+        var cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.Default) {
+                UIAlertAction in
+                self.openCamera()
+        }
+        
+        var gallaryAction = UIAlertAction(title: "Gallary", style: UIAlertActionStyle.Default) {
+                UIAlertAction in
+                self.openGallary()
+        }
+        
+        var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+                UIAlertAction in
+        }
+        
+        // Add the actions
+        alert.addAction(cameraAction)
+        alert.addAction(gallaryAction)
+        alert.addAction(cancelAction)
+        
+        // Present the actionsheet
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone
+        {
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        else
+        {
+            popover=UIPopoverController(contentViewController: alert)
+            //popover!.presentPopoverFromRect(btnClickMe.frame, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
+        }
+    }
+    
+    func openCamera()
+    {
+        if UIImagePickerController.availableCaptureModesForCameraDevice(.Rear) != nil {
+            picker?.allowsEditing = false
+            picker?.sourceType = UIImagePickerControllerSourceType.Camera
+            picker?.cameraCaptureMode = .Photo
+            presentViewController(picker!, animated: true, completion: nil)
+        } else {
+            noCamera()
+        }
+    }
+    
+    func noCamera(){
+        let alertVC = UIAlertController(title: "No Camera", message: "Sorry, this device has no camera", preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "OK", style:.Default, handler: nil)
+        alertVC.addAction(okAction)
+        presentViewController(alertVC, animated: true, completion: nil)
+    }
+    
+    func openGallary()
+    {
+        picker!.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone
+        {
+            self.presentViewController(picker!, animated: true, completion: nil)
+        }
+        else
+        {
+            popover=UIPopoverController(contentViewController: picker!)
+            //popover?.presentPopoverFromRect(btnClickMe.frame, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
+        }
+    }
+    
+    func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!)
+    {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        var tempImage: UIImage=(info[UIImagePickerControllerOriginalImage] as UIImage)
+        //sets the selected image to image view
+        imageView.image = tempImage
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController!)
+    {
+        println("picker cancel.")
+    }
+    
+ /*   // Add arrow image into UIImageView at runtime
     @IBAction func addArrow(sender: AnyObject) {
         
         target = UIImageView(image: UIImage(named: "arrow.png"))
@@ -123,7 +213,7 @@ class ViewController: UIViewController,UIPickerViewDelegate {
         
         // Add runtime PanGestureRecognizer into UIImageView
         imageViewCircle?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "opPan:"))*/
-    }
+    } */
     
     func onPan(recognizer : UIPanGestureRecognizer) {
         let translation = recognizer.translationInView(drawView)
