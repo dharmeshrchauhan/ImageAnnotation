@@ -10,14 +10,9 @@ import UIKit
 
 class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverControllerDelegate {
     
-//    var target : UIImageView?
-//    
-//    var textField : UITextField?
-//    
-//    var imageViewRect: UIImageView?
-//    
-//    var imageViewCircle: UIImageView?
-//  
+    var cntundo:Int = 0
+    var cntredo:Int = 0
+
     var picker: UIImagePickerController? = UIImagePickerController()
     
     var popover: UIPopoverController? = nil
@@ -34,16 +29,38 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     @IBOutlet weak var colorButton: UIButton!
     
+    @IBOutlet weak var undo: UIButton!
+    
+    @IBOutlet weak var redo: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         colorView.hidden = true
         lineWidthView.hidden = true
+        undo.hidden = true
+        redo.hidden = true
         picker?.delegate = self
     }
 
     @IBAction func selectColor(sender: AnyObject) {
         colorView.hidden = !colorView.hidden
         lineWidthView.hidden = !lineWidthView.hidden
+        undo.hidden = false
+    }
+    
+    @IBAction func undoAction(sender: AnyObject) {
+        if cntundo <= 0 {
+            redo.hidden = false
+            undo.hidden = true
+        }
+        
+    }
+    
+    @IBAction func redoAction(sender: AnyObject) {
+        if cntredo <= 0 {
+            undo.hidden = false
+            redo.hidden = true
+        }
     }
     
     @IBAction func saveImage(sender: AnyObject) {

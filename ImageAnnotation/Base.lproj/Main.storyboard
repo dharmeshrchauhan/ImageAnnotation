@@ -222,6 +222,28 @@
                                             <action selector="selectColor:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Ysk-xq-TYt"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s1r-WE-UkE">
+                                        <rect key="frame" x="30" y="8" width="46" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Undo">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="undoAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="tkn-0L-KYn"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Zx-oe-0eL">
+                                        <rect key="frame" x="89" y="8" width="46" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Redo">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="redoAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="tZC-cu-NeL"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
@@ -277,6 +299,8 @@
                         <outlet property="drawView" destination="ock-tq-lJ6" id="Mve-Rc-Nge"/>
                         <outlet property="imageView" destination="a5b-9S-dSQ" id="BbA-7q-RMg"/>
                         <outlet property="lineWidthView" destination="p0D-jS-Bcx" id="q1c-h1-dDx"/>
+                        <outlet property="redo" destination="9Zx-oe-0eL" id="K3O-Lz-qqT"/>
+                        <outlet property="undo" destination="s1r-WE-UkE" id="c6x-6D-SAa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -287,7 +311,7 @@
                     </connections>
                 </pinchGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="810" y="-268"/>
+            <point key="canvasLocation" x="626" y="-291"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="pfM-MK-sP2">
@@ -305,7 +329,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x2N-O7-GHp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="392" y="-268"/>
+            <point key="canvasLocation" x="142" y="-291"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
