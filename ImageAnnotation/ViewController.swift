@@ -10,9 +10,8 @@ import UIKit
 
 class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverControllerDelegate {
     
-    var cntundo:Int = 0
-    var cntredo:Int = 0
-
+    var lines: [Line ] = []
+    
     var picker: UIImagePickerController? = UIImagePickerController()
     
     var popover: UIPopoverController? = nil
@@ -45,24 +44,8 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     @IBAction func selectColor(sender: AnyObject) {
         colorView.hidden = !colorView.hidden
         lineWidthView.hidden = !lineWidthView.hidden
-        undo.hidden = false
     }
-    
-    @IBAction func undoAction(sender: AnyObject) {
-        if cntundo <= 0 {
-            redo.hidden = false
-            undo.hidden = true
-        }
         
-    }
-    
-    @IBAction func redoAction(sender: AnyObject) {
-        if cntredo <= 0 {
-            undo.hidden = false
-            redo.hidden = true
-        }
-    }
-    
     @IBAction func saveImage(sender: AnyObject) {
         var image = takeScreenshot(view)
         UIImageWriteToSavedPhotosAlbum(image, self, Selector("image:didFinishSavingWithError:contextInfo:"), nil)
@@ -161,6 +144,21 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         var tempImage: UIImage=(info[UIImagePickerControllerOriginalImage] as UIImage)
         //sets the selected image to image view
         imageView.image = tempImage
+        
+        
+        let scaleFactorX =  imageView.frame.size.width / imageView.image!.size.width
+        let scaleFactorY =  imageView.frame.size.height / imageView.image!.size.height
+        let scaleFactor = (scaleFactorX < scaleFactorY ? scaleFactorX : scaleFactorY)
+        
+        let displayWidth: CGFloat = imageView.image!.size.width * scaleFactor
+        let displayHeight: CGFloat = imageView.image!.size.height * scaleFactor
+        
+        NSLog("ImageviewWidth: \(imageView.frame.size.width), ImageviewHeight: \(imageView.frame.size.height)")
+        NSLog("DisplayWidth: \(displayWidth), DisplayHeight: \(displayHeight)")
+
+//        NSLog("DisplayWidth: %d, DisplayHeight: %d", displayWidth, displayHeight)
+        
+        //drawView.frame = CGRect()
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController!)
@@ -168,7 +166,19 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         println("picker cancel.")
     }
     
- /*   // Add arrow image into UIImageView at runtime
+    @IBAction func undoAction(sender: AnyObject) {
+        var theDrawView = drawView as drawing
+        
+        for var i=0;i<drawView.cnt;i++ {
+            theDrawView.removeLastLine()
+        }
+    }
+    
+    @IBAction func redoAction(sender: AnyObject) {
+        var theDrawView = drawView as drawing
+        
+    }
+    /*   // Add arrow image into UIImageView at runtime
     @IBAction func addArrow(sender: AnyObject) {
         
         target = UIImageView(image: UIImage(named: "arrow.png"))
