@@ -20,7 +20,7 @@ class drawing: UIView {
     
     var l_w: CGFloat! = 1
     var l_opacity: CGFloat! = 1
-        
+    
     @IBOutlet weak var undo: UIButton!
     
     @IBOutlet weak var redo: UIButton!
@@ -62,16 +62,17 @@ class drawing: UIView {
             CGContextSetLineWidth(cxt, line.l_width)
             CGContextMoveToPoint(cxt, line.start.x, line.start.y)
             CGContextAddLineToPoint(cxt, line.end.x, line.end.y)
+            
             CGContextSetStrokeColorWithColor(cxt, line.color.CGColor)
             CGContextStrokePath(cxt)
         }
     }
     
     // It handel runtime handelPinch method
-    @IBAction func handlePinch(recognizer : UIPinchGestureRecognizer) {
-        recognizer.view!.transform = CGAffineTransformScale(recognizer.view!.transform,recognizer.scale, recognizer.scale)
-        recognizer.scale = 1
-    }
+//    @IBAction func handlePinch(recognizer : UIPinchGestureRecognizer) {
+//        recognizer.view!.transform = CGAffineTransformScale(recognizer.view!.transform,recognizer.scale, recognizer.scale)
+//        recognizer.scale = 1
+//    }
 
     func removeLastLine() {
         if lines.count > 0 {

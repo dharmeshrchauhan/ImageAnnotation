@@ -28,6 +28,10 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     @IBOutlet weak var colorButton: UIButton!
     
+    @IBOutlet weak var drawingWidthConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var drawingHeightConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var undo: UIButton!
     
     @IBOutlet weak var redo: UIButton!
@@ -141,11 +145,13 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!)
     {
         picker.dismissViewControllerAnimated(true, completion: nil)
+        
         var tempImage: UIImage=(info[UIImagePickerControllerOriginalImage] as UIImage)
+        
         //sets the selected image to image view
         imageView.image = tempImage
         
-        
+        //set the imageView size to drawView
         let scaleFactorX =  imageView.frame.size.width / imageView.image!.size.width
         let scaleFactorY =  imageView.frame.size.height / imageView.image!.size.height
         let scaleFactor = (scaleFactorX < scaleFactorY ? scaleFactorX : scaleFactorY)
@@ -155,21 +161,31 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         
         NSLog("ImageviewWidth: \(imageView.frame.size.width), ImageviewHeight: \(imageView.frame.size.height)")
         NSLog("DisplayWidth: \(displayWidth), DisplayHeight: \(displayHeight)")
+  
+        drawingWidthConstraint.constant = displayWidth
+        drawingHeightConstraint.constant = displayHeight
+
+//        var x: CGFloat
+//        var y: CGFloat
+//        x = imageView.frame.origin.x + (imageView.frame.size.width - displayWidth) / 2
+//        y = imageView.frame.origin.y + (imageView.frame.size.height - displayHeight) / 2
+        
+//        drawView.frame = CGRect(x: x, y: y, width: displayWidth, height: displayHeight)
+       // drawView.
 
 //        NSLog("DisplayWidth: %d, DisplayHeight: %d", displayWidth, displayHeight)
         
         //drawView.frame = CGRect()
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController!)
-    {
-        println("picker cancel.")
+    func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func undoAction(sender: AnyObject) {
         var theDrawView = drawView as drawing
         
-        for var i=0;i<drawView.cnt;i++ {
+        for var i=drawView.cnt;i>=0;i-- {
             theDrawView.removeLastLine()
         }
     }
@@ -178,6 +194,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         var theDrawView = drawView as drawing
         
     }
+    
     /*   // Add arrow image into UIImageView at runtime
     @IBAction func addArrow(sender: AnyObject) {
         
