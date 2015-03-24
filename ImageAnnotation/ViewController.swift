@@ -38,10 +38,10 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        colorView.hidden = true
-        lineWidthView.hidden = true
-        undo.hidden = true
-        redo.hidden = true
+//        colorView.hidden = true
+//        lineWidthView.hidden = true
+//        undo.hidden = true
+//        redo.hidden = true
         picker?.delegate = self
     }
 
@@ -164,6 +164,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
   
         drawingWidthConstraint.constant = displayWidth
         drawingHeightConstraint.constant = displayHeight
+        
 
 //        var x: CGFloat
 //        var y: CGFloat

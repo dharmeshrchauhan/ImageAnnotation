@@ -56,12 +56,12 @@
                   continueAfterRunningActions = "No"
                   symbolName = "ImageAnnotation.ViewController.imagePickerController (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIImagePickerController&gt;, didFinishPickingMediaWithInfo : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Dictionary&lt;ObjectiveC.NSObject, Swift.AnyObject&gt;&gt;) -&gt; ()"
                   moduleName = "ImageAnnotation"
-                  urlString = "file:///Sagar/Projects/ImageAnnotation/ImageAnnotation/ViewController.swift"
-                  timestampString = "448202489.358599"
+                  urlString = "file:///Sagar/ImageAnnotation/GIT/ImageAnnotation/ImageAnnotation/ViewController.swift"
+                  timestampString = "448872908.250893"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "164"
-                  endingLineNumber = "164"
+                  startingLineNumber = "160"
+                  endingLineNumber = "160"
                   offsetFromSymbolStart = "4090">
                </Location>
                <Location
@@ -70,12 +70,12 @@
                   continueAfterRunningActions = "No"
                   symbolName = "ImageAnnotation.ViewController.imagePickerController (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIImagePickerController&gt;, didFinishPickingMediaWithInfo : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Dictionary&lt;ObjectiveC.NSObject, Swift.AnyObject&gt;&gt;) -&gt; ()"
                   moduleName = "ImageAnnotation"
-                  urlString = "file:///Sagar/Projects/ImageAnnotation/ImageAnnotation/ViewController.swift"
-                  timestampString = "448202489.358786"
+                  urlString = "file:///Sagar/ImageAnnotation/GIT/ImageAnnotation/ImageAnnotation/ViewController.swift"
+                  timestampString = "448872908.251091"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "164"
-                  endingLineNumber = "164"
+                  startingLineNumber = "160"
+                  endingLineNumber = "160"
                   offsetFromSymbolStart = "4390">
                </Location>
             </Locations>
@@ -104,7 +104,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImageAnnotation/ViewController.swift"
-            timestampString = "448205098.757389"
+            timestampString = "448872010.907544"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "166"
@@ -134,12 +134,12 @@
                   continueAfterRunningActions = "No"
                   symbolName = "ImageAnnotation.ViewController.imagePickerController (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIImagePickerController&gt;, didFinishPickingMediaWithInfo : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Dictionary&lt;ObjectiveC.NSObject, Swift.AnyObject&gt;&gt;) -&gt; ()"
                   moduleName = "ImageAnnotation"
-                  urlString = "file:///Sagar/Projects/ImageAnnotation/ImageAnnotation/ViewController.swift"
-                  timestampString = "448202489.361349"
+                  urlString = "file:///Sagar/ImageAnnotation/GIT/ImageAnnotation/ImageAnnotation/ViewController.swift"
+                  timestampString = "448872908.35442"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "160"
-                  endingLineNumber = "160"
+                  startingLineNumber = "156"
+                  endingLineNumber = "156"
                   offsetFromSymbolStart = "2793">
                </Location>
                <Location
@@ -148,12 +148,12 @@
                   continueAfterRunningActions = "No"
                   symbolName = "ImageAnnotation.ViewController.imagePickerController (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIImagePickerController&gt;, didFinishPickingMediaWithInfo : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Dictionary&lt;ObjectiveC.NSObject, Swift.AnyObject&gt;&gt;) -&gt; ()"
                   moduleName = "ImageAnnotation"
-                  urlString = "file:///Sagar/Projects/ImageAnnotation/ImageAnnotation/ViewController.swift"
-                  timestampString = "448202489.361557"
+                  urlString = "file:///Sagar/ImageAnnotation/GIT/ImageAnnotation/ImageAnnotation/ViewController.swift"
+                  timestampString = "448872908.354585"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "160"
-                  endingLineNumber = "160"
+                  startingLineNumber = "156"
+                  endingLineNumber = "156"
                   offsetFromSymbolStart = "3358">
                </Location>
             </Locations>
