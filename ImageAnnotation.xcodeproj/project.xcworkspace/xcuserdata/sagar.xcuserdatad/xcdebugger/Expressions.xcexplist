@@ -3,6 +3,17 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "ImageAnnotation.drawing.touchesMoved (ImageAnnotation.drawing)(ObjectiveC.NSSet, withEvent : ObjectiveC.UIEvent) -&gt; ():drawing.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "lines">
+            </PersistentString>
+            <PersistentString
+               value = "strokes">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ImageAnnotation.ViewController.imagePickerController (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIImagePickerController&gt;, didFinishPickingMediaWithInfo : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Dictionary&lt;ObjectiveC.NSObject, Swift.AnyObject&gt;&gt;) -&gt; ():ViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -10,6 +21,17 @@
             </PersistentString>
             <PersistentString
                value = "scaleFactor">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.drawing.touchesEnded (ImageAnnotation.drawing)(ObjectiveC.NSSet, withEvent : ObjectiveC.UIEvent) -&gt; ():drawing.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "strokes">
+            </PersistentString>
+            <PersistentString
+               value = "lines">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
