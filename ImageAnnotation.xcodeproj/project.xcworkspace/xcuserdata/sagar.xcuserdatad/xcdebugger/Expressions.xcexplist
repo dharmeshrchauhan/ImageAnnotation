@@ -3,13 +3,21 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "ImageAnnotation.drawing.touchesMoved (ImageAnnotation.drawing)(ObjectiveC.NSSet, withEvent : ObjectiveC.UIEvent) -&gt; ():drawing.swift">
+         contextName = "ImageAnnotation.ViewController.undoAction (ImageAnnotation.ViewController)(Swift.AnyObject) -&gt; ():ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "lines">
+               value = "lastLineDraw[i]">
             </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.drawing.touchesEnded (ImageAnnotation.drawing)(ObjectiveC.NSSet, withEvent : ObjectiveC.UIEvent) -&gt; ():drawing.swift">
+         <PersistentStrings>
             <PersistentString
                value = "strokes">
+            </PersistentString>
+            <PersistentString
+               value = "lines">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -25,13 +33,19 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ImageAnnotation.drawing.touchesEnded (ImageAnnotation.drawing)(ObjectiveC.NSSet, withEvent : ObjectiveC.UIEvent) -&gt; ():drawing.swift">
+         contextName = "ImageAnnotation.drawing.removeLastLine (ImageAnnotation.drawing)() -&gt; ():drawing.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.drawing.touchesMoved (ImageAnnotation.drawing)(ObjectiveC.NSSet, withEvent : ObjectiveC.UIEvent) -&gt; ():drawing.swift">
          <PersistentStrings>
             <PersistentString
-               value = "strokes">
+               value = "totalLines">
             </PersistentString>
             <PersistentString
                value = "lines">
+            </PersistentString>
+            <PersistentString
+               value = "strokes">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

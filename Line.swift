@@ -14,8 +14,6 @@ class Line {
     var color: UIColor
     var l_width: CGFloat
     var cnt: Int
-    //var linePath: CGMutablePathRef
-   // var linePath: CGMutablePathRef
     
     init(start _start:CGPoint, end _end:CGPoint, color _color: UIColor!, l_width _l_width:CGFloat, cnt _cnt:Int) {
         start = _start
@@ -23,7 +21,6 @@ class Line {
         color = _color
         l_width = _l_width
         cnt = _cnt
-        //linePath = CGPathCreateMutable()
-        NSLog("touch #: %i", cnt)
+        NSLog("Touch # : %i", cnt)
     }
 }

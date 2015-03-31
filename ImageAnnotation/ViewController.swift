@@ -35,10 +35,20 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     @IBOutlet weak var lineWidthView: UIView!
     
     @IBOutlet weak var colorButton: UIButton!
+
+    @IBOutlet weak var btnGallery: UIButton!
+    
+    @IBOutlet weak var label: UILabel!
+    
+    @IBOutlet weak var functionalityButton: UIButton!
     
     @IBOutlet weak var rotationView: UIView!
     
     @IBOutlet weak var selectFunctionalityView: UIView!
+    
+    @IBOutlet weak var cropView: UIView!
+    
+    @IBOutlet weak var btnDone: UIButton!
     
     @IBOutlet weak var drawingWidthConstraint: NSLayoutConstraint!
     
@@ -50,13 +60,64 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        colorButton.hidden = true
+        functionalityButton.hidden = true
         colorView.hidden = true
         lineWidthView.hidden = true
         undo.hidden = true
         redo.hidden = true
         rotationView.hidden = true
         selectFunctionalityView.hidden = true
+        cropView.hidden = true
+        btnDone.hidden = true
         picker?.delegate = self
+    }
+    
+    @IBAction func selectPhotoAction(sender: AnyObject) {
+        if (NSClassFromString("UIAlertController") != nil)
+        {
+            var alert:UIAlertController = UIAlertController(title: "Choose Image", message: "Please chooce image", preferredStyle: UIAlertControllerStyle.ActionSheet)
+            
+            var cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.Default) {
+                UIAlertAction in
+                self.openCamera()
+            }
+            
+            var gallaryAction = UIAlertAction(title: "Gallary", style: UIAlertActionStyle.Default) {
+                UIAlertAction in
+                self.openGallary()
+            }
+            
+            var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+                UIAlertAction in
+            }
+            
+            // Add the actions
+            alert.addAction(cameraAction)
+            alert.addAction(gallaryAction)
+            alert.addAction(cancelAction)
+            
+            // Present the actionsheet
+            if UIDevice.currentDevice().userInterfaceIdiom == .Phone
+            {
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+            else
+            {
+                popover=UIPopoverController(contentViewController: alert)
+                //popover!.presentPopoverFromRect(btnClickMe.frame, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
+            }
+        }
+        else {
+            var actionSheet: UIActionSheet = UIActionSheet()
+            actionSheet.title = "Choose Image"
+            actionSheet.addButtonWithTitle("Camera")
+            actionSheet.addButtonWithTitle("Gallery")
+            actionSheet.addButtonWithTitle("Cancel")
+            actionSheet.cancelButtonIndex = 2
+            actionSheet.delegate = self
+            actionSheet.showInView(self.view)
+        }
     }
     
     @IBAction func selectColor(sender: AnyObject) {
@@ -69,7 +130,57 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     @IBAction func selectFunctionality(sender: AnyObject) {
         if imageView.image != nil {
             selectFunctionalityView.hidden = !selectFunctionalityView.hidden
+            rotationView.hidden = true
         }
+    }
+    
+    @IBAction func cropImageAction(sender: AnyObject) {
+        selectFunctionalityView.hidden = true
+        cropView.hidden = false
+        btnDone.hidden = false
+        // Add runtime PanGestureRecognizer into UIView
+        cropView?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "onPan:"))
+        
+        // Add runtime PinchGestureRecognizer into UIView
+        cropView?.addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: "onPinch:"))
+    }
+    
+    @IBAction func DoneAction(sender: AnyObject) {
+
+        var scaleFactorX =  imageView.frame.size.width / imageView.image!.size.width
+        var scaleFactorY =  imageView.frame.size.height / imageView.image!.size.height
+        var scaleFactor = (scaleFactorX < scaleFactorY ? scaleFactorX : scaleFactorY)
+        
+        let x = (cropView.frame.origin.x - drawView.frame.origin.x) / scaleFactor
+        let y = (cropView.frame.origin.y - drawView.frame.origin.y) / scaleFactor
+        
+        let width = cropView.frame.size.width / scaleFactor
+        let height = cropView.frame.size.height / scaleFactor
+        
+        let customRect: CGRect = CGRectMake(x, y, width, height)
+        
+        var imageRef: CGImageRef = CGImageCreateWithImageInRect(imageView.image?.CGImage, customRect)
+        
+        var cropped: UIImage =  UIImage(CGImage: imageRef)!
+        
+        imageView.image = cropped
+        
+        
+        scaleFactorX =  imageView.frame.size.width / imageView.image!.size.width
+        scaleFactorY =  imageView.frame.size.height / imageView.image!.size.height
+        scaleFactor = (scaleFactorX < scaleFactorY ? scaleFactorX : scaleFactorY)
+        
+        let displayWidth: CGFloat = imageView.image!.size.width * scaleFactor
+        let displayHeight: CGFloat = imageView.image!.size.height * scaleFactor
+
+        //NSLog("ImageviewWidth: \(imageView.frame.size.width), ImageviewHeight: \(imageView.frame.size.height)")
+        //NSLog("DisplayWidth: \(displayWidth), DisplayHeight: \(displayHeight)")
+        
+        drawingWidthConstraint.constant = displayWidth
+        drawingHeightConstraint.constant = displayHeight
+        
+        cropView.hidden = true
+        btnDone.hidden = true
     }
     
     @IBAction func rotationAction(sender: AnyObject) {
@@ -94,6 +205,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                 self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotaion))
             }
         }
+        
         let scaleFactorX =  imageView.frame.size.width / imageView.image!.size.width
         let scaleFactorY =  imageView.frame.size.height / imageView.image!.size.height
         let scaleFactor = (scaleFactorX < scaleFactorY ? scaleFactorX : scaleFactorY)
@@ -113,16 +225,18 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     }
     
     @IBAction func addTextAction(sender: AnyObject) {
-        textField = UITextField(frame: CGRect(x: 130, y: 150, width: 100, height: 35))
+        selectFunctionalityView.hidden = true
+        MyVariables.flag = "addTextView"
+        
+        /* textField = UITextField(frame: CGRect(x: 130, y: 150, width: 100, height: 35))
         textField?.textColor = UIColor.blueColor()
         textField?.text = "."
         drawView.addSubview(textField!)
-        
         textField!.multipleTouchEnabled = true
         textField!.userInteractionEnabled = true
         
         // Add runtime PanGestureRecognizer into UITextField
-        textField?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "onPan:"))
+        textField?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "onPan:")) */
     }
     
     @IBAction func drawLineAction(sender: AnyObject) {
@@ -136,39 +250,13 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     }
     
     @IBAction func saveImage(sender: AnyObject) {
-        var image = takeScreenshot(view)
+        var image = takeScreenshot(imageView)
         UIImageWriteToSavedPhotosAlbum(image, self, Selector("image:didFinishSavingWithError:contextInfo:"), nil)
-    }
-    
-    @IBAction func cropImageAction(sender: AnyObject) {
-        selectFunctionalityView.hidden = true
-        
-//        var imageWidth: CGFloat = imageView.image?.size.width
-//        var imageHeight: CGFloat = imageView.image?.size.height
-//        
-//        var cropRect: CGRect
-//        
-//        if ( imageWidth < imageHeight) {
-//            // Potrait mode
-//            cropRect = CGRectMake (0.0, (imageHeight - imageWidth) / 2.0, imageWidth, imageWidth);
-//        } else {
-//            // Landscape mode
-//            cropRect = CGRectMake ((imageWidth - imageHeight) / 2.0, 0.0, imageHeight, imageHeight);
-//        }
-//        
-//        // Draw new image in current graphics context
-//        CGImageRef imageRef = CGImageCreateWithImageInRect ([chosenImage CGImage], cropRect);
-//        
-//        // Create new cropped UIImage
-//        UIImage * croppedImage = [UIImage imageWithCGImage: imageRef];
-//        
-//        CGImageRelease (imageRef);
-
     }
     
     func takeScreenshot(theView: UIView) -> UIImage {
         
-        UIGraphicsBeginImageContextWithOptions(drawView.frame.size, true, 0.0)
+        UIGraphicsBeginImageContextWithOptions(imageView.frame.size, true, 0.0)
         theView.drawViewHierarchyInRect(theView.bounds, afterScreenUpdates: true)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -315,9 +403,18 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         drawingWidthConstraint.constant = displayWidth
         drawingHeightConstraint.constant = displayHeight
         
-        var theDrawView : drawing = drawView as drawing
-        theDrawView.lines = []
-        theDrawView.setNeedsDisplay()
+        drawView.strokes = []
+        drawView.strokesOpacity = []
+        drawView.lastLineDraw = []
+        undo.hidden = true
+        redo.hidden = true
+        
+        label.hidden = true
+        btnGallery.hidden = true
+        colorButton.hidden = false
+        functionalityButton.hidden = false
+        
+        drawView.setNeedsDisplay()
         
         colorButton.backgroundColor = UIColor.blackColor()
     }
@@ -327,16 +424,33 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     }
     
     @IBAction func undoAction(sender: AnyObject) {
-        var theDrawView = drawView as drawing
-        
-        for var i=drawView.cnt;i>=0;i-- {
-            theDrawView.removeLastLine()
+       
+        if drawView.lastLineIndex != 0 {
+            if drawView.lastLineDraw[drawView.lastLineIndex - 1] == "drawline" {
+                if drawView.strokes.count > 0 {
+                    drawView.strokes.removeLast()
+                    drawView.arrayIndex--
+                    drawView.lastLineIndex--
+                    if drawView.lastLineIndex == 0 {
+                        undo.hidden = true }
+                    if drawView.lastLineIndex > 1 {
+                        redo.hidden = false }
+                    drawView.setNeedsDisplay()
+                }
+            } else if drawView.lastLineDraw[drawView.lastLineIndex - 1] == "drawopacityline" {
+                if drawView.strokesOpacity.count > 0 {
+                    drawView.strokesOpacity.removeLast()
+                    drawView.arrayIndex1--
+                    drawView.lastLineIndex--
+                    if drawView.lastLineIndex == 0 {
+                        undo.hidden = true }
+                    drawView.setNeedsDisplay()
+                }
+            }
         }
     }
     
     @IBAction func redoAction(sender: AnyObject) {
-        var theDrawView = drawView as drawing
-        
     }
     
     /*   // Add arrow image into UIImageView at runtime
