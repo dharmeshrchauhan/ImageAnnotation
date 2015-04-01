@@ -189,21 +189,11 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     @IBAction func sideRotationAction(button: UIButton) {
         if(button.titleLabel?.text == "R") {
-            if(rotaion == 0.0) {
                 rotaion += 90.0
                 self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotaion))
-            } else {
-                rotaion += 90.0
-                self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotaion))
-            }
         } else if(button.titleLabel?.text == "L") {
-            if(rotaion == 0.0) {
                 rotaion -= 90.0
                 self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotaion))
-            } else {
-                rotaion -= 90
-                self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotaion))
-            }
         }
         
         let scaleFactorX =  imageView.frame.size.width / imageView.image!.size.width
@@ -446,6 +436,8 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                         undo.hidden = true }
                     drawView.setNeedsDisplay()
                 }
+            } else if drawView.lastLineDraw[drawView.lastLineIndex - 1] == "drawCircle" {
+                
             }
         }
     }
@@ -501,21 +493,12 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         
         // Add runtime PanGestureRecognizer into UIImageView
         imageViewRect?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "opPan:"))*/
-    }
+    } */
     
     @IBAction func addCircle(sender: AnyObject) {
-       
-        /*imageViewCircle = UIImageView(image: UIImage(named: "circle.png"))
-        let size = self.view.bounds.size
-        imageViewCircle?.center = CGPoint(x: size.width * 0.5, y: (size.height - 60) * 0.5)
-        drawView.addSubview(imageViewCircle!)
-        
-        imageViewCircle!.multipleTouchEnabled = true
-        imageViewCircle!.userInteractionEnabled = true
-        
-        // Add runtime PanGestureRecognizer into UIImageView
-        imageViewCircle?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "opPan:"))*/
-    } */
+        selectFunctionalityView.hidden = true
+        MyVariables.flag = "drawCircle"
+    }
     
     func onPan(recognizer : UIPanGestureRecognizer) {
         let translation = recognizer.translationInView(drawView)

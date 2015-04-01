@@ -11,21 +11,22 @@ import UIKit
 class drawing: UIView {
 
     var lines: Array<Line> = []
-//    var totalLine: Array<Array<Line>> = []
     var strokes: Array<Array<Line>> = []
     var strokesOpacity: Array<Array<Line>> = []
     var removeLine: Array<Array<Line>> = []
     var arrayIndex: Int = 0
     var arrayIndex1: Int = 0
     var lastLineIndex: Int = 0
-//    var totalLineIndex: Int = 0
     var lastLineDraw: Array<String> = []
-    var cnt: Int = 0
+    var cnt: CGFloat = 0
     var lastpoint: CGPoint!
     var newPoint: CGPoint!
     var drawColor = UIColor.blackColor()
     var l_w: CGFloat! = 1
     var textField: UITextField?
+    var circleCenter: CGPoint?
+    var circleWidth: CGFloat?
+    var circleHeight: CGFloat?
     
     @IBOutlet weak var undo: UIButton!
     
@@ -34,15 +35,26 @@ class drawing: UIView {
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
         if MyVariables.flag == "drawline" {
-            cnt=0
             lastpoint = touches.anyObject()?.locationInView(self) //it assigh the last point that touch
             
         } else if MyVariables.flag == "drawopacityline" {
-            cnt=0
             lastpoint = touches.anyObject()?.locationInView(self) //it assigh the last point that touch
+            
         } else if MyVariables.flag == "addTextView" {
             lastpoint = touches.anyObject()?.locationInView(self)
             lastLineDraw.insert("addTextView", atIndex: lastLineIndex++)
+            
+        } else if MyVariables.flag == "drawCircle" {
+            lastLineDraw.insert("drawCircle", atIndex: lastLineIndex++)
+            
+            // Set the Center of the Circle
+            // 1
+            circleCenter = touches.anyObject()?.locationInView(self)
+                
+            // Set a random Circle Radius
+            // 2
+            circleWidth = cnt
+            circleHeight = circleWidth
         }
     }
     
@@ -50,15 +62,17 @@ class drawing: UIView {
         
         if MyVariables.flag == "drawline" {
             newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point
-            cnt++
-            lines.append(Line(start: lastpoint, end: newPoint, color: drawColor, l_width: l_w, cnt: cnt))
+            lines.append(Line(start: lastpoint, end: newPoint, color: drawColor, l_width: l_w))
             self.setNeedsDisplay()
             
         } else if MyVariables.flag == "drawopacityline" {
             newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point
-            cnt++
-            lines.append(Line(start: lastpoint, end: newPoint, color: drawColor, l_width: l_w, cnt: cnt))
+            lines.append(Line(start: lastpoint, end: newPoint, color: drawColor, l_width: l_w))
             self.setNeedsDisplay()
+            
+        } else if MyVariables.flag == "drawCircle" {
+            circleWidth = cnt++
+            circleHeight = circleWidth
         }
     }
     
@@ -79,6 +93,11 @@ class drawing: UIView {
             lines = []
             NSLog("LastLineIndex: %i", lastLineIndex)
             self.setNeedsDisplay()
+            
+        } else if MyVariables.flag == "drawCircle" {
+            //Create a new Cirecle
+            var circleView = drawing(frame: CGRectMake(circleCenter!.x, circleCenter!.y, circleWidth!, circleHeight!))
+            self.addSubview(circleView)
         }
     }
     
@@ -138,8 +157,7 @@ class drawing: UIView {
             
             UIGraphicsEndImageContext()
             
-        }
-        else if MyVariables.flag == "drawopacityline" {
+        } else if MyVariables.flag == "drawopacityline" {
             
             if lines.count > 0 {
                 CGContextBeginPath(cxt)
@@ -168,6 +186,19 @@ class drawing: UIView {
             
             // Add runtime PanGestureRecognizer into UITextField
             textField?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "onPan:"))
+            
+        } else if MyVariables.flag == "drawCircle" {
+            // Set the circle outerline-width
+            CGContextSetLineWidth(cxt, 5.0)
+            
+            // Set the circle outerline-colour
+            UIColor.redColor().set()
+            
+            // Create Circle
+            CGContextAddArc(cxt, (frame.size.width)/2, frame.size.height/2, (frame.size.width - 10)/2, 0.0, CGFloat(M_PI * 2.0), 1)
+            
+            // Draw
+            CGContextStrokePath(cxt)
         }
     }
     
