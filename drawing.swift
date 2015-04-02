@@ -10,10 +10,19 @@ import UIKit
 
 class drawing: UIView {
 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.backgroundColor = UIColor.clearColor()
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    
     var lines: Array<Line> = []
     var strokes: Array<Array<Line>> = []
     var strokesOpacity: Array<Array<Line>> = []
-    var removeLine: Array<Array<Line>> = []
     var arrayIndex: Int = 0
     var arrayIndex1: Int = 0
     var lastLineIndex: Int = 0
@@ -24,7 +33,6 @@ class drawing: UIView {
     var drawColor = UIColor.blackColor()
     var l_w: CGFloat! = 1
     var textField: UITextField?
-    var circleCenter: CGPoint?
     var circleWidth: CGFloat?
     var circleHeight: CGFloat?
     
@@ -49,7 +57,7 @@ class drawing: UIView {
             
             // Set the Center of the Circle
             // 1
-            circleCenter = touches.anyObject()?.locationInView(self)
+            lastpoint = touches.anyObject()?.locationInView(self)
                 
             // Set a random Circle Radius
             // 2
@@ -96,7 +104,7 @@ class drawing: UIView {
             
         } else if MyVariables.flag == "drawCircle" {
             //Create a new Cirecle
-            var circleView = drawing(frame: CGRectMake(circleCenter!.x, circleCenter!.y, circleWidth!, circleHeight!))
+            var circleView = drawing(frame: CGRectMake(lastpoint!.x, lastpoint!.y, circleWidth!, circleHeight!))
             self.addSubview(circleView)
         }
     }

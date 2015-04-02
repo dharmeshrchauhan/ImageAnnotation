@@ -14,17 +14,15 @@ struct MyVariables {
 
 class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverControllerDelegate, UIActionSheetDelegate {
     
-    var lines: [Line ] = []
-    
     var picker: UIImagePickerController? = UIImagePickerController()
     
     var popover: UIPopoverController? = nil
     
-    var rotaion: CGFloat = 0.0
+    var rotation: CGFloat = 0.0
     
-    var textField: UITextField?
+    //var textField: UITextField?
     
-    @IBOutlet weak var btnClickMe: UIBarButtonItem!
+    //@IBOutlet weak var btnClickMe: UIBarButtonItem!
    
     @IBOutlet weak var imageView: UIImageView!
     
@@ -105,7 +103,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
             else
             {
                 popover=UIPopoverController(contentViewController: alert)
-                //popover!.presentPopoverFromRect(btnClickMe.frame, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
             }
         }
         else {
@@ -184,16 +181,17 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     }
     
     @IBAction func rotationAction(sender: AnyObject) {
+        selectFunctionalityView.hidden = !selectFunctionalityView.hidden
         rotationView.hidden = !rotationView.hidden
     }
     
     @IBAction func sideRotationAction(button: UIButton) {
         if(button.titleLabel?.text == "R") {
-                rotaion += 90.0
-                self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotaion))
+                rotation += 90.0
+                self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotation))
         } else if(button.titleLabel?.text == "L") {
-                rotaion -= 90.0
-                self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotaion))
+                rotation -= 90.0
+                self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotation))
         }
         
         let scaleFactorX =  imageView.frame.size.width / imageView.image!.size.width
@@ -259,7 +257,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         if(error != nil) {
             UIAlertView(title: "Error", message: "Image could not be saved.Please try again", delegate: nil, cancelButtonTitle: "Close").show()
         } else{
-            UIAlertView(title: "Success", message: "Image was successfully saved in photoalbum", delegate: nil, cancelButtonTitle: "Close").show()
+            UIAlertView(title: "Success", message: "Image successfully saved to Camera Roll", delegate: nil, cancelButtonTitle: "Close").show()
         }
     }
     
@@ -296,7 +294,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
             else
             {
                 popover=UIPopoverController(contentViewController: alert)
-                //popover!.presentPopoverFromRect(btnClickMe.frame, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
             }
         }
         else {
