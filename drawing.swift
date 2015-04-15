@@ -18,41 +18,59 @@ class drawing: UIView {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-
+    
+    var isDrawingCircle: Bool = false;
+    var isDrawingRectangle: Bool = false;
     
     var lines: Array<Line> = []
+    var circle_obj: Array<Circle> = []
+    var rectangle_obj: Array<Rectangle> = []
+    
     var strokes: Array<Array<Line>> = []
     var strokesOpacity: Array<Array<Line>> = []
+    var lastLineDraw: Array<String> = []
+    var redoshapetypes: Array<String> = []
+    var circles: Array<CGRect> = []
+    var rectangles: Array<CGRect> = []
+    var redoArray: Array<Any> = []
+    
     var arrayIndex: Int = 0
     var arrayIndex1: Int = 0
     var lastLineIndex: Int = 0
-    var lastLineDraw: Array<String> = []
+    
     var cnt: CGFloat = 0
     var lastpoint: CGPoint!
     var newPoint: CGPoint!
     var drawColor = UIColor.blackColor()
     var l_w: CGFloat! = 1
+    
     var textField: UITextField?
+    
     var circleWidth: CGFloat?
     var circleHeight: CGFloat?
-    
+    var rectWidth: CGFloat?
+    var rectHeight: CGFloat?
+
     @IBOutlet weak var undo: UIButton!
     
     @IBOutlet weak var redo: UIButton!
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
-        if MyVariables.flag == "drawline" {
+        if MyVariables.flag == "drawLine" {
             lastpoint = touches.anyObject()?.locationInView(self) //it assigh the last point that touch
             
-        } else if MyVariables.flag == "drawopacityline" {
+        } else if MyVariables.flag == "drawOpacityLine" {
             lastpoint = touches.anyObject()?.locationInView(self) //it assigh the last point that touch
             
         } else if MyVariables.flag == "addTextView" {
             lastpoint = touches.anyObject()?.locationInView(self)
             lastLineDraw.insert("addTextView", atIndex: lastLineIndex++)
+            self.setNeedsDisplay()
             
         } else if MyVariables.flag == "drawCircle" {
+            isDrawingCircle = true;
+            circle_obj.append(Circle(color: drawColor, l_width: l_w))
             lastLineDraw.insert("drawCircle", atIndex: lastLineIndex++)
             
             // Set the Center of the Circle
@@ -63,17 +81,31 @@ class drawing: UIView {
             // 2
             circleWidth = cnt
             circleHeight = circleWidth
+            
+        } else if MyVariables.flag == "drawRectangle" {
+            isDrawingRectangle = true;
+            rectangle_obj.append(Rectangle(color: drawColor, l_width: l_w))
+            lastLineDraw.insert("drawRectangle", atIndex: lastLineIndex++)
+            
+            // Set the Center of the Circle
+            // 1
+            lastpoint = touches.anyObject()?.locationInView(self)
+            
+            // Set a random Circle Radius
+            // 2
+            rectWidth = cnt
+            rectHeight = rectWidth
         }
     }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         
-        if MyVariables.flag == "drawline" {
+        if MyVariables.flag == "drawLine" {
             newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point
             lines.append(Line(start: lastpoint, end: newPoint, color: drawColor, l_width: l_w))
             self.setNeedsDisplay()
             
-        } else if MyVariables.flag == "drawopacityline" {
+        } else if MyVariables.flag == "drawOpacityLine" {
             newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point
             lines.append(Line(start: lastpoint, end: newPoint, color: drawColor, l_width: l_w))
             self.setNeedsDisplay()
@@ -81,21 +113,29 @@ class drawing: UIView {
         } else if MyVariables.flag == "drawCircle" {
             circleWidth = cnt++
             circleHeight = circleWidth
+            newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point
+            self.setNeedsDisplay()
+            
+        } else if MyVariables.flag == "drawRectangle" {
+            rectWidth = cnt++
+            rectHeight = rectWidth
+            newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point
+            self.setNeedsDisplay()
         }
     }
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
         
-        if MyVariables.flag == "drawline" {
-            lastLineDraw.insert("drawline", atIndex: lastLineIndex++)
+        if MyVariables.flag == "drawLine" {
+            lastLineDraw.insert("drawLine", atIndex: lastLineIndex++)
             strokes.insert(lines, atIndex: arrayIndex++)
             newPoint = lastpoint
             lines = []
             NSLog("LastLineIndex: %i", lastLineIndex)
             self.setNeedsDisplay()
             
-        } else if MyVariables.flag == "drawopacityline" {
-            lastLineDraw.insert("drawopacityline", atIndex: lastLineIndex++)
+        } else if MyVariables.flag == "drawOpacityLine" {
+            lastLineDraw.insert("drawOpacityLine", atIndex: lastLineIndex++)
             strokesOpacity.insert(lines, atIndex: arrayIndex1++)
             newPoint = lastpoint
             lines = []
@@ -103,15 +143,21 @@ class drawing: UIView {
             self.setNeedsDisplay()
             
         } else if MyVariables.flag == "drawCircle" {
-            //Create a new Cirecle
-            var circleView = drawing(frame: CGRectMake(lastpoint!.x, lastpoint!.y, circleWidth!, circleHeight!))
-            self.addSubview(circleView)
+            isDrawingCircle = false
+            circles.append(CGRectMake(lastpoint.x, lastpoint.y, (newPoint.x - lastpoint.x), (newPoint.y - lastpoint.y)))
+            cnt = 0
+            self.setNeedsDisplay()
+        } else if MyVariables.flag == "drawRectangle" {
+            isDrawingRectangle = false
+            rectangles.append(CGRectMake(lastpoint.x, lastpoint.y, (newPoint.x - lastpoint.x) / 2, (newPoint.y - lastpoint.y) / 2))
+            cnt = 0
+            self.setNeedsDisplay()
         }
     }
     
     override func drawRect(rect: CGRect) {
         
-        if strokes.count > 0 || strokesOpacity.count > 0 {
+        if strokes.count > 0 || strokesOpacity.count > 0 || circles.count > 0 || rectangles.count > 0 {
             undo.hidden = false
         }
         
@@ -148,7 +194,61 @@ class drawing: UIView {
             CGContextStrokePath(cxt)
         }
         
-        if MyVariables.flag == "drawline" {
+        //Draw Circle
+        //if circle is being drawin
+        if (isDrawingCircle)
+        {
+            // Set the circle outerline-width
+            CGContextSetLineWidth(cxt, circle_obj.first!.l_width)
+            // Set the circle outerline-colour
+            CGContextSetStrokeColorWithColor(cxt,circle_obj.first?.color.CGColor)
+            // Set circle opacity
+            CGContextSetAlpha(cxt, 1.0)
+            // Create circle
+            CGContextAddEllipseInRect(cxt, CGRectMake(lastpoint.x, lastpoint.y, (newPoint.x - lastpoint.x), (newPoint.y - lastpoint.y)))
+            // Draw
+            CGContextStrokePath(cxt)
+        }
+        
+        for circle in circles {
+            CGContextSetLineWidth(cxt, circle_obj.first!.l_width)
+            // Set the circle outerline-colour
+            CGContextSetStrokeColorWithColor(cxt,circle_obj.first?.color.CGColor)
+            // Create circle
+            CGContextAddEllipseInRect(cxt, circle);
+            // Draw
+            CGContextStrokePath(cxt)
+        }
+        
+        //Draw Rectangel
+        //if rectangel is being drawin
+        if (isDrawingRectangle)
+        {
+            // Set the rectangel outerline-width
+            CGContextSetLineWidth(cxt, rectangle_obj.first!.l_width)
+            // Set the rectangel outerline-colour
+            CGContextSetStrokeColorWithColor(cxt,rectangle_obj.first?.color.CGColor)
+            // Set rectangel opacity
+            CGContextSetAlpha(cxt, 1.0)
+            // Create rectangel
+            CGContextAddRect(cxt, CGRectMake(lastpoint.x, lastpoint.y, (newPoint.x - lastpoint.x) / 2 , (newPoint.y - lastpoint.y) / 2))
+            // Draw
+            CGContextStrokePath(cxt)
+        }
+        
+        for rectangle in rectangles {
+            rectangle_obj.append(Rectangle(color: drawColor, l_width: l_w))
+            CGContextSetLineWidth(cxt, rectangle_obj.first!.l_width)
+            // Set the rectangel outerline-colour
+            CGContextSetStrokeColorWithColor(cxt,rectangle_obj.first?.color.CGColor)
+            // Create rectangel
+            CGContextAddRect(cxt, rectangle);
+            // Draw
+            CGContextStrokePath(cxt)
+        }
+
+        //
+        if MyVariables.flag == "drawLine" {
             
             if lines.count > 0 {
                 CGContextBeginPath(cxt)
@@ -165,7 +265,7 @@ class drawing: UIView {
             
             UIGraphicsEndImageContext()
             
-        } else if MyVariables.flag == "drawopacityline" {
+        } else if MyVariables.flag == "drawOpacityLine" {
             
             if lines.count > 0 {
                 CGContextBeginPath(cxt)
@@ -187,26 +287,13 @@ class drawing: UIView {
             
             textField = UITextField(frame: CGRect(x: lastpoint.x, y: lastpoint.y, width: 100, height: 35))
             textField?.textColor = lines.first?.color
-            textField?.text = "."
+            textField?.text = "Hello"
             self.addSubview(textField!)
             textField!.multipleTouchEnabled = true
             textField!.userInteractionEnabled = true
             
             // Add runtime PanGestureRecognizer into UITextField
             textField?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "onPan:"))
-            
-        } else if MyVariables.flag == "drawCircle" {
-            // Set the circle outerline-width
-            CGContextSetLineWidth(cxt, 5.0)
-            
-            // Set the circle outerline-colour
-            UIColor.redColor().set()
-            
-            // Create Circle
-            CGContextAddArc(cxt, (frame.size.width)/2, frame.size.height/2, (frame.size.width - 10)/2, 0.0, CGFloat(M_PI * 2.0), 1)
-            
-            // Draw
-            CGContextStrokePath(cxt)
         }
     }
     

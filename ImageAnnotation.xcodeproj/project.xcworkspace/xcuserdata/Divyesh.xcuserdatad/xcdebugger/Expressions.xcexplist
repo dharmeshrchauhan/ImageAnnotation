@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "ImageAnnotation.drawing.drawRect (ImageAnnotation.drawing)(C.CGRect) -&gt; ():drawing.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "rectWidth">
+            </PersistentString>
+            <PersistentString
+               value = "lines.first!.l_width">
+            </PersistentString>
+            <PersistentString
+               value = "lines">
+            </PersistentString>
+            <PersistentString
+               value = "lines.first?.color">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.ViewController.redoAction (ImageAnnotation.ViewController)(Swift.AnyObject) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "drawView.lastLineDraw">
+            </PersistentString>
+            <PersistentString
+               value = "drawView.redoArray">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.ViewController.undoAction (ImageAnnotation.ViewController)(Swift.AnyObject) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "drawView.redoshapetypes">
+            </PersistentString>
+            <PersistentString
+               value = "drawView.lastLineDraw">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

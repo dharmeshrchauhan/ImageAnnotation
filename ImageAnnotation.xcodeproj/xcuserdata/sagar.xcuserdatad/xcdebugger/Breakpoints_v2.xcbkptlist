@@ -90,16 +90,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "drawing.swift"
-            timestampString = "449669037.160425"
+            filePath = "ImageAnnotation/ViewController.swift"
+            timestampString = "450799790.432891"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
-            landmarkName = "touchesMoved(_:withEvent:)"
+            startingLineNumber = "573"
+            endingLineNumber = "573"
+            landmarkName = "undoAction(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -109,29 +109,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "drawing.swift"
-            timestampString = "449669037.160425"
+            filePath = "ImageAnnotation/ViewController.swift"
+            timestampString = "450799790.432891"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
-            landmarkName = "touchesBegan(_:withEvent:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "drawing.swift"
-            timestampString = "449669037.160425"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
-            landmarkName = "touchesMoved(_:withEvent:)"
+            startingLineNumber = "513"
+            endingLineNumber = "513"
+            landmarkName = "undoAction(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

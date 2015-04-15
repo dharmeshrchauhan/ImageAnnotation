@@ -8,18 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		1B4052751AC281BB0097C9EA /* drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4052741AC281BB0097C9EA /* drawing.swift */; };
+		1B4EDB901ADE2E3B00DE265B /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4EDB8F1ADE2E3B00DE265B /* Circle.swift */; };
+		1B4EDB921ADE3E9F00DE265B /* Rectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4EDB911ADE3E9F00DE265B /* Rectangle.swift */; };
+		1B4EDB9B1ADE7F3B00DE265B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B4EDB9A1ADE7F3B00DE265B /* Images.xcassets */; };
+		1B5344641ADBC5C30009023D /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5344631ADBC5C30009023D /* UIImage+Utils.m */; };
 		1B6BDE7E1A8DE30C00E3BD76 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6BDE7D1A8DE30C00E3BD76 /* AppDelegate.swift */; };
 		1B6BDE801A8DE30C00E3BD76 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6BDE7F1A8DE30C00E3BD76 /* ViewController.swift */; };
 		1B6BDE831A8DE30C00E3BD76 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B6BDE811A8DE30C00E3BD76 /* Main.storyboard */; };
-		1B6BDE851A8DE30C00E3BD76 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B6BDE841A8DE30C00E3BD76 /* Images.xcassets */; };
 		1B6BDE881A8DE30C00E3BD76 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6BDE861A8DE30C00E3BD76 /* LaunchScreen.xib */; };
 		1B6BDE941A8DE30C00E3BD76 /* ImageAnnotationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6BDE931A8DE30C00E3BD76 /* ImageAnnotationTests.swift */; };
-		1B6BDEA41A8DE37F00E3BD76 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B6BDE9E1A8DE37F00E3BD76 /* arrow.png */; };
-		1B6BDEA51A8DE37F00E3BD76 /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B6BDE9F1A8DE37F00E3BD76 /* circle.png */; };
-		1B6BDEA61A8DE37F00E3BD76 /* clipArt.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B6BDEA01A8DE37F00E3BD76 /* clipArt.png */; };
-		1B6BDEA71A8DE37F00E3BD76 /* docement.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B6BDEA11A8DE37F00E3BD76 /* docement.png */; };
-		1B6BDEA81A8DE37F00E3BD76 /* rectangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B6BDEA21A8DE37F00E3BD76 /* rectangle.png */; };
-		1B6BDEA91A8DE37F00E3BD76 /* roundRect.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B6BDEA31A8DE37F00E3BD76 /* roundRect.png */; };
 		1B6BDEAB1A8DFD6400E3BD76 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6BDEAA1A8DFD6400E3BD76 /* Line.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,22 +32,22 @@
 
 /* Begin PBXFileReference section */
 		1B4052741AC281BB0097C9EA /* drawing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = drawing.swift; path = ../drawing.swift; sourceTree = "<group>"; };
+		1B4EDB8F1ADE2E3B00DE265B /* Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
+		1B4EDB911ADE3E9F00DE265B /* Rectangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rectangle.swift; sourceTree = "<group>"; };
+		1B4EDB9A1ADE7F3B00DE265B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		1B5344621ADBC5C20009023D /* ImageAnnotation-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ImageAnnotation-Bridging-Header.h"; sourceTree = "<group>"; };
+		1B5344631ADBC5C30009023D /* UIImage+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Utils.m"; sourceTree = "<group>"; };
+		1B5344651ADBC5F60009023D /* UIImage+Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Utils.h"; sourceTree = "<group>"; };
+		1B5344671ADBC8FB0009023D /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 		1B6BDE781A8DE30C00E3BD76 /* ImageAnnotation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageAnnotation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B6BDE7C1A8DE30C00E3BD76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B6BDE7D1A8DE30C00E3BD76 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B6BDE7F1A8DE30C00E3BD76 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1B6BDE821A8DE30C00E3BD76 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		1B6BDE841A8DE30C00E3BD76 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1B6BDE871A8DE30C00E3BD76 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		1B6BDE8D1A8DE30C00E3BD76 /* ImageAnnotationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageAnnotationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B6BDE921A8DE30C00E3BD76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B6BDE931A8DE30C00E3BD76 /* ImageAnnotationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnnotationTests.swift; sourceTree = "<group>"; };
-		1B6BDE9E1A8DE37F00E3BD76 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
-		1B6BDE9F1A8DE37F00E3BD76 /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle.png; sourceTree = "<group>"; };
-		1B6BDEA01A8DE37F00E3BD76 /* clipArt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clipArt.png; sourceTree = "<group>"; };
-		1B6BDEA11A8DE37F00E3BD76 /* docement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = docement.png; sourceTree = "<group>"; };
-		1B6BDEA21A8DE37F00E3BD76 /* rectangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rectangle.png; sourceTree = "<group>"; };
-		1B6BDEA31A8DE37F00E3BD76 /* roundRect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roundRect.png; sourceTree = "<group>"; };
 		1B6BDEAA1A8DFD6400E3BD76 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Line.swift; path = ../Line.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,12 +93,18 @@
 			children = (
 				1B6BDE7D1A8DE30C00E3BD76 /* AppDelegate.swift */,
 				1B6BDEAA1A8DFD6400E3BD76 /* Line.swift */,
+				1B4EDB8F1ADE2E3B00DE265B /* Circle.swift */,
+				1B4EDB911ADE3E9F00DE265B /* Rectangle.swift */,
 				1B6BDE7F1A8DE30C00E3BD76 /* ViewController.swift */,
 				1B4052741AC281BB0097C9EA /* drawing.swift */,
+				1B4EDB9A1ADE7F3B00DE265B /* Images.xcassets */,
 				1B6BDE811A8DE30C00E3BD76 /* Main.storyboard */,
-				1B6BDE841A8DE30C00E3BD76 /* Images.xcassets */,
 				1B6BDE861A8DE30C00E3BD76 /* LaunchScreen.xib */,
 				1B6BDE7B1A8DE30C00E3BD76 /* Supporting Files */,
+				1B5344631ADBC5C30009023D /* UIImage+Utils.m */,
+				1B5344651ADBC5F60009023D /* UIImage+Utils.h */,
+				1B5344621ADBC5C20009023D /* ImageAnnotation-Bridging-Header.h */,
+				1B5344671ADBC8FB0009023D /* MyPlayground.playground */,
 			);
 			path = ImageAnnotation;
 			sourceTree = "<group>";
@@ -134,12 +137,6 @@
 		1B6BDE9D1A8DE37F00E3BD76 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				1B6BDE9E1A8DE37F00E3BD76 /* arrow.png */,
-				1B6BDE9F1A8DE37F00E3BD76 /* circle.png */,
-				1B6BDEA01A8DE37F00E3BD76 /* clipArt.png */,
-				1B6BDEA11A8DE37F00E3BD76 /* docement.png */,
-				1B6BDEA21A8DE37F00E3BD76 /* rectangle.png */,
-				1B6BDEA31A8DE37F00E3BD76 /* roundRect.png */,
 			);
 			path = images;
 			sourceTree = "<group>";
@@ -193,6 +190,7 @@
 				TargetAttributes = {
 					1B6BDE771A8DE30C00E3BD76 = {
 						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = 4MC4NTNJ4V;
 					};
 					1B6BDE8C1A8DE30C00E3BD76 = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -224,15 +222,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B6BDEA91A8DE37F00E3BD76 /* roundRect.png in Resources */,
 				1B6BDE831A8DE30C00E3BD76 /* Main.storyboard in Resources */,
 				1B6BDE881A8DE30C00E3BD76 /* LaunchScreen.xib in Resources */,
-				1B6BDEA51A8DE37F00E3BD76 /* circle.png in Resources */,
-				1B6BDE851A8DE30C00E3BD76 /* Images.xcassets in Resources */,
-				1B6BDEA41A8DE37F00E3BD76 /* arrow.png in Resources */,
-				1B6BDEA81A8DE37F00E3BD76 /* rectangle.png in Resources */,
-				1B6BDEA61A8DE37F00E3BD76 /* clipArt.png in Resources */,
-				1B6BDEA71A8DE37F00E3BD76 /* docement.png in Resources */,
+				1B4EDB9B1ADE7F3B00DE265B /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +246,9 @@
 				1B6BDEAB1A8DFD6400E3BD76 /* Line.swift in Sources */,
 				1B6BDE801A8DE30C00E3BD76 /* ViewController.swift in Sources */,
 				1B6BDE7E1A8DE30C00E3BD76 /* AppDelegate.swift in Sources */,
+				1B5344641ADBC5C30009023D /* UIImage+Utils.m in Sources */,
+				1B4EDB901ADE2E3B00DE265B /* Circle.swift in Sources */,
+				1B4EDB921ADE3E9F00DE265B /* Rectangle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,11 +375,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = ImageAnnotation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e1537e29-e18e-4289-9b30-ea8a9edcf93c";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ImageAnnotation/ImageAnnotation-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -393,11 +393,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = ImageAnnotation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e1537e29-e18e-4289-9b30-ea8a9edcf93c";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ImageAnnotation/ImageAnnotation-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

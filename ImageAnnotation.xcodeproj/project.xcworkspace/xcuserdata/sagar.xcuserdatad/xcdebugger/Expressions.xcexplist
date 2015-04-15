@@ -3,14 +3,6 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "ImageAnnotation.ViewController.undoAction (ImageAnnotation.ViewController)(Swift.AnyObject) -&gt; ():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "lastLineDraw[i]">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "ImageAnnotation.drawing.touchesEnded (ImageAnnotation.drawing)(ObjectiveC.NSSet, withEvent : ObjectiveC.UIEvent) -&gt; ():drawing.swift">
          <PersistentStrings>
             <PersistentString
@@ -33,7 +25,39 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ImageAnnotation.ViewController.colorTapped (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIButton&gt;) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "drawView.circle_obj.first?.color">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ImageAnnotation.drawing.removeLastLine (ImageAnnotation.drawing)() -&gt; ():drawing.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.ViewController.lineWidthTapped (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIButton&gt;) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "drawView.circle_obj.first!.l_width">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.ViewController.undoAction (ImageAnnotation.ViewController)(Swift.AnyObject) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "lastLineDraw[i]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.drawing.drawRect (ImageAnnotation.drawing)(C.CGRect) -&gt; ():drawing.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "circle_obj">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "ImageAnnotation.drawing.touchesMoved (ImageAnnotation.drawing)(ObjectiveC.NSSet, withEvent : ObjectiveC.UIEvent) -&gt; ():drawing.swift">
