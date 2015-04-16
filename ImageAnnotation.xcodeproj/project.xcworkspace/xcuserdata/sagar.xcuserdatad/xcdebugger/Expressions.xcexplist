@@ -11,6 +11,9 @@
             <PersistentString
                value = "lines">
             </PersistentString>
+            <PersistentString
+               value = "arrayIndex">
+            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
@@ -25,15 +28,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ImageAnnotation.drawing.removeLastLine (ImageAnnotation.drawing)() -&gt; ():drawing.swift">
+      </ContextState>
+      <ContextState
          contextName = "ImageAnnotation.ViewController.colorTapped (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIButton&gt;) -&gt; ():ViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "drawView.circle_obj.first?.color">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ImageAnnotation.drawing.removeLastLine (ImageAnnotation.drawing)() -&gt; ():drawing.swift">
       </ContextState>
       <ContextState
          contextName = "ImageAnnotation.ViewController.lineWidthTapped (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIButton&gt;) -&gt; ():ViewController.swift">
@@ -47,7 +50,21 @@
          contextName = "ImageAnnotation.ViewController.undoAction (ImageAnnotation.ViewController)(Swift.AnyObject) -&gt; ():ViewController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "arrayIndex">
+            </PersistentString>
+            <PersistentString
                value = "lastLineDraw[i]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.ViewController.redoAction (ImageAnnotation.ViewController)(Swift.AnyObject) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "drawView.lastLineDraw.count">
+            </PersistentString>
+            <PersistentString
+               value = "drawView.redoArray.count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -62,6 +79,9 @@
       <ContextState
          contextName = "ImageAnnotation.drawing.touchesMoved (ImageAnnotation.drawing)(ObjectiveC.NSSet, withEvent : ObjectiveC.UIEvent) -&gt; ():drawing.swift">
          <PersistentStrings>
+            <PersistentString
+               value = "arrayIndex">
+            </PersistentString>
             <PersistentString
                value = "totalLines">
             </PersistentString>

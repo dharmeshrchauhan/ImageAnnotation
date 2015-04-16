@@ -94,12 +94,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImageAnnotation/ViewController.swift"
-            timestampString = "450799790.432891"
+            timestampString = "450882132.934057"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "573"
-            endingLineNumber = "573"
-            landmarkName = "undoAction(_:)"
+            startingLineNumber = "326"
+            endingLineNumber = "326"
+            landmarkName = "selectFunctionality(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -110,12 +110,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImageAnnotation/ViewController.swift"
-            timestampString = "450799790.432891"
+            timestampString = "450882045.023545"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "513"
-            endingLineNumber = "513"
-            landmarkName = "undoAction(_:)"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ImageAnnotation/UIImage+Utils.m"
+            timestampString = "450882278.766698"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "-getMaskedArtworkFromPicture:withMask:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ImageAnnotation/UIImage+Utils.m"
+            timestampString = "450883255.785068"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "-imageByChangingWhitePixels"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

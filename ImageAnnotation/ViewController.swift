@@ -44,8 +44,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     @IBOutlet weak var cropView: UIView!
     
-    @IBOutlet weak var blurView: UIView!
-    
     @IBOutlet weak var btnDone: UIButton!
     
     @IBOutlet weak var btnDone1: UIButton!
@@ -77,7 +75,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         selectFunctionalityView.hidden = true
         shapeView.hidden = true
         cropView.hidden = true
-        blurView.hidden = true
         btnDone.hidden = true
         btnDone1.hidden = true
         btnCancel.hidden = true
@@ -87,12 +84,13 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         
         //call the delegate method of ImagePickerController
         picker?.delegate = self
-//        var img:UIImage = UIImage(contentsOfFile: NSBundle.mainBundle().pathForResource("docement", ofType: "png")!)!
-//        
-//        var img2 = img.imageByClearingWhitePixels()
-//        
-//        imageView.image = img2
-//        
+
+        var img:UIImage = UIImage(named: "Red")!;
+        
+        var img2 = img.imageByChangingWhitePixels()
+        
+        imageView.image = img2
+//
 //        return;
     }
     
@@ -191,7 +189,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         selectFunctionalityView.hidden = true
         rotationView.hidden = true
         shapeView.hidden = true
-        blurView.hidden = true
         cropView.hidden = true
         btnCancel.hidden = true
         btnDone.hidden = true
@@ -322,7 +319,13 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     //Show functionalityView
     @IBAction func selectFunctionality(sender: AnyObject) {
         if imageView.image != nil {
-            selectFunctionalityView.hidden = !selectFunctionalityView.hidden
+            
+//            if functionalityButton.titleLabel?.text == "C" || functionalityButton.titleLabel?.text == "R" || functionalityButton.titleLabel?.text == "L" {
+//                shapeView.hidden = false
+//            } else  {
+                selectFunctionalityView.hidden = !selectFunctionalityView.hidden
+           // }
+            
             if colorView.hidden == false || lineWidthView.hidden == false || rotationView.hidden == false || shapeView.hidden == false {
                 colorView.hidden = true
                 lineWidthView.hidden = true
@@ -336,6 +339,8 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     @IBAction func rotationAction(sender: AnyObject) {
         selectFunctionalityView.hidden = !selectFunctionalityView.hidden
         rotationView.hidden = !rotationView.hidden
+        let image = UIImage(named: "Rotation.png") as UIImage!
+        functionalityButton.setImage(image, forState: .Normal)
     }
     
     @IBAction func sideRotationAction(button: UIButton) {
@@ -353,10 +358,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         
         let displayWidth: CGFloat = imageView.image!.size.width * scaleFactor
         let displayHeight: CGFloat = imageView.image!.size.height * scaleFactor
-        
-        //NSLog("ImageviewWidth: \(imageView.frame.size.width), ImageviewHeight: \(imageView.frame.size.height)")
-        //NSLog("DisplayWidth: \(displayWidth), DisplayHeight: \(displayHeight)")
-        
+    
         drawingWidthConstraint.constant = displayWidth
         drawingHeightConstraint.constant = displayHeight
     }
@@ -369,6 +371,8 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     @IBAction func drawLineAction(sender: AnyObject) {
         selectFunctionalityView.hidden = true
         MyVariables.flag = "drawLine"
+        let image = UIImage(named: "Free Line.png") as UIImage!
+        functionalityButton.setImage(image, forState: .Normal)
     }
     
     //Draw opacity line on drawView
@@ -387,7 +391,10 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         redo.hidden = true
         colorButton.hidden = true
         functionalityButton.hidden = true
-        //imageView.backgroundColor = UIColor.grayColor()
+
+        let image = UIImage(named: "Crop.png") as UIImage!
+        functionalityButton.setImage(image, forState: .Normal)
+        
         // Add runtime PanGestureRecognizer into UIView
         cropView?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "onPan:"))
         
@@ -442,14 +449,24 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         cropView.hidden = true
         btnDone.hidden = true
         btnDone1.hidden = true
-        blurView.hidden = true
-        undo.hidden = false
-        redo.hidden = false
+        
+        if drawView.strokes.count > 0 || drawView.strokesOpacity.count > 0 || drawView.circles.count > 0 || drawView.rectangles.count > 0 || drawView.straightline_obj.count > 0 {
+            undo.hidden = false
+        } else {
+            undo.hidden = true
+        }
+        
+        if drawView.redoArray.count > 0 {
+            redo.hidden = false
+        } else {
+            redo.hidden = true
+        }
+        
         colorButton.hidden = false
         functionalityButton.hidden = false
     }
     
-    //Blur Image methods
+    /*//Blur Image methods
     @IBAction func blurImageAction(sender: AnyObject) {
         selectFunctionalityView.hidden = true
         blurView.hidden = false
@@ -477,7 +494,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         btnCancel.hidden = true
         colorButton.hidden = false
         functionalityButton.hidden = false
-    }
+    }*/
     
     //Add shapes methods
     @IBAction func shapeAction(sender: AnyObject) {
@@ -487,109 +504,112 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     @IBAction func addTextAction(sender: AnyObject) {
         selectFunctionalityView.hidden = true
-        MyVariables.flag = "addTextView"
+        MyVariables.flag = "addTextField"
+        let image = UIImage(named: "Text.png") as UIImage!
+        functionalityButton.setImage(image, forState: .Normal)
     }
     
     @IBAction func addCircle(sender: AnyObject) {
         selectFunctionalityView.hidden = true
         MyVariables.flag = "drawCircle"
         shapeView.hidden = !shapeView.hidden
+        let image = UIImage(named: "Circle.png") as UIImage!
+        functionalityButton.setImage(image, forState: .Normal)
+        //functionalityButton.titleLabel?.text == "C"
+        //println(functionalityButton.titleLabel?.text)
     }
     
     @IBAction func addRectangle(sender: AnyObject) {
         selectFunctionalityView.hidden = true
         MyVariables.flag = "drawRectangle"
-        shapeView.hidden = !shapeView.hidden
+        shapeView.hidden = !shapeView.hidden 
+        let image = UIImage(named: "Rectangle.png") as UIImage!
+        functionalityButton.setImage(image, forState: .Normal)
+        //functionalityButton.titleLabel?.text == "R"
+        //println(functionalityButton.titleLabel?.text)
     }
     
-    @IBAction func addArrow(sender: AnyObject) {
+    @IBAction func drawStraightLine(sender: AnyObject) {
         selectFunctionalityView.hidden = true
-        MyVariables.flag = "drawArrow"
+        MyVariables.flag = "drawStraightLine"
         shapeView.hidden = !shapeView.hidden
+        let image = UIImage(named: "Line.png") as UIImage!
+        functionalityButton.setImage(image, forState: .Normal)
+        //functionalityButton.titleLabel?.text == "L"
+        //println(functionalityButton.titleLabel?.text)
     }
     
     //Undo Operation
     @IBAction func undoAction(sender: AnyObject) {
+        colorView.hidden = true
+        selectFunctionalityView.hidden = true
+        lineWidthView.hidden = true
+        rotationView.hidden = true
+        shapeView.hidden = true
+       
         var removedShapeType = drawView.lastLineDraw.removeLast()
-        if drawView.lastLineIndex != 0 {
+        if drawView.lastLineDraw.count >= 0 {
+            if drawView.lastLineDraw.count == 0 {
+                undo.hidden = true
+                redo.hidden = false
+            }
+            if drawView.lastLineDraw.count >= 1 {
+                redo.hidden = false
+                undo.hidden = true
+            }
             if removedShapeType == "drawLine" {
                 if drawView.strokes.count > 0 {
-                    //add to redoArray
-                    var removedLine = drawView.strokes.removeLast();
-                    drawView.redoArray.append(removedLine)
-                    drawView.redoshapetypes.append(removedShapeType)
-                    
-                    //drawView.redoshapetypes
-                    //undo
-                    drawView.arrayIndex--
-                    if drawView.lastLineIndex == 0 {
-                        undo.hidden = true
-                        redo.hidden = false
-                    }
-                    if drawView.lastLineIndex >= 1 {
-                        redo.hidden = false
-                        undo.hidden = true
-                    }
+                    var removedLine = drawView.strokes.removeLast() // removeLast line
+                    drawView.redoArray.append(removedLine) // add last removedLine into redoArray
+                    drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
                     drawView.setNeedsDisplay()
                 }
             } else if removedShapeType == "drawOpacityLine" {
                 if drawView.strokesOpacity.count > 0 {
-                    //add to redoArray
-                    var removedOpacityLine = drawView.strokesOpacity.removeLast()
-                    drawView.redoArray.append(removedOpacityLine)
-                    drawView.redoshapetypes.append(removedShapeType)
-                    //undo
-                    drawView.arrayIndex1--
-                    if drawView.lastLineIndex == 0 {
-                        undo.hidden = true
-                        redo.hidden = false
-                    }
-                    if drawView.lastLineIndex >= 1 {
-                        redo.hidden = false
-                        undo.hidden = true
-                    }
+                    var removedOpacityLine = drawView.strokesOpacity.removeLast() // removeLast Opacityline
+                    drawView.redoArray.append(removedOpacityLine) // add last removedOpacityLine into redoArray
+                    drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
+                    drawView.setNeedsDisplay()
+                }
+            } else if removedShapeType == "addTextField" {
+                if drawView.textFields.count > 0 {
+                    var removedTextField = drawView.textFields.removeLast() // removeLast textField
+                    drawView.redoArray.append(removedTextField) // add last removedTextField into redoArray
+                    drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
                     drawView.setNeedsDisplay()
                 }
             } else if removedShapeType == "drawCircle" {
                 if drawView.circles.count > 0 {
-                    //add to redoArray
-                    var removedCircle = drawView.circles.removeLast()
-                    drawView.redoArray.append(removedCircle)
-                    drawView.redoshapetypes.append(removedShapeType)
-                    //undo
-                    if drawView.lastLineIndex == 0 {
-                        undo.hidden = true
-                        redo.hidden = false
-                    }
-                    if drawView.lastLineIndex >= 1 {
-                        redo.hidden = false
-                        undo.hidden = true
-                    }
+                    var removedCircle = drawView.circles.removeLast() // removeLast circle
+                    drawView.redoArray.append(removedCircle) // add last removedCircle into redoArray
+                    drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
+                    drawView.setNeedsDisplay()
                 }
-                drawView.setNeedsDisplay()
             } else if removedShapeType == "drawRectangle" {
                 if drawView.rectangles.count > 0 {
-                    //add to redoArray
-                    var removedRectangle = drawView.rectangles.removeLast()
-                    drawView.redoArray.append(removedRectangle)
-                    drawView.redoshapetypes.append(removedShapeType)
-                    //undo
-                    if drawView.lastLineIndex == 0 {
-                        undo.hidden = true
-                        redo.hidden = false
-                    }
-                    if drawView.lastLineIndex >= 1 {
-                        redo.hidden = false
-                        undo.hidden = true
-                    }
+                    var removedRectangle = drawView.rectangles.removeLast() // removeLast rectangle
+                    drawView.redoArray.append(removedRectangle) // add last removedRectangle into redoArray
+                    drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
+                    drawView.setNeedsDisplay()
                 }
-                drawView.setNeedsDisplay()
+            } else if removedShapeType == "drawStraightLine" {
+                if drawView.straightline_obj.count > 0 {
+                    var removedStraightLine = drawView.straightline_obj.removeLast() // removeLast line
+                    drawView.redoArray.append(removedStraightLine) // add last removedLine into redoArray
+                    drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
+                    drawView.setNeedsDisplay()
+                }
             }
         }
     }
     
     //Redo Operation
     @IBAction func redoAction(sender: AnyObject) {
+        colorView.hidden = true
+        selectFunctionalityView.hidden = true
+        lineWidthView.hidden = true
+        rotationView.hidden = true
+        shapeView.hidden = true
         
         var shapeType:String = drawView.redoshapetypes.removeLast()
         var shape = drawView.redoArray.removeLast()
@@ -600,14 +620,24 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                 drawView.strokes.append(shape as Array<Line>)
             case "drawOpacityLine":
                 drawView.strokesOpacity.append(shape as Array<Line>)
+            case "addTextField":
+                drawView.textFields.append(shape as UITextField)
             case "drawCircle":
                 drawView.circles.append(shape as CGRect)
             case "drawRectangle":
                 drawView.rectangles.append(shape as CGRect)
+            case "drawStraightLine":
+                drawView.straightline_obj.append(shape as Array<Line>)
             default:
                 println("something wrong")
         }
         self.drawView.setNeedsDisplay()
+        
+        if drawView.lastLineDraw.count == drawView.tmpcnt || drawView.redoArray.count == 0 {
+            redo.hidden = true
+        } else {
+            //println("Hello")
+        }
     }
     
     //Save the result Image into Gallery

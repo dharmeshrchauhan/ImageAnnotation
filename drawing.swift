@@ -25,6 +25,8 @@ class drawing: UIView {
     var lines: Array<Line> = []
     var circle_obj: Array<Circle> = []
     var rectangle_obj: Array<Rectangle> = []
+    var straightline_obj: Array<Array<Line>> = []
+    var textFields: Array<UITextField> = []
     
     var strokes: Array<Array<Line>> = []
     var strokesOpacity: Array<Array<Line>> = []
@@ -34,10 +36,7 @@ class drawing: UIView {
     var rectangles: Array<CGRect> = []
     var redoArray: Array<Any> = []
     
-    var arrayIndex: Int = 0
-    var arrayIndex1: Int = 0
-    var lastLineIndex: Int = 0
-    
+    var tmpcnt: Int = 0
     var cnt: CGFloat = 0
     var lastpoint: CGPoint!
     var newPoint: CGPoint!
@@ -57,44 +56,51 @@ class drawing: UIView {
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
-        if MyVariables.flag == "drawLine" {
-            lastpoint = touches.anyObject()?.locationInView(self) //it assigh the last point that touch
-            
-        } else if MyVariables.flag == "drawOpacityLine" {
-            lastpoint = touches.anyObject()?.locationInView(self) //it assigh the last point that touch
-            
-        } else if MyVariables.flag == "addTextView" {
-            lastpoint = touches.anyObject()?.locationInView(self)
-            lastLineDraw.insert("addTextView", atIndex: lastLineIndex++)
-            self.setNeedsDisplay()
-            
-        } else if MyVariables.flag == "drawCircle" {
-            isDrawingCircle = true;
-            circle_obj.append(Circle(color: drawColor, l_width: l_w))
-            lastLineDraw.insert("drawCircle", atIndex: lastLineIndex++)
-            
-            // Set the Center of the Circle
-            // 1
-            lastpoint = touches.anyObject()?.locationInView(self)
+        if redoArray.count > 0 {
+            redo.hidden = true
+            redoArray = []
+        } else {
+            if MyVariables.flag == "drawLine" {
+                lastpoint = touches.anyObject()?.locationInView(self) //it assigh the last point that touch
                 
-            // Set a random Circle Radius
-            // 2
-            circleWidth = cnt
-            circleHeight = circleWidth
-            
-        } else if MyVariables.flag == "drawRectangle" {
-            isDrawingRectangle = true;
-            rectangle_obj.append(Rectangle(color: drawColor, l_width: l_w))
-            lastLineDraw.insert("drawRectangle", atIndex: lastLineIndex++)
-            
-            // Set the Center of the Circle
-            // 1
-            lastpoint = touches.anyObject()?.locationInView(self)
-            
-            // Set a random Circle Radius
-            // 2
-            rectWidth = cnt
-            rectHeight = rectWidth
+            } else if MyVariables.flag == "drawOpacityLine" {
+                lastpoint = touches.anyObject()?.locationInView(self) //it assigh the last point that touch
+                
+            } else if MyVariables.flag == "addTextField" {
+                lastpoint = touches.anyObject()?.locationInView(self)
+                lastLineDraw.append("addTextField")
+                self.setNeedsDisplay()
+                
+            } else if MyVariables.flag == "drawCircle" {
+                isDrawingCircle = true
+                circle_obj.append(Circle(color: drawColor, l_width: l_w))
+                lastLineDraw.append("drawCircle")
+                
+                // Set the Center of the Circle
+                // 1
+                lastpoint = touches.anyObject()?.locationInView(self)
+                
+                // Set a random Circle Radius
+                // 2
+                circleWidth = cnt
+                circleHeight = circleWidth
+                
+            } else if MyVariables.flag == "drawRectangle" {
+                isDrawingRectangle = true
+                rectangle_obj.append(Rectangle(color: drawColor, l_width: l_w))
+                lastLineDraw.append("drawRectangle")
+                
+                // Set the Center of the Circle
+                // 1
+                lastpoint = touches.anyObject()?.locationInView(self)
+                
+                // Set a random Circle Radius
+                // 2
+                rectWidth = cnt
+                rectHeight = rectWidth
+            } else if MyVariables.flag == "drawStraightLine" {
+                lastpoint = touches.anyObject()?.locationInView(self)
+            }
         }
     }
     
@@ -121,43 +127,61 @@ class drawing: UIView {
             rectHeight = rectWidth
             newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point
             self.setNeedsDisplay()
+        } else if MyVariables.flag == "drawStraightLine" {
+            newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point            
+            self.setNeedsDisplay()
         }
     }
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
         
         if MyVariables.flag == "drawLine" {
-            lastLineDraw.insert("drawLine", atIndex: lastLineIndex++)
-            strokes.insert(lines, atIndex: arrayIndex++)
+            lastLineDraw.append("drawLine")
+            strokes.append(lines)
             newPoint = lastpoint
             lines = []
-            NSLog("LastLineIndex: %i", lastLineIndex)
+            //NSLog("LastLineIndex: %i", lastLineIndex)
             self.setNeedsDisplay()
+            tmpcnt++
             
         } else if MyVariables.flag == "drawOpacityLine" {
-            lastLineDraw.insert("drawOpacityLine", atIndex: lastLineIndex++)
-            strokesOpacity.insert(lines, atIndex: arrayIndex1++)
+            lastLineDraw.append("drawOpacityLine")
+            strokesOpacity.append(lines)
             newPoint = lastpoint
             lines = []
-            NSLog("LastLineIndex: %i", lastLineIndex)
+            //NSLog("LastLineIndex: %i", lastLineIndex)
             self.setNeedsDisplay()
+            tmpcnt++
             
         } else if MyVariables.flag == "drawCircle" {
             isDrawingCircle = false
             circles.append(CGRectMake(lastpoint.x, lastpoint.y, (newPoint.x - lastpoint.x), (newPoint.y - lastpoint.y)))
             cnt = 0
             self.setNeedsDisplay()
+            tmpcnt++
+            
         } else if MyVariables.flag == "drawRectangle" {
             isDrawingRectangle = false
             rectangles.append(CGRectMake(lastpoint.x, lastpoint.y, (newPoint.x - lastpoint.x) / 2, (newPoint.y - lastpoint.y) / 2))
             cnt = 0
             self.setNeedsDisplay()
+            tmpcnt++
+            
+        } else if MyVariables.flag == "drawStraightLine" {
+            lastLineDraw.append("drawStraightLine")
+            lines.append(Line(start: lastpoint, end: newPoint, color: drawColor, l_width: l_w))
+            straightline_obj.append(lines)
+            newPoint = lastpoint
+            lines = []
+            //NSLog("LastLineIndex: %i", lastLineIndex)
+            self.setNeedsDisplay()
+            tmpcnt++
         }
     }
     
     override func drawRect(rect: CGRect) {
         
-        if strokes.count > 0 || strokesOpacity.count > 0 || circles.count > 0 || rectangles.count > 0 {
+        if strokes.count > 0 || strokesOpacity.count > 0 || circles.count > 0 || rectangles.count > 0 || straightline_obj.count > 0 {
             undo.hidden = false
         }
         
@@ -165,6 +189,7 @@ class drawing: UIView {
         CGContextSetLineCap(cxt, kCGLineCapRound)
         UIGraphicsBeginImageContext(self.frame.size)
         
+        //for DrawLine
         for stroke in strokes {
             if stroke.count > 0 {
                 CGContextBeginPath(cxt)
@@ -179,11 +204,27 @@ class drawing: UIView {
             CGContextStrokePath(cxt)
         }
         
+        //for DrawOpacityLine
         for stroke in strokesOpacity {
             if stroke.count > 0 {
                 CGContextBeginPath(cxt)
                 CGContextSetAlpha(cxt, 0.4)
                 CGContextSetLineWidth(cxt, 10)
+                CGContextMoveToPoint(cxt, stroke.first!.start.x, stroke.first!.start.y)
+            }
+            
+            for line in stroke {
+                CGContextSetStrokeColorWithColor(cxt, line.color.CGColor)
+                CGContextAddLineToPoint(cxt, line.end.x, line.end.y)
+            }
+            CGContextStrokePath(cxt)
+        }
+        
+        //for DrawStraightLine
+        for stroke in straightline_obj {
+            if stroke.count > 0 {
+                CGContextBeginPath(cxt)
+                CGContextSetLineWidth(cxt, stroke.first!.l_width)
                 CGContextMoveToPoint(cxt, stroke.first!.start.x, stroke.first!.start.y)
             }
             
@@ -283,17 +324,41 @@ class drawing: UIView {
             
             UIGraphicsEndImageContext()
             
-        } else if MyVariables.flag == "addTextView" {
+        } else if MyVariables.flag == "addTextField" {
             
             textField = UITextField(frame: CGRect(x: lastpoint.x, y: lastpoint.y, width: 100, height: 35))
             textField?.textColor = lines.first?.color
             textField?.text = "Hello"
             self.addSubview(textField!)
+            textFields.append(textField!)
+            
+//            if textFields.count > 0 {
+//                undo.hidden = false
+//            }
+            
             textField!.multipleTouchEnabled = true
             textField!.userInteractionEnabled = true
             
             // Add runtime PanGestureRecognizer into UITextField
             textField?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "onPan:"))
+            
+        } else if MyVariables.flag == "drawStraightLine" {
+            
+            if lines.count > 0 {
+                CGContextBeginPath(cxt)
+                CGContextSetLineWidth(cxt, lines.first!.l_width)
+                CGContextMoveToPoint(cxt, lines.first!.start.x, lines.first!.start.y)
+            }
+            
+            for line in lines {
+                CGContextSetStrokeColorWithColor(cxt, line.color.CGColor)
+                CGContextAddLineToPoint(cxt, line.end.x, line.end.y)
+            }
+            
+            CGContextStrokePath(cxt)
+            
+            UIGraphicsEndImageContext()
+            
         }
     }
     

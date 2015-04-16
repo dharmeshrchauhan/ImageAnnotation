@@ -11,4 +11,5 @@
 @interface UIImage (Utils)
 
 - (UIImage*)imageByClearingWhitePixels;
+- (UIImage*)imageByChangingWhitePixels;
 @end

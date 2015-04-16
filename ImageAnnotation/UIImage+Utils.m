@@ -72,4 +72,30 @@
     return newImage;
 }
 
+
+- (UIImage*)imageByChangingWhitePixels{
+    
+    //Copy image bitmaps
+    float originalWidth = self.size.width;
+    float originalHeight = self.size.height;
+    CGSize newSize;
+    
+    newSize = CGSizeMake(originalWidth, originalHeight);
+    
+    UIGraphicsBeginImageContext( newSize );
+    
+    [self drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    UIImage *redImage = [UIImage imageNamed:@"Mask"];
+    
+    //Clear white color by masking with self
+    newImage = [self getMaskedArtworkFromPicture:newImage withMask:redImage];
+    
+    return newImage;
+}
+
 @end

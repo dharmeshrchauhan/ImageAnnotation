@@ -18,6 +18,7 @@
 		1B6BDE881A8DE30C00E3BD76 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6BDE861A8DE30C00E3BD76 /* LaunchScreen.xib */; };
 		1B6BDE941A8DE30C00E3BD76 /* ImageAnnotationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6BDE931A8DE30C00E3BD76 /* ImageAnnotationTests.swift */; };
 		1B6BDEAB1A8DFD6400E3BD76 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6BDEAA1A8DFD6400E3BD76 /* Line.swift */; };
+		1BC92EDD1ADFED3200B02A2A /* Mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC92EDC1ADFED3200B02A2A /* Mask.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		1B6BDE921A8DE30C00E3BD76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B6BDE931A8DE30C00E3BD76 /* ImageAnnotationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnnotationTests.swift; sourceTree = "<group>"; };
 		1B6BDEAA1A8DFD6400E3BD76 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Line.swift; path = ../Line.swift; sourceTree = "<group>"; };
+		1BC92EDC1ADFED3200B02A2A /* Mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mask.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 		1B6BDE9D1A8DE37F00E3BD76 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				1BC92EDC1ADFED3200B02A2A /* Mask.png */,
 			);
 			path = images;
 			sourceTree = "<group>";
@@ -190,7 +193,6 @@
 				TargetAttributes = {
 					1B6BDE771A8DE30C00E3BD76 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 4MC4NTNJ4V;
 					};
 					1B6BDE8C1A8DE30C00E3BD76 = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -225,6 +227,7 @@
 				1B6BDE831A8DE30C00E3BD76 /* Main.storyboard in Resources */,
 				1B6BDE881A8DE30C00E3BD76 /* LaunchScreen.xib in Resources */,
 				1B4EDB9B1ADE7F3B00DE265B /* Images.xcassets in Resources */,
+				1BC92EDD1ADFED3200B02A2A /* Mask.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,7 +331,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "e1537e29-e18e-4289-9b30-ea8a9edcf93c";
+				PROVISIONING_PROFILE = "86d35ea7-2c92-4876-87af-9f95cf281d65";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -365,7 +368,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "e1537e29-e18e-4289-9b30-ea8a9edcf93c";
+				PROVISIONING_PROFILE = "86d35ea7-2c92-4876-87af-9f95cf281d65";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
