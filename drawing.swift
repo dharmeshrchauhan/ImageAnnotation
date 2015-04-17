@@ -23,8 +23,8 @@ class drawing: UIView {
     var isDrawingRectangle: Bool = false;
     
     var lines: Array<Line> = []
-    var circle_obj: Array<Circle> = []
-    var rectangle_obj: Array<Rectangle> = []
+    var circle_obj: Circle?
+    var rectangle_obj: Rectangle?
     var straightline_obj: Array<Array<Line>> = []
     var textFields: Array<UITextField> = []
     
@@ -32,8 +32,8 @@ class drawing: UIView {
     var strokesOpacity: Array<Array<Line>> = []
     var lastLineDraw: Array<String> = []
     var redoshapetypes: Array<String> = []
-    var circles: Array<CGRect> = []
-    var rectangles: Array<CGRect> = []
+    var circles: Array<Circle> = []
+    var rectangles: Array<Rectangle> = []
     var redoArray: Array<Any> = []
     
     var tmpcnt: Int = 0
@@ -73,31 +73,15 @@ class drawing: UIView {
                 
             } else if MyVariables.flag == "drawCircle" {
                 isDrawingCircle = true
-                circle_obj.append(Circle(color: drawColor, l_width: l_w))
-                lastLineDraw.append("drawCircle")
-                
-                // Set the Center of the Circle
-                // 1
                 lastpoint = touches.anyObject()?.locationInView(self)
-                
-                // Set a random Circle Radius
-                // 2
-                circleWidth = cnt
-                circleHeight = circleWidth
+                circle_obj = Circle(color: drawColor, l_width: l_w, start: lastpoint, end: lastpoint)
+                lastLineDraw.append("drawCircle")
                 
             } else if MyVariables.flag == "drawRectangle" {
                 isDrawingRectangle = true
-                rectangle_obj.append(Rectangle(color: drawColor, l_width: l_w))
-                lastLineDraw.append("drawRectangle")
-                
-                // Set the Center of the Circle
-                // 1
                 lastpoint = touches.anyObject()?.locationInView(self)
-                
-                // Set a random Circle Radius
-                // 2
-                rectWidth = cnt
-                rectHeight = rectWidth
+                rectangle_obj = Rectangle(color: drawColor, l_width: l_w, start: lastpoint, end: lastpoint)
+                lastLineDraw.append("drawRectangle")
             } else if MyVariables.flag == "drawStraightLine" {
                 lastpoint = touches.anyObject()?.locationInView(self)
             }
@@ -117,16 +101,15 @@ class drawing: UIView {
             self.setNeedsDisplay()
             
         } else if MyVariables.flag == "drawCircle" {
-            circleWidth = cnt++
-            circleHeight = circleWidth
             newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point
+            circle_obj!.end = newPoint
             self.setNeedsDisplay()
             
         } else if MyVariables.flag == "drawRectangle" {
-            rectWidth = cnt++
-            rectHeight = rectWidth
             newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point
+            rectangle_obj!.end = newPoint
             self.setNeedsDisplay()
+            
         } else if MyVariables.flag == "drawStraightLine" {
             newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point            
             self.setNeedsDisplay()
@@ -140,7 +123,6 @@ class drawing: UIView {
             strokes.append(lines)
             newPoint = lastpoint
             lines = []
-            //NSLog("LastLineIndex: %i", lastLineIndex)
             self.setNeedsDisplay()
             tmpcnt++
             
@@ -149,21 +131,20 @@ class drawing: UIView {
             strokesOpacity.append(lines)
             newPoint = lastpoint
             lines = []
-            //NSLog("LastLineIndex: %i", lastLineIndex)
             self.setNeedsDisplay()
             tmpcnt++
             
         } else if MyVariables.flag == "drawCircle" {
             isDrawingCircle = false
-            circles.append(CGRectMake(lastpoint.x, lastpoint.y, (newPoint.x - lastpoint.x), (newPoint.y - lastpoint.y)))
-            cnt = 0
+            circles.append(circle_obj!)
+            circle_obj = nil
             self.setNeedsDisplay()
             tmpcnt++
             
         } else if MyVariables.flag == "drawRectangle" {
             isDrawingRectangle = false
-            rectangles.append(CGRectMake(lastpoint.x, lastpoint.y, (newPoint.x - lastpoint.x) / 2, (newPoint.y - lastpoint.y) / 2))
-            cnt = 0
+            rectangles.append(rectangle_obj!)
+            rectangle_obj = nil
             self.setNeedsDisplay()
             tmpcnt++
             
@@ -173,7 +154,6 @@ class drawing: UIView {
             straightline_obj.append(lines)
             newPoint = lastpoint
             lines = []
-            //NSLog("LastLineIndex: %i", lastLineIndex)
             self.setNeedsDisplay()
             tmpcnt++
         }
@@ -240,23 +220,23 @@ class drawing: UIView {
         if (isDrawingCircle)
         {
             // Set the circle outerline-width
-            CGContextSetLineWidth(cxt, circle_obj.first!.l_width)
+            CGContextSetLineWidth(cxt, circle_obj!.l_width)
             // Set the circle outerline-colour
-            CGContextSetStrokeColorWithColor(cxt,circle_obj.first?.color.CGColor)
+            CGContextSetStrokeColorWithColor(cxt,circle_obj?.color.CGColor)
             // Set circle opacity
             CGContextSetAlpha(cxt, 1.0)
             // Create circle
-            CGContextAddEllipseInRect(cxt, CGRectMake(lastpoint.x, lastpoint.y, (newPoint.x - lastpoint.x), (newPoint.y - lastpoint.y)))
+            CGContextAddEllipseInRect(cxt, CGRectMake(circle_obj!.start.x, circle_obj!.start.y, (circle_obj!.end.x - circle_obj!.start.x), (circle_obj!.end.y - circle_obj!.start.y)))
             // Draw
             CGContextStrokePath(cxt)
         }
         
         for circle in circles {
-            CGContextSetLineWidth(cxt, circle_obj.first!.l_width)
+            CGContextSetLineWidth(cxt, circle.l_width)
             // Set the circle outerline-colour
-            CGContextSetStrokeColorWithColor(cxt,circle_obj.first?.color.CGColor)
+            CGContextSetStrokeColorWithColor(cxt,circle.color.CGColor)
             // Create circle
-            CGContextAddEllipseInRect(cxt, circle);
+            CGContextAddEllipseInRect(cxt, CGRectMake(circle.start.x, circle.start.y, (circle.end.x - circle.start.x), (circle.end.y - circle.start.y)))
             // Draw
             CGContextStrokePath(cxt)
         }
@@ -266,24 +246,23 @@ class drawing: UIView {
         if (isDrawingRectangle)
         {
             // Set the rectangel outerline-width
-            CGContextSetLineWidth(cxt, rectangle_obj.first!.l_width)
+            CGContextSetLineWidth(cxt, rectangle_obj!.l_width)
             // Set the rectangel outerline-colour
-            CGContextSetStrokeColorWithColor(cxt,rectangle_obj.first?.color.CGColor)
+            CGContextSetStrokeColorWithColor(cxt,rectangle_obj?.color.CGColor)
             // Set rectangel opacity
             CGContextSetAlpha(cxt, 1.0)
             // Create rectangel
-            CGContextAddRect(cxt, CGRectMake(lastpoint.x, lastpoint.y, (newPoint.x - lastpoint.x) / 2 , (newPoint.y - lastpoint.y) / 2))
+            CGContextAddRect(cxt, CGRectMake(rectangle_obj!.start.x, rectangle_obj!.start.y, (rectangle_obj!.end.x - rectangle_obj!.start.x) / 2 , (rectangle_obj!.end.y - rectangle_obj!.start.y) / 2))
             // Draw
             CGContextStrokePath(cxt)
         }
         
         for rectangle in rectangles {
-            rectangle_obj.append(Rectangle(color: drawColor, l_width: l_w))
-            CGContextSetLineWidth(cxt, rectangle_obj.first!.l_width)
+            CGContextSetLineWidth(cxt, rectangle.l_width)
             // Set the rectangel outerline-colour
-            CGContextSetStrokeColorWithColor(cxt,rectangle_obj.first?.color.CGColor)
+            CGContextSetStrokeColorWithColor(cxt,rectangle.color.CGColor)
             // Create rectangel
-            CGContextAddRect(cxt, rectangle);
+            CGContextAddRect(cxt, CGRectMake(rectangle.start.x, rectangle.start.y, (rectangle.end.x - rectangle.start.x) / 2 , (rectangle.end.y - rectangle.start.y) / 2));
             // Draw
             CGContextStrokePath(cxt)
         }

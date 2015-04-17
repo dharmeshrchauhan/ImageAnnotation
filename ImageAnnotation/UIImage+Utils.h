@@ -10,6 +10,7 @@
 
 @interface UIImage (Utils)
 
++ (UIImage *) getMaskedArtworkFromPicture:(UIImage *)image withMask:(UIImage *)mask;
 - (UIImage*)imageByClearingWhitePixels;
 - (UIImage*)imageByChangingWhitePixels;
 @end

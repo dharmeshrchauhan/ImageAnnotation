@@ -21,6 +21,9 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     var rotation: CGFloat = 0.0
     
     var oldButton: UIBarButtonItem?
+    
+    var colorImage : UIImage = UIImage(named: "Red.png") as UIImage!
+    var maskImage : UIImage = UIImage(named: "Mask1.png") as UIImage!
 
     @IBOutlet weak var imageView: UIImageView!
     
@@ -58,6 +61,8 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     @IBOutlet weak var shapeView: UIView!
     
+    @IBOutlet weak var whiteBackgroungImage: UIImageView!
+    
     @IBOutlet weak var undo: UIButton!
     
     @IBOutlet weak var redo: UIButton!
@@ -78,20 +83,20 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         btnDone.hidden = true
         btnDone1.hidden = true
         btnCancel.hidden = true
+        whiteBackgroungImage.hidden = true
         //hide save bar button
         oldButton = self.navigationItem.rightBarButtonItem!
         self.navigationItem.rightBarButtonItem = nil
         
         //call the delegate method of ImagePickerController
         picker?.delegate = self
-
-        var img:UIImage = UIImage(named: "Red")!;
         
-        var img2 = img.imageByChangingWhitePixels()
-        
-        imageView.image = img2
-//
-//        return;
+//        var img:UIImage = UIImage(named: "Red")!;
+//        
+//        var img2 = UIImage.getMaskedArtworkFromPicture(img, withMask: UIImage(named: "Mask1"))
+//        
+//        //imageView.image = img2;
+//        colorButton.setImage(img2, forState: UIControlState.Normal);
     }
     
     //Take image form Gallery
@@ -173,6 +178,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         drawView.lastLineDraw = []
         drawView.circles = []
         drawView.rectangles = []
+        drawView.textFields = []
         MyVariables.flag = ""
         rotation = 0
         self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotation))
@@ -371,7 +377,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     @IBAction func drawLineAction(sender: AnyObject) {
         selectFunctionalityView.hidden = true
         MyVariables.flag = "drawLine"
-        let image = UIImage(named: "Free Line.png") as UIImage!
+        let image = UIImage(named: "FreeLine.png") as UIImage!
         functionalityButton.setImage(image, forState: .Normal)
     }
     
@@ -379,6 +385,8 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     @IBAction func drawOpacityLineAction(sender: AnyObject) {
         selectFunctionalityView.hidden = true
         MyVariables.flag = "drawOpacityLine"
+        let image = UIImage(named: "OpacityLine.png") as UIImage!
+        functionalityButton.setImage(image, forState: .Normal)
     }
     
     //Crop Image methods
@@ -389,6 +397,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         btnCancel.hidden = false
         undo.hidden = true
         redo.hidden = true
+        whiteBackgroungImage.hidden = true
         colorButton.hidden = true
         functionalityButton.hidden = true
 
@@ -440,6 +449,8 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         btnCancel.hidden = true
         redo.hidden = true
         undo.hidden = true
+        
+        whiteBackgroungImage.hidden = false
         colorButton.hidden = false
         functionalityButton.hidden = false
     }
@@ -449,6 +460,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         cropView.hidden = true
         btnDone.hidden = true
         btnDone1.hidden = true
+        whiteBackgroungImage.hidden = true
         
         if drawView.strokes.count > 0 || drawView.strokesOpacity.count > 0 || drawView.circles.count > 0 || drawView.rectangles.count > 0 || drawView.straightline_obj.count > 0 {
             undo.hidden = false
@@ -623,9 +635,9 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
             case "addTextField":
                 drawView.textFields.append(shape as UITextField)
             case "drawCircle":
-                drawView.circles.append(shape as CGRect)
+                drawView.circles.append(shape as Circle)
             case "drawRectangle":
-                drawView.rectangles.append(shape as CGRect)
+                drawView.rectangles.append(shape as Rectangle)
             case "drawStraightLine":
                 drawView.straightline_obj.append(shape as Array<Line>)
             default:
@@ -683,40 +695,57 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     }
     
     // Select a color for draw line
-    @IBAction func colorTapped(button: UIButton!) {
-        var color : UIColor!
+    @IBAction func colorAndLineTapped(button: UIButton!) {
+       
+        var line_width : CGFloat!
+        
+        whiteBackgroungImage.hidden = false
         
         if(button.titleLabel?.text == "R") {
-            color = UIColor.redColor()
-            let image = UIImage(named: "Red.png") as UIImage!
-            colorButton.setImage(image, forState: .Normal)
+            drawView.drawColor = UIColor.redColor()
+            colorImage = UIImage(named: "Red.png") as UIImage!
         } else if(button.titleLabel?.text == "B") {
-            color = UIColor.blueColor()
-            let image = UIImage(named: "Blue.png") as UIImage!
-            colorButton.setImage(image, forState: .Normal)
+            drawView.drawColor = UIColor.blueColor()
+            colorImage = UIImage(named: "Blue.png") as UIImage!
         } else if(button.titleLabel?.text == "G") {
-            color = UIColor.greenColor()
-            let image = UIImage(named: "Green.png") as UIImage!
-            colorButton.setImage(image, forState: .Normal)
+            drawView.drawColor = UIColor.greenColor()
+            colorImage = UIImage(named: "Green.png") as UIImage!
         } else if(button.titleLabel?.text == "Bl") {
-            color = UIColor.blackColor()
-            let image = UIImage(named: "Black.png") as UIImage!
-            colorButton.setImage(image, forState: .Normal)
+            drawView.drawColor = UIColor.blackColor()
+            colorImage = UIImage(named: "Black.png") as UIImage!
         } else if(button.titleLabel?.text == "Y") {
-            color = UIColor.yellowColor()
-            let image = UIImage(named: "Yellow.png") as UIImage!
-            colorButton.setImage(image, forState: .Normal)
+            drawView.drawColor = UIColor.yellowColor()
+            colorImage = UIImage(named: "Yellow.png") as UIImage!
         } else if(button.titleLabel?.text == "O") {
-            color = UIColor.orangeColor()
-            let image = UIImage(named: "Orange.png") as UIImage!
-            colorButton.setImage(image, forState: .Normal)
+            drawView.drawColor = UIColor.orangeColor()
+            colorImage = UIImage(named: "Orange.png") as UIImage!
         } else if(button.titleLabel?.text == "W") {
-            color = UIColor.whiteColor()
-            let image = UIImage(named: "White.png") as UIImage!
-            colorButton.setImage(image, forState: .Normal)
+            drawView.drawColor = UIColor.whiteColor()
+            colorImage = UIImage(named: "White.png") as UIImage!
+        } else if(button.titleLabel?.text == "1") {
+            drawView.l_w = 1
+            maskImage = UIImage(named: "Mask1.png") as UIImage!
+        } else if(button.titleLabel?.text == "2") {
+            drawView.l_w = 2
+            maskImage = UIImage(named: "Mask2.png") as UIImage!
+        } else if(button.titleLabel?.text == "3") {
+            drawView.l_w = 3
+            maskImage = UIImage(named: "Mask3.png") as UIImage!
+        } else if(button.titleLabel?.text == "4") {
+            drawView.l_w = 4
+            maskImage = UIImage(named: "Mask4.png") as UIImage!
+        } else if(button.titleLabel?.text == "5") {
+            drawView.l_w = 5
+            maskImage = UIImage(named: "Mask5.png") as UIImage!
         }
         
-        drawView.drawColor = color
+        var img:UIImage = colorImage
+        
+        var img2 = UIImage.getMaskedArtworkFromPicture(img, withMask: maskImage)
+        
+        colorButton.setImage(img2, forState: UIControlState.Normal)
+        //setImageAndLineWidth(colorImage!, mask: maskImage!)
+        
         if MyVariables.flag == "drawOpacityLine" {
             colorView.hidden = !colorView.hidden
         } else {
@@ -725,24 +754,36 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         }
     }
     
-    // Select a line width for draw a line
+/*    // Select a line width for draw a line
     @IBAction func lineWidthTapped(button: UIButton!) {
         var line_width : CGFloat!
+        var image : UIImage?
         
         if(button.titleLabel?.text == "1") {
             line_width = 1
+            image = UIImage(named: "Brushsize1.png") as UIImage!
         } else if(button.titleLabel?.text == "2") {
             line_width = 2
+            image = UIImage(named: "Brushsize2.png") as UIImage!
         } else if(button.titleLabel?.text == "3") {
             line_width = 3
+            image = UIImage(named: "Brushsize3.png") as UIImage!
         } else if(button.titleLabel?.text == "4") {
             line_width = 4
+            image = UIImage(named: "Brushsize4.png") as UIImage!
         } else if(button.titleLabel?.text == "5") {
             line_width = 5
+            image = UIImage(named: "Brushsize5.png") as UIImage!
         }
         
         drawView.l_w = line_width
         lineWidthView.hidden = !lineWidthView.hidden
         colorView.hidden = !colorView.hidden
+    }*/
+    
+    func setImageAndLineWidth(color: UIImage , mask: UIImage) {
+        
+        
     }
+    
 }

@@ -17,6 +17,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ImageAnnotation.drawing.removeLastLine (ImageAnnotation.drawing)() -&gt; ():drawing.swift">
+      </ContextState>
+      <ContextState
          contextName = "ImageAnnotation.ViewController.imagePickerController (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIImagePickerController&gt;, didFinishPickingMediaWithInfo : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Dictionary&lt;ObjectiveC.NSObject, Swift.AnyObject&gt;&gt;) -&gt; ():ViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -26,9 +29,6 @@
                value = "scaleFactor">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ImageAnnotation.drawing.removeLastLine (ImageAnnotation.drawing)() -&gt; ():drawing.swift">
       </ContextState>
       <ContextState
          contextName = "ImageAnnotation.ViewController.colorTapped (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIButton&gt;) -&gt; ():ViewController.swift">
@@ -43,6 +43,17 @@
          <PersistentStrings>
             <PersistentString
                value = "drawView.circle_obj.first!.l_width">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.drawing.touchesBegan (ImageAnnotation.drawing)(ObjectiveC.NSSet, withEvent : ObjectiveC.UIEvent) -&gt; ():drawing.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "l_w">
+            </PersistentString>
+            <PersistentString
+               value = "drawColor">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -71,6 +82,9 @@
       <ContextState
          contextName = "ImageAnnotation.drawing.drawRect (ImageAnnotation.drawing)(C.CGRect) -&gt; ():drawing.swift">
          <PersistentStrings>
+            <PersistentString
+               value = "circles">
+            </PersistentString>
             <PersistentString
                value = "circle_obj">
             </PersistentString>
