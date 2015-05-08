@@ -30,7 +30,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     var oldButton: UIBarButtonItem?
     
-    var colorImage : UIImage = UIImage(named: "Red.png") as UIImage!
+    var colorImage : UIImage = UIImage(named: "White.png") as UIImage!
     var maskImage : UIImage = UIImage(named: "Mask1.png") as UIImage!
 
     @IBOutlet weak var imageView: UIImageView!
@@ -75,6 +75,12 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     @IBOutlet weak var resultView: UIView!
     
+    @IBOutlet weak var mainLineWidthView: UIView!
+    
+    @IBOutlet weak var mainRotationView: UIView!    
+    
+    @IBOutlet weak var mainShapeView: UIView!
+    
     //Animation
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -86,16 +92,22 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if MyVariables.flag == "" {
+            MyVariables.flag = "drawLine"
+        }
         //hide all buttons and views
         colorButton.hidden = true
         functionalityButton.hidden = true
         colorView.hidden = true
         lineWidthView.hidden = true
+        mainLineWidthView.hidden = true
         undo.hidden = true
         redo.hidden = true
         rotationView.hidden = true
+        mainRotationView.hidden = true
         selectFunctionalityView.hidden = true
         shapeView.hidden = true
+        mainShapeView.hidden = true
         cropView.hidden = true
         btnDone.hidden = true
         btnCancel.hidden = true
@@ -202,9 +214,12 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         btnGallery.hidden = true
         colorView.hidden = true
         lineWidthView.hidden = true
+        mainLineWidthView.hidden = true
         selectFunctionalityView.hidden = true
         rotationView.hidden = true
+        mainRotationView.hidden = true
         shapeView.hidden = true
+        mainShapeView.hidden = true
         cropView.hidden = true
         btnCancel.hidden = true
         btnDone.hidden = true
@@ -271,8 +286,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         if (buttonIndex == 0) {
             if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) //Camera not available
             {
-                //                let alert = UIAlertView(title: "No Camera", message: "Sorry, this device has no camera", delegate: self, cancelButtonTitle: "Cancel")
-                //                alert.show()
                 sourceType = UIImagePickerControllerSourceType.PhotoLibrary
             }
             self.displayImagepicker(sourceType)
@@ -325,89 +338,38 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                 } else {
                     colorView.hidden = false
                     lineWidthView.hidden = false
+                    mainLineWidthView.hidden = false
                 }
-              
-                //colorButton.layer.cornerRadius = 50
-                //lineWidthView.layer.cornerRadius = 50
-                
-                //colorView.clipsToBounds = true
-                //lineWidthView.clipsToBounds = true
-                
-                //self.setUpParallax()
                 
                 colorView.center.y  += drawView.bounds.height
                 lineWidthView.center.x -= drawView.bounds.width
                 
-                UIView.animateWithDuration(0.5, animations: {
+                UIView.animateWithDuration(0.25, animations: {
                     self.colorView.center.y -= self.drawView.bounds.height
                     self.lineWidthView.center.x += self.drawView.bounds.width
                 })
             } else {
-                colorView.center.y  -= drawView.bounds.height
-                lineWidthView.center.x += drawView.bounds.width
-                
-                UIView.animateWithDuration(0.5, animations: {
+                UIView.animateWithDuration(0.25, animations: {
                     self.colorView.center.y += self.drawView.bounds.height
                     self.lineWidthView.center.x -= self.drawView.bounds.width
+                    }, completion: {
+                        (b:Bool) -> Void in
+                        self.colorView.hidden = true
+                        self.lineWidthView.hidden = true
+                        self.mainLineWidthView.hidden = true
+                        self.colorView.center.y  -= self.drawView.bounds.height
+                        self.lineWidthView.center.x += self.drawView.bounds.width
                 })
-                
-                colorView.hidden = true
-                lineWidthView.hidden = true
             }
             
-//            if colorView.hidden {
-//                colorView.alpha = 0;
-//                lineWidthView.alpha = 0
-//                if MyVariables.flag == "drawOpacityLine"
-//                {
-//                    colorView.hidden = false
-//                } else {
-//                    colorView.hidden = false
-//                    lineWidthView.hidden = false
-//                }
-//                UIView.beginAnimations(nil, context: nil)
-//                UIView.setAnimationDuration(0.5)
-//                colorView.alpha = 1
-//                lineWidthView.alpha = 1
-//                UIView.commitAnimations()
-//            }
-//            else {
-//                UIView.animateWithDuration(0.5, animations: {
-//                    ()->Void in
-//                    self.colorView.alpha = 0
-//                    self.lineWidthView.alpha = 0
-//                },
-//                {
-//                    (b:Bool)->Void in
-//                    self.colorView.hidden = true
-//                    self.lineWidthView.hidden = true
-//                }
-//                )
-//            }
-//            
             if selectFunctionalityView.hidden == false || rotationView.hidden == false || shapeView.hidden == false {
                 selectFunctionalityView.hidden = true
                 rotationView.hidden = true
                 shapeView.hidden = true
-            }
-            
-            if MyVariables.flag == "" {
-                MyVariables.flag = "drawLine"
+                mainRotationView.hidden = true
+                mainShapeView.hidden = true
             }
         }
-    }
-    
-    func setUpParallax() {
-        let interpolationHorizontal:UIInterpolatingMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.x", type: UIInterpolatingMotionEffectType.TiltAlongHorizontalAxis)
-        interpolationHorizontal.minimumRelativeValue = -5.0
-        interpolationHorizontal.maximumRelativeValue = 5.0
-        
-        let interpolationVertical:UIInterpolatingMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.y", type: UIInterpolatingMotionEffectType.TiltAlongVerticalAxis)
-        interpolationVertical.minimumRelativeValue = -5.0
-        interpolationVertical.maximumRelativeValue = 5.0
-        
-        lineWidthView.addMotionEffect(interpolationHorizontal)
-        colorView.addMotionEffect(interpolationVertical)
     }
     
     //Show functionalityView
@@ -419,42 +381,27 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                 
                 selectFunctionalityView.center.y  += drawView.bounds.height
                 
-                UIView.animateWithDuration(0.5, animations: {
+                UIView.animateWithDuration(0.25, animations: {
                     self.selectFunctionalityView.center.y -= self.drawView.bounds.height
                 })
             } else {
                 selectFunctionalityView.center.y  -= view.bounds.height
-                
-                UIView.animateWithDuration(0.5, animations: {
+               
+                UIView.animateWithDuration(0.25, animations: {
                     self.selectFunctionalityView.center.y += self.view.bounds.height
+                    }, completion: { (b:Bool) -> Void in
+                        self.selectFunctionalityView.hidden = true
                 })
-                
-                selectFunctionalityView.hidden = true
             }
-//            if selectFunctionalityView.hidden {
-//                selectFunctionalityView.alpha = 0
-//                selectFunctionalityView.hidden = false
-//                UIView.beginAnimations(nil, context: nil)
-//                UIView.setAnimationDuration(0.5)
-//                selectFunctionalityView.alpha = 1
-//                UIView.commitAnimations()
-//            } else {
-//                UIView.animateWithDuration(0.5, animations: {
-//                    ()->Void in
-//                    self.selectFunctionalityView.alpha = 0
-//                    },
-//                    {
-//                        (b:Bool)->Void in
-//                        self.selectFunctionalityView.hidden = true
-//                    }
-//                )
-//            }
             
             if colorView.hidden == false || lineWidthView.hidden == false || rotationView.hidden == false || shapeView.hidden == false {
                 colorView.hidden = true
                 lineWidthView.hidden = true
                 rotationView.hidden = true
                 shapeView.hidden = true
+                mainLineWidthView.hidden = true
+                mainRotationView.hidden = true
+                mainShapeView.hidden = true
             }
         }
     }
@@ -463,46 +410,25 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     @IBAction func rotationAction(sender: AnyObject) {
         if rotationView.hidden == true {
             rotationView.hidden = false
+            mainRotationView.hidden = false
             selectFunctionalityView.hidden = true
             
             rotationView.center.x += drawView.bounds.width
             
-            UIView.animateWithDuration(0.5, animations: {
+            UIView.animateWithDuration(0.25, animations: {
                 self.rotationView.center.x -= self.drawView.bounds.width
             })
         } else {
             rotationView.center.y  -= view.bounds.height
-            
-            UIView.animateWithDuration(0.5, animations: {
+           
+            UIView.animateWithDuration(0.25, animations: {
                 self.rotationView.center.x += self.view.bounds.width
+                }, completion: { (b:Bool) -> Void in
+                    self.rotationView.hidden = true
+                    self.mainRotationView.hidden = true
             })
-            
-            rotationView.hidden = true
         }
-//        if rotationView.hidden {
-//            selectFunctionalityView.alpha = 0
-//            rotationView.alpha = 0
-//            selectFunctionalityView.hidden = true
-//            rotationView.hidden = false
-//            UIView.beginAnimations(nil, context: nil)
-//            UIView.setAnimationDuration(0.5)
-//            selectFunctionalityView.alpha = 1
-//            rotationView.alpha = 1
-//            UIView.commitAnimations()
-//        } else {
-//            UIView.animateWithDuration(0.5, animations: {
-//                ()->Void in
-//                self.selectFunctionalityView.alpha = 0
-//                self.rotationView.alpha = 0
-//                },
-//                {
-//                    (b:Bool)->Void in
-//                    self.selectFunctionalityView.hidden = false
-//                    self.rotationView.hidden = true
-//                }
-//            )
-//        }
-
+        
         let image = UIImage(named: "Rotation.png") as UIImage!
         functionalityButton.setImage(image, forState: .Normal)
         MyVariables.flag = ""
@@ -534,18 +460,28 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     //Draw line on drawView
     @IBAction func drawLineAction(sender: AnyObject) {
-        selectFunctionalityView.hidden = true
         MyVariables.flag = "drawLine"
         let image = UIImage(named: "FreeLine.png") as UIImage!
         functionalityButton.setImage(image, forState: .Normal)
+        UIView.animateWithDuration(0.5, animations: {
+            self.selectFunctionalityView.alpha = 0
+            }, completion: { (b:Bool) -> Void in
+                self.selectFunctionalityView.hidden = true
+                self.selectFunctionalityView.alpha = 1
+        })
     }
     
     //Draw opacity line on drawView
     @IBAction func drawOpacityLineAction(sender: AnyObject) {
-        selectFunctionalityView.hidden = true
         MyVariables.flag = "drawOpacityLine"
         let image = UIImage(named: "OpacityLine.png") as UIImage!
         functionalityButton.setImage(image, forState: .Normal)
+        UIView.animateWithDuration(0.5, animations: {
+            self.selectFunctionalityView.alpha = 0
+            }, completion: { (b:Bool) -> Void in
+                self.selectFunctionalityView.hidden = true
+                self.selectFunctionalityView.alpha = 1
+        })
     }
     
     //Crop Image methods
@@ -568,6 +504,12 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         
         // Add runtime PinchGestureRecognizer into UIView
         cropView?.addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: "onPinch:"))
+        UIView.animateWithDuration(0.5, animations: {
+            self.selectFunctionalityView.alpha = 0
+            }, completion: { (b:Bool) -> Void in
+                self.selectFunctionalityView.hidden = true
+                self.selectFunctionalityView.alpha = 1
+        })
     }
     
     @IBAction func DoneAction(sender: AnyObject) {
@@ -640,45 +582,24 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     @IBAction func shapeAction(sender: AnyObject) {
         if shapeView.hidden == true {
             shapeView.hidden = false
+            mainShapeView.hidden = false
             selectFunctionalityView.hidden = true
             
             shapeView.center.x += drawView.bounds.width
             
-            UIView.animateWithDuration(0.5, animations: {
+            UIView.animateWithDuration(0.25, animations: {
                 self.shapeView.center.x -= self.drawView.bounds.width
             })
         } else {
             shapeView.center.y  -= view.bounds.height
             
-            UIView.animateWithDuration(0.5, animations: {
+            UIView.animateWithDuration(0.25, animations: {
                 self.shapeView.center.x += self.view.bounds.width
+                }, completion: { (b:Bool) -> Void in
+                    self.shapeView.hidden = true
+                    self.mainShapeView.hidden = true
             })
-            
-            shapeView.hidden = true
         }
-//        if shapeView.hidden {
-//            selectFunctionalityView.alpha = 0
-//            shapeView.alpha = 0
-//            selectFunctionalityView.hidden = true
-//            shapeView.hidden = false
-//            UIView.beginAnimations(nil, context: nil)
-//            UIView.setAnimationDuration(0.5)
-//            selectFunctionalityView.alpha = 1
-//            shapeView.alpha = 1
-//            UIView.commitAnimations()
-//        } else {
-//            UIView.animateWithDuration(0.5, animations: {
-//                ()->Void in
-//                self.selectFunctionalityView.alpha = 0
-//                self.shapeView.alpha = 0
-//                },
-//                {
-//                    (b:Bool)->Void in
-//                    self.selectFunctionalityView.hidden = false
-//                    self.shapeView.hidden = true
-//                }
-//            )
-//        }
         
         let image = UIImage(named: "Circle.png") as UIImage!
         functionalityButton.setImage(image, forState: .Normal)
@@ -686,39 +607,55 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     }
     
     @IBAction func addTextAction(sender: AnyObject) {
-        selectFunctionalityView.hidden = true
         MyVariables.flag = "addTextField"
         let image = UIImage(named: "Text.png") as UIImage!
         functionalityButton.setImage(image, forState: .Normal)
         MyVariables.flag = ""
+        UIView.animateWithDuration(0.5, animations: {
+            self.selectFunctionalityView.alpha = 0
+            }, completion: { (b:Bool) -> Void in
+                self.selectFunctionalityView.hidden = true
+                self.selectFunctionalityView.alpha = 1
+        })
     }
     
     @IBAction func addCircle(sender: AnyObject) {
-        selectFunctionalityView.hidden = true
         MyVariables.flag = "drawCircle"
         shapeView.hidden = !shapeView.hidden
         let image = UIImage(named: "Circle.png") as UIImage!
         functionalityButton.setImage(image, forState: .Normal)
+        UIView.animateWithDuration(0.5, animations: {
+            self.selectFunctionalityView.alpha = 0
+            }, completion: { (b:Bool) -> Void in
+                self.selectFunctionalityView.hidden = true
+                self.selectFunctionalityView.alpha = 1
+        })
     }
     
     @IBAction func addRectangle(sender: AnyObject) {
-        selectFunctionalityView.hidden = true
         MyVariables.flag = "drawRectangle"
         shapeView.hidden = !shapeView.hidden 
         let image = UIImage(named: "Rectangle.png") as UIImage!
         functionalityButton.setImage(image, forState: .Normal)
-        //functionalityButton.titleLabel?.text == "R"
-        //println(functionalityButton.titleLabel?.text)
+        UIView.animateWithDuration(0.5, animations: {
+            self.selectFunctionalityView.alpha = 0
+            }, completion: { (b:Bool) -> Void in
+                self.selectFunctionalityView.hidden = true
+                self.selectFunctionalityView.alpha = 1
+        })
     }
     
     @IBAction func drawStraightLine(sender: AnyObject) {
-        selectFunctionalityView.hidden = true
         MyVariables.flag = "drawStraightLine"
         shapeView.hidden = !shapeView.hidden
         let image = UIImage(named: "Line.png") as UIImage!
         functionalityButton.setImage(image, forState: .Normal)
-        //functionalityButton.titleLabel?.text == "L"
-        //println(functionalityButton.titleLabel?.text)
+        UIView.animateWithDuration(0.5, animations: {
+            self.selectFunctionalityView.alpha = 0
+            }, completion: { (b:Bool) -> Void in
+                self.selectFunctionalityView.hidden = true
+                self.selectFunctionalityView.alpha = 1
+        })
     }
     
     //Undo Operation
@@ -728,6 +665,10 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         lineWidthView.hidden = true
         rotationView.hidden = true
         shapeView.hidden = true
+        
+        mainLineWidthView.hidden = true
+        mainRotationView.hidden = true
+        mainShapeView.hidden = true
        
         var removedShapeType = drawView.lastLineDraw.removeLast()
         if drawView.lastLineDraw.count >= 0 {
@@ -792,6 +733,10 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         lineWidthView.hidden = true
         rotationView.hidden = true
         shapeView.hidden = true
+        
+        mainLineWidthView.hidden = true
+        mainRotationView.hidden = true
+        mainShapeView.hidden = true
         
         var shapeType:String = drawView.redoshapetypes.removeLast()
         var shape = drawView.redoArray.removeLast()
@@ -908,6 +853,17 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
             drawView.l_w = 5
             maskImage = UIImage(named: "Mask5.png") as UIImage!
         }
+        
+        UIView.animateWithDuration(0.5, animations: {
+            self.colorView.alpha = 0
+            self.lineWidthView.alpha = 0
+            }, completion: { (b:Bool) -> Void in
+                self.colorView.hidden = true
+                self.lineWidthView.hidden = true
+                self.mainLineWidthView.hidden = true
+                self.colorView.alpha = 1
+                self.lineWidthView.alpha = 1
+        })
         
         var img:UIImage = colorImage
         

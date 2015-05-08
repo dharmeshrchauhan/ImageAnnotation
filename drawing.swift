@@ -40,7 +40,7 @@ class drawing: UIView {
     var cnt: CGFloat = 0
     var lastpoint: CGPoint!
     var newPoint: CGPoint!
-    var drawColor = UIColor.blackColor()
+    var drawColor = UIColor.whiteColor()
     var l_w: CGFloat! = 1
     var lineOpacity: CGFloat = 0.0
     
