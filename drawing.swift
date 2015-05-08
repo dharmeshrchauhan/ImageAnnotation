@@ -42,13 +42,9 @@ class drawing: UIView {
     var newPoint: CGPoint!
     var drawColor = UIColor.blackColor()
     var l_w: CGFloat! = 1
+    var lineOpacity: CGFloat = 0.0
     
     var textField: UITextField?
-    
-    var circleWidth: CGFloat?
-    var circleHeight: CGFloat?
-    var rectWidth: CGFloat?
-    var rectHeight: CGFloat?
 
     @IBOutlet weak var undo: UIButton!
     
@@ -186,9 +182,10 @@ class drawing: UIView {
         
         //for DrawOpacityLine
         for stroke in strokesOpacity {
+            lineOpacity = 0.4
             if stroke.count > 0 {
                 CGContextBeginPath(cxt)
-                CGContextSetAlpha(cxt, 0.4)
+                CGContextSetAlpha(cxt, lineOpacity)
                 CGContextSetLineWidth(cxt, 10)
                 CGContextMoveToPoint(cxt, stroke.first!.start.x, stroke.first!.start.y)
             }
@@ -235,6 +232,8 @@ class drawing: UIView {
             CGContextSetLineWidth(cxt, circle.l_width)
             // Set the circle outerline-colour
             CGContextSetStrokeColorWithColor(cxt,circle.color.CGColor)
+            // Set circle opacity
+            CGContextSetAlpha(cxt, 1.0)
             // Create circle
             CGContextAddEllipseInRect(cxt, CGRectMake(circle.start.x, circle.start.y, (circle.end.x - circle.start.x), (circle.end.y - circle.start.y)))
             // Draw
@@ -261,13 +260,14 @@ class drawing: UIView {
             CGContextSetLineWidth(cxt, rectangle.l_width)
             // Set the rectangel outerline-colour
             CGContextSetStrokeColorWithColor(cxt,rectangle.color.CGColor)
+            // Set rectangel opacity
+            CGContextSetAlpha(cxt, 1.0)
             // Create rectangel
             CGContextAddRect(cxt, CGRectMake(rectangle.start.x, rectangle.start.y, (rectangle.end.x - rectangle.start.x) / 2 , (rectangle.end.y - rectangle.start.y) / 2));
             // Draw
             CGContextStrokePath(cxt)
         }
 
-        //
         if MyVariables.flag == "drawLine" {
             
             if lines.count > 0 {
@@ -286,10 +286,10 @@ class drawing: UIView {
             UIGraphicsEndImageContext()
             
         } else if MyVariables.flag == "drawOpacityLine" {
-            
+            lineOpacity = 0.4
             if lines.count > 0 {
                 CGContextBeginPath(cxt)
-                CGContextSetAlpha(cxt, 0.4)
+                CGContextSetAlpha(cxt, lineOpacity)
                 CGContextSetLineWidth(cxt, 10)
                 CGContextMoveToPoint(cxt, lines.first!.start.x, lines.first!.start.y)
             }
@@ -300,7 +300,7 @@ class drawing: UIView {
             }
             
             CGContextStrokePath(cxt)
-            
+            lineOpacity = 0.0
             UIGraphicsEndImageContext()
             
         } else if MyVariables.flag == "addTextField" {
@@ -310,11 +310,7 @@ class drawing: UIView {
             textField?.text = "Hello"
             self.addSubview(textField!)
             textFields.append(textField!)
-            
-//            if textFields.count > 0 {
-//                undo.hidden = false
-//            }
-            
+        
             textField!.multipleTouchEnabled = true
             textField!.userInteractionEnabled = true
             

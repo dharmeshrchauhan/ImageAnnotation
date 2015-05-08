@@ -10,7 +10,6 @@
 
 @implementation UIImage (Utils)
 
-#pragma mark Private Methods
 + (CGImageRef) CopyImageAndAddAlphaChannel:(CGImageRef) sourceImage {
     CGImageRef retVal = NULL;
     
@@ -37,22 +36,24 @@
 + (UIImage *) getMaskedArtworkFromPicture:(UIImage *)image withMask:(UIImage *)mask{
     
     UIImage *maskedImage;
+    
     CGImageRef imageRef = [self CopyImageAndAddAlphaChannel:image.CGImage];
+    
     CGImageRef maskRef = mask.CGImage;
+    
     CGImageRef maskToApply = CGImageMaskCreate(CGImageGetWidth(maskRef),CGImageGetHeight(maskRef),CGImageGetBitsPerComponent(maskRef),CGImageGetBitsPerPixel(maskRef),CGImageGetBytesPerRow(maskRef),CGImageGetDataProvider(maskRef), NULL, NO);
+    
     CGImageRef masked = CGImageCreateWithMask(imageRef, maskToApply);
     
-    //maskedImage = [UIImage imageWithCGImage:masked];
     maskedImage = [UIImage imageWithCGImage:masked scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
     
     CGImageRelease(imageRef);
     CGImageRelease(maskToApply);
     CGImageRelease(masked);
-    return maskedImage;
     
+    return maskedImage;
 }
 
-#pragma mark Public Methods
 - (UIImage*)imageByClearingWhitePixels{
     
     //Copy image bitmaps
