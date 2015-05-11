@@ -32,7 +32,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     var colorImage : UIImage = UIImage(named: "White.png") as UIImage!
     var maskImage : UIImage = UIImage(named: "Mask1.png") as UIImage!
-
+    
     @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var drawView: drawing!
@@ -118,6 +118,19 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         
         //call the delegate method of ImagePickerController
         picker?.delegate = self
+        
+        //for hide all other view when user touch the screen
+        let tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "hideView:")
+        self.view.addGestureRecognizer(tapRecognizer)
+    }
+    
+    //hide all other view when user touch the screen
+    func hideView(sender: UITapGestureRecognizer) {
+        colorView.hidden = true
+        lineWidthView.hidden = true
+        selectFunctionalityView.hidden = true
+        rotationView.hidden = true
+        shapeView.hidden = true
     }
     
     //Take image form Gallery
@@ -171,11 +184,11 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     }
     
     //ImagePicker delegate method
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!)
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject])
     {
         picker.dismissViewControllerAnimated(true, completion: nil)
         
-        var tempImage: UIImage=(info[UIImagePickerControllerOriginalImage] as UIImage)
+        var tempImage: UIImage=(info[UIImagePickerControllerOriginalImage] as! UIImage)
         
         //sets the selected image to imageView
         imageView.image = tempImage
@@ -435,12 +448,13 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     }
     
     @IBAction func sideRotationAction(button: UIButton) {
+        rotationView.hidden = true
         if(button.titleLabel?.text == "R") {
-                rotation += 90.0
-                self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotation))
+            rotation += 90.0
+            self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotation))
         } else if(button.titleLabel?.text == "L") {
-                rotation -= 90.0
-                self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotation))
+            rotation -= 90.0
+            self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotation))
         }
         
         let scaleFactorX =  imageView.frame.size.width / imageView.image!.size.width
@@ -518,8 +532,14 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         var scaleFactorY =  imageView.frame.size.height / imageView.image!.size.height
         var scaleFactor = (scaleFactorX < scaleFactorY ? scaleFactorX : scaleFactorY)
         
-        let x = (cropView.frame.origin.x - drawView.frame.origin.x) / scaleFactor
-        let y = (cropView.frame.origin.y - drawView.frame.origin.y) / scaleFactor
+        let x = (cropView.frame.origin.x
+                - drawView.frame.origin.x
+                - resultView.frame.origin.x)
+                / scaleFactor
+        let y = (cropView.frame.origin.y
+                - drawView.frame.origin.y
+                - resultView.frame.origin.y)
+                / scaleFactor
         
         let width = cropView.frame.size.width / scaleFactor
         let height = cropView.frame.size.height / scaleFactor
@@ -669,58 +689,60 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         mainLineWidthView.hidden = true
         mainRotationView.hidden = true
         mainShapeView.hidden = true
-       
-        var removedShapeType = drawView.lastLineDraw.removeLast()
-        if drawView.lastLineDraw.count >= 0 {
-            if drawView.lastLineDraw.count == 0 {
-                undo.hidden = true
-                redo.hidden = false
-            }
-            if drawView.lastLineDraw.count >= 1 {
-                redo.hidden = false
-                undo.hidden = true
-            }
-            if removedShapeType == "drawLine" {
-                if drawView.strokes.count > 0 {
-                    var removedLine = drawView.strokes.removeLast() // removeLast line
-                    drawView.redoArray.append(removedLine) // add last removedLine into redoArray
-                    drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
-                    drawView.setNeedsDisplay()
+        
+        if drawView.lastLineDraw.count > 0 {
+            var removedShapeType = drawView.lastLineDraw.removeLast()
+            if drawView.lastLineDraw.count >= 0 {
+                if drawView.lastLineDraw.count == 0 {
+                    undo.hidden = true
+                    redo.hidden = false
                 }
-            } else if removedShapeType == "drawOpacityLine" {
-                if drawView.strokesOpacity.count > 0 {
-                    var removedOpacityLine = drawView.strokesOpacity.removeLast() // removeLast Opacityline
-                    drawView.redoArray.append(removedOpacityLine) // add last removedOpacityLine into redoArray
-                    drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
-                    drawView.setNeedsDisplay()
+                if drawView.lastLineDraw.count >= 1 {
+                    redo.hidden = false
+                    undo.hidden = true
                 }
-            } else if removedShapeType == "addTextField" {
-                if drawView.textFields.count > 0 {
-                    var removedTextField = drawView.textFields.removeLast() // removeLast textField
-                    drawView.redoArray.append(removedTextField) // add last removedTextField into redoArray
-                    drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
-                    drawView.setNeedsDisplay()
-                }
-            } else if removedShapeType == "drawCircle" {
-                if drawView.circles.count > 0 {
-                    var removedCircle = drawView.circles.removeLast() // removeLast circle
-                    drawView.redoArray.append(removedCircle) // add last removedCircle into redoArray
-                    drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
-                    drawView.setNeedsDisplay()
-                }
-            } else if removedShapeType == "drawRectangle" {
-                if drawView.rectangles.count > 0 {
-                    var removedRectangle = drawView.rectangles.removeLast() // removeLast rectangle
-                    drawView.redoArray.append(removedRectangle) // add last removedRectangle into redoArray
-                    drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
-                    drawView.setNeedsDisplay()
-                }
-            } else if removedShapeType == "drawStraightLine" {
-                if drawView.straightline_obj.count > 0 {
-                    var removedStraightLine = drawView.straightline_obj.removeLast() // removeLast line
-                    drawView.redoArray.append(removedStraightLine) // add last removedLine into redoArray
-                    drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
-                    drawView.setNeedsDisplay()
+                if removedShapeType == "drawLine" {
+                    if drawView.strokes.count > 0 {
+                        var removedLine = drawView.strokes.removeLast() // removeLast line
+                        drawView.redoArray.append(removedLine) // add last removedLine into redoArray
+                        drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
+                        drawView.setNeedsDisplay()
+                    }
+                } else if removedShapeType == "drawOpacityLine" {
+                    if drawView.strokesOpacity.count > 0 {
+                        var removedOpacityLine = drawView.strokesOpacity.removeLast() // removeLast Opacityline
+                        drawView.redoArray.append(removedOpacityLine) // add last removedOpacityLine into redoArray
+                        drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
+                        drawView.setNeedsDisplay()
+                    }
+                } else if removedShapeType == "addTextField" {
+                    if drawView.textFields.count > 0 {
+                        var removedTextField = drawView.textFields.removeLast() // removeLast textField
+                        drawView.redoArray.append(removedTextField) // add last removedTextField into redoArray
+                        drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
+                        drawView.setNeedsDisplay()
+                    }
+                } else if removedShapeType == "drawCircle" {
+                    if drawView.circles.count > 0 {
+                        var removedCircle = drawView.circles.removeLast() // removeLast circle
+                        drawView.redoArray.append(removedCircle) // add last removedCircle into redoArray
+                        drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
+                        drawView.setNeedsDisplay()
+                    }
+                } else if removedShapeType == "drawRectangle" {
+                    if drawView.rectangles.count > 0 {
+                        var removedRectangle = drawView.rectangles.removeLast() // removeLast rectangle
+                        drawView.redoArray.append(removedRectangle) // add last removedRectangle into redoArray
+                        drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
+                        drawView.setNeedsDisplay()
+                    }
+                } else if removedShapeType == "drawStraightLine" {
+                    if drawView.straightline_obj.count > 0 {
+                        var removedStraightLine = drawView.straightline_obj.removeLast() // removeLast line
+                        drawView.redoArray.append(removedStraightLine) // add last removedLine into redoArray
+                        drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
+                        drawView.setNeedsDisplay()
+                    }
                 }
             }
         }
@@ -738,32 +760,34 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         mainRotationView.hidden = true
         mainShapeView.hidden = true
         
-        var shapeType:String = drawView.redoshapetypes.removeLast()
-        var shape = drawView.redoArray.removeLast()
-        drawView.lastLineDraw.append(shapeType)
-        
-        switch (shapeType){
+        if drawView.redoshapetypes.count > 0 {
+            var shapeType:String = drawView.redoshapetypes.removeLast()
+            var shape = drawView.redoArray.removeLast()
+            drawView.lastLineDraw.append(shapeType)
+            
+            switch (shapeType){
             case "drawLine":
-                drawView.strokes.append(shape as Array<Line>)
+                drawView.strokes.append(shape as! Array<Line>)
             case "drawOpacityLine":
-                drawView.strokesOpacity.append(shape as Array<Line>)
+                drawView.strokesOpacity.append(shape as! Array<Line>)
             case "addTextField":
-                drawView.textFields.append(shape as UITextField)
+                drawView.textFields.append(shape as! UITextField)
             case "drawCircle":
-                drawView.circles.append(shape as Circle)
+                drawView.circles.append(shape as! Circle)
             case "drawRectangle":
-                drawView.rectangles.append(shape as Rectangle)
+                drawView.rectangles.append(shape as! Rectangle)
             case "drawStraightLine":
-                drawView.straightline_obj.append(shape as Array<Line>)
+                drawView.straightline_obj.append(shape as! Array<Line>)
             default:
                 println("something wrong")
-        }
-        self.drawView.setNeedsDisplay()
-        
-        if drawView.lastLineDraw.count == drawView.tmpcnt || drawView.redoArray.count == 0 {
-            redo.hidden = true
-        } else {
-            //println("Hello")
+            }
+            self.drawView.setNeedsDisplay()
+            
+            if drawView.lastLineDraw.count == drawView.tmpcnt || drawView.redoArray.count == 0 {
+                redo.hidden = true
+            } else {
+                //println("Hello")
+            }
         }
     }
     
@@ -775,7 +799,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     func takeScreenshot(theView: UIView) -> UIImage {
         
-        UIGraphicsBeginImageContextWithOptions(drawView.frame.size, true, 0.0)
+        UIGraphicsBeginImageContextWithOptions(resultView.frame.size, true, 0.0)
         theView.drawViewHierarchyInRect(theView.bounds, afterScreenUpdates: true)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()

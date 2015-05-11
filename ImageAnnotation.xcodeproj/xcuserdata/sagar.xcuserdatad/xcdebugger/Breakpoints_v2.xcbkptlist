@@ -94,11 +94,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImageAnnotation/ViewController.swift"
-            timestampString = "452779863.339121"
+            timestampString = "453034210.530382"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "830"
-            endingLineNumber = "830"
+            startingLineNumber = "848"
+            endingLineNumber = "848"
             landmarkName = "colorAndLineTapped(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -110,11 +110,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImageAnnotation/ViewController.swift"
-            timestampString = "452779863.339121"
+            timestampString = "453034210.530382"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "849"
-            endingLineNumber = "849"
+            startingLineNumber = "867"
+            endingLineNumber = "867"
             landmarkName = "colorAndLineTapped(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -126,11 +126,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImageAnnotation/ViewController.swift"
-            timestampString = "452779863.339121"
+            timestampString = "453034210.530382"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "833"
-            endingLineNumber = "833"
+            startingLineNumber = "851"
+            endingLineNumber = "851"
             landmarkName = "colorAndLineTapped(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -142,11 +142,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImageAnnotation/ViewController.swift"
-            timestampString = "452779863.339121"
+            timestampString = "453034210.530382"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "854"
-            endingLineNumber = "854"
+            startingLineNumber = "872"
+            endingLineNumber = "872"
             landmarkName = "colorAndLineTapped(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -173,45 +173,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "drawing.swift"
-            timestampString = "452696100.655329"
+            filePath = "ImageAnnotation/ViewController.swift"
+            timestampString = "453028956.421596"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "touchesBegan(_:withEvent:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "drawing.swift"
-            timestampString = "452696103.761384"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
-            landmarkName = "touchesMoved(_:withEvent:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "drawing.swift"
-            timestampString = "452696107.455205"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
-            landmarkName = "touchesEnded(_:withEvent:)"
+            startingLineNumber = "452"
+            endingLineNumber = "452"
+            landmarkName = "sideRotationAction(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -222,12 +190,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImageAnnotation/ViewController.swift"
-            timestampString = "452779863.339121"
+            timestampString = "453028956.421596"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "412"
-            endingLineNumber = "412"
-            landmarkName = "rotationAction(_:)"
+            startingLineNumber = "452"
+            endingLineNumber = "452"
+            landmarkName = "sideRotationAction(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ImageAnnotation/ViewController.swift"
+            timestampString = "453028956.421596"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "455"
+            endingLineNumber = "455"
+            landmarkName = "sideRotationAction(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

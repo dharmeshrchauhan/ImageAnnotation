@@ -50,69 +50,78 @@ class drawing: UIView {
     
     @IBOutlet weak var redo: UIButton!
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        super.touchesBegan(touches, withEvent: event)
+        
+        let array = Array(touches)
+        let touch = array[0] as! UITouch
         
         if redoArray.count > 0 {
             redo.hidden = true
             redoArray = []
-        } else {
-            if MyVariables.flag == "drawLine" {
-                lastpoint = touches.anyObject()?.locationInView(self) //it assigh the last point that touch
-                
-            } else if MyVariables.flag == "drawOpacityLine" {
-                lastpoint = touches.anyObject()?.locationInView(self) //it assigh the last point that touch
-                
-            } else if MyVariables.flag == "addTextField" {
-                lastpoint = touches.anyObject()?.locationInView(self)
-                lastLineDraw.append("addTextField")
-                self.setNeedsDisplay()
-                
-            } else if MyVariables.flag == "drawCircle" {
-                isDrawingCircle = true
-                lastpoint = touches.anyObject()?.locationInView(self)
-                circle_obj = Circle(color: drawColor, l_width: l_w, start: lastpoint, end: lastpoint)
-                lastLineDraw.append("drawCircle")
-                
-            } else if MyVariables.flag == "drawRectangle" {
-                isDrawingRectangle = true
-                lastpoint = touches.anyObject()?.locationInView(self)
-                rectangle_obj = Rectangle(color: drawColor, l_width: l_w, start: lastpoint, end: lastpoint)
-                lastLineDraw.append("drawRectangle")
-            } else if MyVariables.flag == "drawStraightLine" {
-                lastpoint = touches.anyObject()?.locationInView(self)
-            }
+        }
+        
+        if MyVariables.flag == "drawLine" {
+            lastpoint = touch.locationInView(self) //it assigh the last point that touch
+            
+        } else if MyVariables.flag == "drawOpacityLine" {
+            lastpoint = touch.locationInView(self) //it assigh the last point that touch
+            
+        } else if MyVariables.flag == "addTextField" {
+            lastpoint = touch.locationInView(self)
+            lastLineDraw.append("addTextField")
+            self.setNeedsDisplay()
+            
+        } else if MyVariables.flag == "drawCircle" {
+            isDrawingCircle = true
+            lastpoint = touch.locationInView(self)
+            circle_obj = Circle(color: drawColor, l_width: l_w, start: lastpoint, end: lastpoint)
+            lastLineDraw.append("drawCircle")
+            
+        } else if MyVariables.flag == "drawRectangle" {
+            isDrawingRectangle = true
+            lastpoint = touch.locationInView(self)
+            rectangle_obj = Rectangle(color: drawColor, l_width: l_w, start: lastpoint, end: lastpoint)
+            lastLineDraw.append("drawRectangle")
+        } else if MyVariables.flag == "drawStraightLine" {
+            lastpoint = touch.locationInView(self)
         }
     }
     
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+        super.touchesMoved(touches, withEvent: event)
+        
+        let array = Array(touches)
+        let touch = array[0] as! UITouch
         
         if MyVariables.flag == "drawLine" {
-            newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point
+            newPoint = touch.locationInView(self) //it assigh the moves point
             lines.append(Line(start: lastpoint, end: newPoint, color: drawColor, l_width: l_w))
             self.setNeedsDisplay()
             
         } else if MyVariables.flag == "drawOpacityLine" {
-            newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point
+            newPoint = touch.locationInView(self) //it assigh the moves point
             lines.append(Line(start: lastpoint, end: newPoint, color: drawColor, l_width: l_w))
             self.setNeedsDisplay()
             
         } else if MyVariables.flag == "drawCircle" {
-            newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point
+            newPoint = touch.locationInView(self) //it assigh the moves point
             circle_obj!.end = newPoint
             self.setNeedsDisplay()
             
         } else if MyVariables.flag == "drawRectangle" {
-            newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point
+            newPoint = touch.locationInView(self) //it assigh the moves point
             rectangle_obj!.end = newPoint
             self.setNeedsDisplay()
             
         } else if MyVariables.flag == "drawStraightLine" {
-            newPoint = touches.anyObject()?.locationInView(self) //it assigh the moves point            
+            newPoint = touch.locationInView(self) //it assigh the moves point
             self.setNeedsDisplay()
         }
     }
     
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        super.touchesEnded(touches, withEvent: event)
         
         if MyVariables.flag == "drawLine" {
             lastLineDraw.append("drawLine")
