@@ -23,6 +23,7 @@ class drawing: UIView {
     var isDrawingRectangle: Bool = false;
     
     var lines: Array<Line> = []
+    var objTextField: TextField?
     var circle_obj: Circle?
     var rectangle_obj: Rectangle?
     var straightline_obj: Array<Array<Line>> = []
@@ -68,6 +69,7 @@ class drawing: UIView {
             lastpoint = touch.locationInView(self) //it assigh the last point that touch
             
         } else if MyVariables.flag == "addTextField" {
+            objTextField = TextField(color: drawColor)
             lastpoint = touch.locationInView(self)
             lastLineDraw.append("addTextField")
             self.setNeedsDisplay()
@@ -313,11 +315,11 @@ class drawing: UIView {
             UIGraphicsEndImageContext()
             
         } else if MyVariables.flag == "addTextField" {
-            
-            textField = UITextField(frame: CGRect(x: lastpoint.x, y: lastpoint.y, width: 100, height: 35))
-            textField?.textColor = lines.first?.color
+
+            textField?.textColor = objTextField?.color
             textField?.text = "Hello"
-            self.addSubview(textField!)
+            textField = UITextField(frame: CGRect(x: lastpoint.x, y: lastpoint.y, width: 100, height: 35))
+                        self.addSubview(textField!)
             textFields.append(textField!)
         
             textField!.multipleTouchEnabled = true

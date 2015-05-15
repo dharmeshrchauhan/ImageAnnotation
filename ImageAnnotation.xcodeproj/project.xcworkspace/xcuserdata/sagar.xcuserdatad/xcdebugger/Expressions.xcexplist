@@ -3,10 +3,35 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "ImageAnnotation.drawing.drawRect (ImageAnnotation.drawing)(C.CGRect) -&gt; ():drawing.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "circles">
+            </PersistentString>
+            <PersistentString
+               value = "textField?.textColor">
+            </PersistentString>
+            <PersistentString
+               value = "circle_obj">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ImageAnnotation.ViewController.sideRotationAction (ImageAnnotation.ViewController)(ObjectiveC.UIButton) -&gt; ():ViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "rotationUndo">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.drawing.removeLastLine (ImageAnnotation.drawing)() -&gt; ():drawing.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.ViewController.DoneAction (ImageAnnotation.ViewController)(Swift.AnyObject) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "imageView.image">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -25,36 +50,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ImageAnnotation.ViewController.imagePickerController (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIImagePickerController&gt;, didFinishPickingMediaWithInfo : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Dictionary&lt;ObjectiveC.NSObject, Swift.AnyObject&gt;&gt;) -&gt; ():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "imageView.frame">
-            </PersistentString>
-            <PersistentString
-               value = "scaleFactor">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ImageAnnotation.drawing.removeLastLine (ImageAnnotation.drawing)() -&gt; ():drawing.swift">
-      </ContextState>
-      <ContextState
-         contextName = "ImageAnnotation.ViewController.colorTapped (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIButton&gt;) -&gt; ():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "drawView.circle_obj.first?.color">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ImageAnnotation.ViewController.lineWidthTapped (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIButton&gt;) -&gt; ():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "drawView.circle_obj.first!.l_width">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "ImageAnnotation.drawing.touchesBegan (ImageAnnotation.drawing)(ObjectiveC.NSSet, withEvent : ObjectiveC.UIEvent) -&gt; ():drawing.swift">
          <PersistentStrings>
             <PersistentString
@@ -62,20 +57,6 @@
             </PersistentString>
             <PersistentString
                value = "drawColor">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ImageAnnotation.ViewController.undoAction (ImageAnnotation.ViewController)(Swift.AnyObject) -&gt; ():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "arrayIndex">
-            </PersistentString>
-            <PersistentString
-               value = "lastLineDraw[i]">
-            </PersistentString>
-            <PersistentString
-               value = "rotationUndo">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -91,13 +72,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ImageAnnotation.drawing.drawRect (ImageAnnotation.drawing)(C.CGRect) -&gt; ():drawing.swift">
+         contextName = "ImageAnnotation.ViewController.lineWidthTapped (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIButton&gt;) -&gt; ():ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "circles">
-            </PersistentString>
-            <PersistentString
-               value = "circle_obj">
+               value = "drawView.circle_obj.first!.l_width">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -115,6 +93,39 @@
             </PersistentString>
             <PersistentString
                value = "strokes">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.ViewController.imagePickerController (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIImagePickerController&gt;, didFinishPickingMediaWithInfo : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Dictionary&lt;ObjectiveC.NSObject, Swift.AnyObject&gt;&gt;) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "imageView.frame">
+            </PersistentString>
+            <PersistentString
+               value = "scaleFactor">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.ViewController.colorTapped (ImageAnnotation.ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.UIButton&gt;) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "drawView.circle_obj.first?.color">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.ViewController.undoAction (ImageAnnotation.ViewController)(Swift.AnyObject) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "arrayIndex">
+            </PersistentString>
+            <PersistentString
+               value = "lastLineDraw[i]">
+            </PersistentString>
+            <PersistentString
+               value = "rotationUndo">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
