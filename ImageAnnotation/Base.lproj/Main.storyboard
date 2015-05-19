@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="nLa-Ue-LqU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="nLa-Ue-LqU">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
@@ -146,26 +146,26 @@
                                                     <constraint firstAttribute="width" constant="40" id="fFn-Zb-sD7"/>
                                                     <constraint firstAttribute="height" constant="40" id="tc1-9g-yoz"/>
                                                 </constraints>
-                                                <state key="normal" image="Text">
-                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="addTextAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="mE0-gW-Xgt"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8hc-v2-3Tu">
-                                                <rect key="frame" x="3" y="88" width="40" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="40" id="HHH-6o-AvP"/>
-                                                    <constraint firstAttribute="height" constant="40" id="qGm-LF-3Iv"/>
-                                                </constraints>
                                                 <state key="normal" image="Circle">
                                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="shapeAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="atY-Ih-ng1"/>
+                                                    <action selector="shapeAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="hkz-8b-hgR"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Leu-ac-lHb">
+                                                <rect key="frame" x="2" y="89" width="40" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="OkW-j9-u17"/>
+                                                    <constraint firstAttribute="width" constant="40" id="qhC-IS-0r4"/>
+                                                </constraints>
+                                                <state key="normal" image="Text">
+                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="cropImageAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="KFW-8j-oTX"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -174,13 +174,13 @@
                                             <constraint firstItem="lhz-AG-Lfw" firstAttribute="leading" secondItem="rxh-uQ-vZu" secondAttribute="leading" id="88v-zb-11b"/>
                                             <constraint firstItem="lhz-AG-Lfw" firstAttribute="leading" secondItem="paz-dU-sZf" secondAttribute="leading" id="Boz-xJ-Ahe"/>
                                             <constraint firstItem="5UJ-01-lwu" firstAttribute="leading" secondItem="Zk7-2E-Jgh" secondAttribute="leading" id="Cdg-4R-SPX"/>
-                                            <constraint firstItem="8hc-v2-3Tu" firstAttribute="leading" secondItem="rxh-uQ-vZu" secondAttribute="leading" id="Ihz-FL-7yG"/>
                                             <constraint firstItem="lhz-AG-Lfw" firstAttribute="leading" secondItem="Zk7-2E-Jgh" secondAttribute="leading" id="Js3-1G-1Rc"/>
                                             <constraint firstItem="lhz-AG-Lfw" firstAttribute="top" secondItem="paz-dU-sZf" secondAttribute="bottom" constant="8" id="RQe-tc-vRW"/>
                                             <constraint firstItem="paz-dU-sZf" firstAttribute="top" secondItem="rxh-uQ-vZu" secondAttribute="bottom" constant="8" id="TdX-EB-YUB"/>
+                                            <constraint firstItem="Leu-ac-lHb" firstAttribute="centerX" secondItem="xms-K7-0Ig" secondAttribute="centerX" id="WIg-I8-m1y"/>
+                                            <constraint firstItem="rxh-uQ-vZu" firstAttribute="top" secondItem="Leu-ac-lHb" secondAttribute="bottom" constant="8" symbolic="YES" id="atV-VW-QVu"/>
                                             <constraint firstItem="Zk7-2E-Jgh" firstAttribute="top" secondItem="lhz-AG-Lfw" secondAttribute="bottom" constant="53" id="gkm-xl-R8c"/>
                                             <constraint firstItem="lhz-AG-Lfw" firstAttribute="centerX" secondItem="xms-K7-0Ig" secondAttribute="centerX" constant="0.5" id="gwz-WL-AC7"/>
-                                            <constraint firstItem="rxh-uQ-vZu" firstAttribute="top" secondItem="8hc-v2-3Tu" secondAttribute="bottom" constant="9" id="hfU-cQ-ONb"/>
                                             <constraint firstAttribute="bottom" secondItem="lhz-AG-Lfw" secondAttribute="bottom" constant="101" id="kAT-ac-UUY"/>
                                             <constraint firstItem="5UJ-01-lwu" firstAttribute="top" secondItem="lhz-AG-Lfw" secondAttribute="bottom" constant="7" id="rcG-b7-DNB"/>
                                         </constraints>
@@ -791,6 +791,7 @@
                         <outlet property="colorButton" destination="Rlo-Xu-9zU" id="MRW-2k-pvC"/>
                         <outlet property="colorView" destination="X4s-fS-5qZ" id="IJS-5H-RLn"/>
                         <outlet property="cropBottomArrowImage" destination="fka-x8-zHX" id="WVg-YX-NSx"/>
+                        <outlet property="cropButton" destination="rxh-uQ-vZu" id="ZOy-1q-1RO"/>
                         <outlet property="cropLeftArrowImage" destination="Tnv-sC-5Ly" id="lUq-OB-Bdn"/>
                         <outlet property="cropRightArrowImage" destination="MJC-iY-6mG" id="I3F-CB-aPv"/>
                         <outlet property="cropTopArrowImage" destination="aVR-mq-GTN" id="oqb-oU-6Yn"/>
@@ -812,10 +813,12 @@
                         <outlet property="mainShapeView" destination="iIy-sj-8Xp" id="nZd-XC-XrY"/>
                         <outlet property="redo" destination="9Zx-oe-0eL" id="WK1-SO-8zN"/>
                         <outlet property="resultView" destination="QL9-iX-i9J" id="Zis-3a-3XJ"/>
+                        <outlet property="resultViewTopConstraint" destination="NTx-w9-1FP" id="8OJ-EE-dAU"/>
                         <outlet property="rotationView" destination="J5M-Le-qRd" id="cD5-jo-wba"/>
                         <outlet property="shapeView" destination="mKz-rf-XNO" id="Soj-Zp-bDW"/>
+                        <outlet property="textFieldButton" destination="Leu-ac-lHb" id="73p-ie-2Zu"/>
                         <outlet property="undo" destination="s1r-WE-UkE" id="uUJ-Pf-vNx"/>
-                        <outlet property="whiteBackgroungImage" destination="vKZ-wI-dFu" id="Ave-jb-ofU"/>
+                        <outlet property="whiteBackgroundImage" destination="vKZ-wI-dFu" id="gej-Fs-NLP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

@@ -8,8 +8,9 @@
 
 import UIKit
 
-class drawing: UIView {
+class drawing: UIView, UITextFieldDelegate {
 
+    var view_controller: ViewController?
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.clearColor()
@@ -212,6 +213,7 @@ class drawing: UIView {
         for stroke in straightline_obj {
             if stroke.count > 0 {
                 CGContextBeginPath(cxt)
+                CGContextSetAlpha(cxt, 1.0)
                 CGContextSetLineWidth(cxt, stroke.first!.l_width)
                 CGContextMoveToPoint(cxt, stroke.first!.start.x, stroke.first!.start.y)
             }
@@ -317,17 +319,22 @@ class drawing: UIView {
         } else if MyVariables.flag == "addTextField" {
 
             textField?.textColor = objTextField?.color
-            textField?.text = "Hello"
-            textField = UITextField(frame: CGRect(x: lastpoint.x, y: lastpoint.y, width: 100, height: 35))
-                        self.addSubview(textField!)
+            textField = UITextField(frame: CGRect(x: lastpoint.x, y: lastpoint.y, width: 200, height: 50))
+            
+            self.addSubview(textField!)
             textFields.append(textField!)
-        
+            
             textField!.multipleTouchEnabled = true
             textField!.userInteractionEnabled = true
-            
+            textField?.delegate = self
             // Add runtime PanGestureRecognizer into UITextField
             textField?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "onPan:"))
             
+            // Keyboard stuff.
+            var center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+            center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+            center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+
         } else if MyVariables.flag == "drawStraightLine" {
             
             if lines.count > 0 {
@@ -352,5 +359,34 @@ class drawing: UIView {
         let translation = recognizer.translationInView(self)
         recognizer.view!.center = CGPoint(x:recognizer.view!.center.x + translation.x, y:recognizer.view!.center.y + translation.y)
         recognizer.setTranslation(CGPointZero, inView: self)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        var info:NSDictionary = notification.userInfo!
+        
+        var keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
+        
+        var keyboardHeight:CGFloat = keyboardSize.height
+        
+        UIView.animateWithDuration(0.25, delay: 0.25, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+            self.view_controller!.resultViewTopConstraint.constant = self.view_controller!.resultViewTopConstraint.constant - keyboardHeight
+        }, completion: nil)
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        var info:NSDictionary = notification.userInfo!
+        
+        var keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
+        
+        var keyboardHeight:CGFloat = keyboardSize.height
+        
+        UIView.animateWithDuration(0.25, delay: 0.25, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+            self.view_controller!.resultViewTopConstraint.constant = self.view_controller!.resultViewTopConstraint.constant + keyboardHeight
+        }, completion: nil)
     }
 }

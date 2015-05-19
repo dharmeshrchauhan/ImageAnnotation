@@ -6,13 +6,16 @@
          contextName = "ImageAnnotation.drawing.drawRect (ImageAnnotation.drawing)(C.CGRect) -&gt; ():drawing.swift">
          <PersistentStrings>
             <PersistentString
-               value = "circles">
-            </PersistentString>
-            <PersistentString
                value = "textField?.textColor">
             </PersistentString>
             <PersistentString
                value = "circle_obj">
+            </PersistentString>
+            <PersistentString
+               value = "circles">
+            </PersistentString>
+            <PersistentString
+               value = "objTextField?.color">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -21,6 +24,14 @@
          <PersistentStrings>
             <PersistentString
                value = "rotationUndo">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.ViewController.viewDidLoad (ImageAnnotation.ViewController)() -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.frameView">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -93,6 +104,14 @@
             </PersistentString>
             <PersistentString
                value = "strokes">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ImageAnnotation.ViewController.keyboardWillShow (ImageAnnotation.ViewController)(ObjectiveC.NSNotification) -&gt; ():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "resultViewTopConstraint.constant">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

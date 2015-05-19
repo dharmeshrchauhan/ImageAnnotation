@@ -10,6 +10,7 @@ import UIKit
 
 struct MyVariables {
     static var flag: String = ""
+    
 }
 
 func delay(#seconds: Double, completion:()->()) {
@@ -33,6 +34,10 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     var colorImage : UIImage = UIImage(named: "White.png") as UIImage!
     var maskImage : UIImage = UIImage(named: "Mask1.png") as UIImage!
     
+    @IBOutlet weak var textFieldButton: UIButton!
+    
+    @IBOutlet weak var cropButton: UIButton!
+    
     @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var drawView: drawing!
@@ -54,8 +59,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     @IBOutlet weak var functionalityView: UIView!
     
     @IBOutlet weak var cropView: UIView!
-    
-    @IBOutlet weak var cropTopButton: UIButton!
     
     @IBOutlet weak var cropTopArrowImage:UIImageView!
     
@@ -83,9 +86,11 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     @IBOutlet weak var cropViewHeightConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var resultViewTopConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var shapeView: UIView!
     
-    @IBOutlet weak var whiteBackgroungImage: UIImageView!
+    @IBOutlet weak var whiteBackgroundImage: UIImageView!
     
     @IBOutlet weak var undo: UIButton!
     
@@ -110,8 +115,11 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        drawView.view_controller = self
         //hide all buttons and views
+        textFieldButton.hidden = true
+        cropButton.hidden = true
+        
         colorButton.hidden = true
         functionalityButton.hidden = true
         colorView.hidden = true
@@ -127,7 +135,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         cropView.hidden = true
         btnDone.hidden = true
         btnCancel.hidden = true
-        whiteBackgroungImage.hidden = true
+        whiteBackgroundImage.hidden = true
         cropTopArrowImage.hidden = true
         cropBottomArrowImage.hidden = true
         cropRightArrowImage.hidden = true
@@ -144,6 +152,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         self.view.addGestureRecognizer(tapRecognizer)
     }
     
+
     //hide all other view when user touch the screen
     func hideView(sender: UITapGestureRecognizer) {
         UIView.animateWithDuration(0.25, animations: {
@@ -171,31 +180,12 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         })
     }
     
-    //Crop Functionality
-    //drag top button
-    
-    @IBAction func topButtonTouchDragExit(sender: UIButton) {
-        println("touch drag exit called")
-    }
-
-    @IBAction func topButtonTouchDown(sender: UIButton) {
-        MyVariables.flag = "topDrag"
-    }
-    
-    @IBAction func topButtonTouchUpInside(sender: UIButton) {
-        MyVariables.flag = ""
-    }
-    
-    @IBAction func topButtonTouchUpOutside(sender: AnyObject) {
-        MyVariables.flag = ""
-    }
-    
     //Take image form Gallery
     @IBAction func selectPhotoAction(sender: AnyObject) {
         //for iOS 8
         if (NSClassFromString("UIAlertController") != nil)
         {
-            var alert:UIAlertController = UIAlertController(title: "Choose Image", message: "Please chooce image", preferredStyle: UIAlertControllerStyle.ActionSheet)
+            var alert:UIAlertController = UIAlertController(title: "Choose Image", message: "Please choose image", preferredStyle: UIAlertControllerStyle.ActionSheet)
             
             var cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.Default) {
                 UIAlertAction in
@@ -267,17 +257,18 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         //reset all the containt if new image is selected
         drawView.strokes = []
         drawView.strokesOpacity = []
+        drawView.straightline_obj = []
         drawView.lastLineDraw = []
         drawView.circles = []
         drawView.rectangles = []
-        drawView.textFields = []
-        MyVariables.flag = ""
+        if drawView.textFields.count > 0 {
+            drawView.removeFromSuperview()
+        }
         rotation = 0
         self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotation))
         
         colorButton.hidden = false
         functionalityButton.hidden = false
-        
         undo.hidden = true
         redo.hidden = true
         label.hidden = true
@@ -300,6 +291,18 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         self.navigationItem.rightBarButtonItem = saveBarButton
         //By default drawLine
         MyVariables.flag = "drawLine"
+        //set default lineWidth and color
+        drawView.drawColor = UIColor.whiteColor()
+        drawView.l_w = 1
+        //set default images
+        let image = UIImage(named: "FreeLine.png") as UIImage!
+        functionalityButton.setImage(image, forState: .Normal)
+        whiteBackgroundImage.hidden = false
+        colorImage = UIImage(named: "White.png") as UIImage!
+        maskImage = UIImage(named: "Mask1.png") as UIImage!
+        var img:UIImage = colorImage
+        var img2 = UIImage.getMaskedArtworkFromPicture(img, withMask: maskImage)
+        colorButton.setImage(img2, forState: UIControlState.Normal)
         drawView.setNeedsDisplay()
     }
     
@@ -339,7 +342,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                 var galleryButtonItem = self.navigationItem.leftBarButtonItem!
                 var buttonItemView: AnyObject? = galleryButtonItem.valueForKey("view")
                 
-                popover=UIPopoverController(contentViewController: alert)
+                popover = UIPopoverController(contentViewController: alert)
                 popover?.presentPopoverFromRect(buttonItemView!.frame, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
             }
         }
@@ -410,15 +413,17 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
             
             if colorView.hidden == true {
                 
-                if MyVariables.flag == "drawOpacityLine"
+                if MyVariables.flag == "drawOpacityLine" || MyVariables.flag == "addTextField"
                 {
                     colorView.hidden = false
+                    colorImage = UIImage(named: "White.png") as UIImage!
+                    maskImage = UIImage(named: "Mask5.png") as UIImage!
                 } else {
                     colorView.hidden = false
                     lineWidthView.hidden = false
                     mainLineWidthView.hidden = false
                 }
-                
+                            
                 colorView.center.y  += drawView.bounds.height
                 lineWidthView.center.x -= drawView.bounds.width
                 
@@ -552,6 +557,27 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     @IBAction func drawOpacityLineAction(sender: AnyObject) {
         MyVariables.flag = "drawOpacityLine"
         let image = UIImage(named: "OpacityLine.png") as UIImage!
+        if drawView.drawColor == UIColor.redColor() {
+            colorImage = UIImage(named: "Red.png") as UIImage!
+        } else if drawView.drawColor == UIColor.blueColor() {
+            colorImage = UIImage(named: "Blue.png") as UIImage!
+        } else if drawView.drawColor == UIColor.yellowColor() {
+            colorImage = UIImage(named: "Yellow.png") as UIImage!
+        } else if drawView.drawColor == UIColor.blackColor() {
+            colorImage = UIImage(named: "Black.png") as UIImage!
+        } else if drawView.drawColor == UIColor.orangeColor() {
+            colorImage = UIImage(named: "Orange.png") as UIImage!
+        } else if drawView.drawColor == UIColor.whiteColor() {
+            colorImage = UIImage(named: "White.png") as UIImage!
+        }
+        maskImage = UIImage(named: "Mask5.png") as UIImage!
+        
+        var img:UIImage = colorImage
+        
+        var img2 = UIImage.getMaskedArtworkFromPicture(img, withMask: maskImage)
+        
+        colorButton.setImage(img2, forState: UIControlState.Normal)
+        
         functionalityButton.setImage(image, forState: .Normal)
         UIView.animateWithDuration(0.5, animations: {
             self.functionalityView.alpha = 0
@@ -567,6 +593,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         cropBottomArrowImage.hidden = false
         cropRightArrowImage.hidden = false
         cropLeftArrowImage.hidden = false
+        MyVariables.flag = ""
         
         functionalityView.hidden = true
         cropView.hidden = false
@@ -574,7 +601,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         btnCancel.hidden = false
         undo.hidden = true
         redo.hidden = true
-        whiteBackgroungImage.hidden = true
+        whiteBackgroundImage.hidden = true
         colorButton.hidden = true
         functionalityButton.hidden = true
 
@@ -587,8 +614,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         cropLeftArrowImage?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "onLeftCropButtonPan:"))
         cropRightArrowImage?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "onRightCropButtonPan:"))
         
-        // Add runtime PinchGestureRecognizer into UIView
-//        cropView?.addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: "onPinch:"))
         UIView.animateWithDuration(0.5, animations: {
             self.functionalityView.alpha = 0
             }, completion: { (b:Bool) -> Void in
@@ -602,19 +627,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         var scaleFactorX =  imageView.frame.size.width / imageView.image!.size.width
         var scaleFactorY =  imageView.frame.size.height / imageView.image!.size.height
         var scaleFactor = (scaleFactorX < scaleFactorY ? scaleFactorX : scaleFactorY)
-        
-//        let x = (cropView.frame.origin.x
-//                - drawView.frame.origin.x
-//                - resultView.frame.origin.x)
-//                / scaleFactor
-//        let y = (cropView.frame.origin.y
-//                - drawView.frame.origin.y
-//                - resultView.frame.origin.y)
-//                / scaleFactor
-//        
-//        let width = cropView.frame.size.width / scaleFactor
-//        let height = cropView.frame.size.height / scaleFactor
-        
+
         let x = (cropViewLeadingConstraint.constant + 45
             - drawView.frame.origin.x
             - resultView.frame.origin.x)
@@ -642,9 +655,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         let displayWidth: CGFloat = imageView.image!.size.width * scaleFactor
         let displayHeight: CGFloat = imageView.image!.size.height * scaleFactor
         
-        //NSLog("ImageviewWidth: \(imageView.frame.size.width), ImageviewHeight: \(imageView.frame.size.height)")
-        //NSLog("DisplayWidth: \(displayWidth), DisplayHeight: \(displayHeight)")
-        
         drawingWidthConstraint.constant = displayWidth
         drawingHeightConstraint.constant = displayHeight
         
@@ -659,7 +669,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         cropRightArrowImage.hidden = true
         cropLeftArrowImage.hidden = true
         
-        whiteBackgroungImage.hidden = false
+        whiteBackgroundImage.hidden = false
         colorButton.hidden = false
         functionalityButton.hidden = false
     }
@@ -668,7 +678,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         btnCancel.hidden = true
         cropView.hidden = true
         btnDone.hidden = true
-        whiteBackgroungImage.hidden = true
+        whiteBackgroundImage.hidden = true
         cropTopArrowImage.hidden = true
         cropBottomArrowImage.hidden = true
         cropRightArrowImage.hidden = true
@@ -688,6 +698,19 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         
         colorButton.hidden = false
         functionalityButton.hidden = false
+    }
+    
+    //Add TextField
+    @IBAction func addTextFieldAction(sender: AnyObject) {
+        MyVariables.flag = "addTextField"
+        UIView.animateWithDuration(0.5, animations: {
+            self.functionalityView.alpha = 0
+            }, completion: { (b:Bool) -> Void in
+                self.functionalityView.hidden = true
+                self.functionalityView.alpha = 1
+        })
+        let image = UIImage(named: "Text.png") as UIImage!
+        functionalityButton.setImage(image, forState: .Normal)
     }
     
     //Add shapes methods
@@ -718,18 +741,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         functionalityButton.setImage(image, forState: .Normal)
     }
     
-    @IBAction func addTextAction(sender: AnyObject) {
-        MyVariables.flag = "addTextField"
-        UIView.animateWithDuration(0.5, animations: {
-            self.functionalityView.alpha = 0
-            }, completion: { (b:Bool) -> Void in
-                self.functionalityView.hidden = true
-                self.functionalityView.alpha = 1
-        })
-        let image = UIImage(named: "Text.png") as UIImage!
-        functionalityButton.setImage(image, forState: .Normal)
-    }
-    
+    //Add Circle
     @IBAction func addCircle(sender: AnyObject) {
         MyVariables.flag = "drawCircle"
         let image = UIImage(named: "Circle.png") as UIImage!
@@ -742,6 +754,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         })
     }
     
+    //Add Rectangle
     @IBAction func addRectangle(sender: AnyObject) {
         MyVariables.flag = "drawRectangle"
         let image = UIImage(named: "Rectangle.png") as UIImage!
@@ -754,6 +767,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         })
     }
     
+    //Draw StraighLine
     @IBAction func drawStraightLine(sender: AnyObject) {
         MyVariables.flag = "drawStraightLine"
         let image = UIImage(named: "Line.png") as UIImage!
@@ -771,12 +785,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         colorView.hidden = true
         functionalityView.hidden = true
         lineWidthView.hidden = true
-        rotationView.hidden = true
-        shapeView.hidden = true
-        
         mainLineWidthView.hidden = true
-        mainRotationView.hidden = true
-        mainShapeView.hidden = true
         
         if drawView.lastLineDraw.count > 0 {
             var removedShapeType = drawView.lastLineDraw.removeLast()
@@ -841,12 +850,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         colorView.hidden = true
         functionalityView.hidden = true
         lineWidthView.hidden = true
-        rotationView.hidden = true
-        shapeView.hidden = true
-        
         mainLineWidthView.hidden = true
-        mainRotationView.hidden = true
-        mainShapeView.hidden = true
         
         if drawView.redoshapetypes.count > 0 {
             var shapeType:String = drawView.redoshapetypes.removeLast()
@@ -904,65 +908,12 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         }
     }
     
-    //Gestute Methods
-    func onTopCropButtonPan(recognizer : UIPanGestureRecognizer) {
-        let translation = recognizer.translationInView(cropTopArrowImage)
-        recognizer.view!.center = CGPoint(x:recognizer.view!.center.x , y:recognizer.view!.center.y + translation.y)
-        recognizer.setTranslation(CGPointZero, inView: drawView)
-        
-        cropViewTopConstraint.constant += translation.y
-        cropViewHeightConstraint.constant -= translation.y
-    }
-    
-    func onBottomCropButtonPan(recognizer : UIPanGestureRecognizer) {
-        let translation = recognizer.translationInView(cropTopArrowImage)
-        recognizer.view!.center = CGPoint(x:recognizer.view!.center.x , y:recognizer.view!.center.y + translation.y)
-        recognizer.setTranslation(CGPointZero, inView: drawView)
-        
-        cropViewHeightConstraint.constant += translation.y
-    }
-
-    func onLeftCropButtonPan(recognizer : UIPanGestureRecognizer) {
-        let translation = recognizer.translationInView(cropTopArrowImage)
-        recognizer.view!.center = CGPoint(x:recognizer.view!.center.x + translation.x , y:recognizer.view!.center.y)
-        recognizer.setTranslation(CGPointZero, inView: drawView)
-        
-        cropViewLeadingConstraint.constant += translation.x
-        cropViewWidthConstraint.constant -= translation.x
-    }
-    
-    func onRightCropButtonPan(recognizer : UIPanGestureRecognizer) {
-        let translation = recognizer.translationInView(cropTopArrowImage)
-        recognizer.view!.center = CGPoint(x:recognizer.view!.center.x + translation.x , y:recognizer.view!.center.y)
-        recognizer.setTranslation(CGPointZero, inView: drawView)
-        
-        cropViewWidthConstraint.constant += translation.x
-    }
-    
-    func onPan(recognizer : UIPanGestureRecognizer) {
-        let translation = recognizer.translationInView(drawView)
-        cropViewTopConstraint.constant += translation.y;
-        cropViewLeadingConstraint.constant += translation.x
-        //        recognizer.view!.center = CGPoint(x:recognizer.view!.center.x + translation.x, y:recognizer.view!.center.y + translation.y)
-        recognizer.setTranslation(CGPointZero, inView: drawView)
-    }
-    
-    func onPinch(recognizer : UIPinchGestureRecognizer) {
-        recognizer.view!.transform = CGAffineTransformScale(recognizer.view!.transform,recognizer.scale, recognizer.scale)
-        recognizer.scale = 1
-    }
-    
-    func onRotate(recognizer : UIRotationGestureRecognizer) {
-        recognizer.view!.transform = CGAffineTransformRotate(recognizer.view!.transform, recognizer.rotation)
-        recognizer.rotation = 0
-    }
-    
     // Select a color for draw line
     @IBAction func colorAndLineTapped(button: UIButton!) {
        
         var line_width : CGFloat!
         
-        whiteBackgroungImage.hidden = false
+        whiteBackgroundImage.hidden = false
         
         if(button.titleLabel?.text == "R") {
             drawView.drawColor = UIColor.redColor()
@@ -1018,5 +969,52 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         var img2 = UIImage.getMaskedArtworkFromPicture(img, withMask: maskImage)
         
         colorButton.setImage(img2, forState: UIControlState.Normal)
+    }
+    
+    //Gesture Methods
+    func onTopCropButtonPan(recognizer : UIPanGestureRecognizer) {
+        let translation = recognizer.translationInView(cropTopArrowImage)
+        recognizer.view!.center = CGPoint(x:recognizer.view!.center.x , y:recognizer.view!.center.y + translation.y)
+        recognizer.setTranslation(CGPointZero, inView: drawView)
+        
+        cropViewTopConstraint.constant += translation.y
+        cropViewHeightConstraint.constant -= translation.y
+    }
+    
+    func onBottomCropButtonPan(recognizer : UIPanGestureRecognizer) {
+        let translation = recognizer.translationInView(cropTopArrowImage)
+        recognizer.view!.center = CGPoint(x:recognizer.view!.center.x , y:recognizer.view!.center.y + translation.y)
+        recognizer.setTranslation(CGPointZero, inView: drawView)
+        
+        cropViewHeightConstraint.constant += translation.y
+    }
+    
+    func onLeftCropButtonPan(recognizer : UIPanGestureRecognizer) {
+        let translation = recognizer.translationInView(cropTopArrowImage)
+        recognizer.view!.center = CGPoint(x:recognizer.view!.center.x + translation.x , y:recognizer.view!.center.y)
+        recognizer.setTranslation(CGPointZero, inView: drawView)
+        
+        cropViewLeadingConstraint.constant += translation.x
+        cropViewWidthConstraint.constant -= translation.x
+    }
+    
+    func onRightCropButtonPan(recognizer : UIPanGestureRecognizer) {
+        let translation = recognizer.translationInView(cropTopArrowImage)
+        recognizer.view!.center = CGPoint(x:recognizer.view!.center.x + translation.x , y:recognizer.view!.center.y)
+        recognizer.setTranslation(CGPointZero, inView: drawView)
+        
+        cropViewWidthConstraint.constant += translation.x
+    }
+    
+    func onPan(recognizer : UIPanGestureRecognizer) {
+        let translation = recognizer.translationInView(drawView)
+        cropViewTopConstraint.constant += translation.y;
+        cropViewLeadingConstraint.constant += translation.x
+        recognizer.setTranslation(CGPointZero, inView: drawView)
+    }
+    
+    func onPinch(recognizer : UIPinchGestureRecognizer) {
+        recognizer.view!.transform = CGAffineTransformScale(recognizer.view!.transform,recognizer.scale, recognizer.scale)
+        recognizer.scale = 1
     }
 }
