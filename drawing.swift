@@ -20,14 +20,16 @@ class drawing: UIView, UITextFieldDelegate {
         super.init(coder: aDecoder)
     }
     
-    var isDrawingCircle: Bool = false;
-    var isDrawingRectangle: Bool = false;
+    var isDrawingCircle: Bool = false
+    var isDrawingRectangle: Bool = false
+    var isDrawingStraightLine: Bool = false
     
     var lines: Array<Line> = []
     var objTextField: TextField?
     var circle_obj: Circle?
     var rectangle_obj: Rectangle?
-    var straightline_obj: Array<Array<Line>> = []
+    var straightline_obj: StraightLine?
+    
     var textFields: Array<UITextField> = []
     
     var strokes: Array<Array<Line>> = []
@@ -36,6 +38,7 @@ class drawing: UIView, UITextFieldDelegate {
     var redoshapetypes: Array<String> = []
     var circles: Array<Circle> = []
     var rectangles: Array<Rectangle> = []
+    var straightlines: Array<StraightLine> = []
     var redoArray: Array<Any> = []
     
     var tmpcnt: Int = 0
@@ -86,8 +89,12 @@ class drawing: UIView, UITextFieldDelegate {
             lastpoint = touch.locationInView(self)
             rectangle_obj = Rectangle(color: drawColor, l_width: l_w, start: lastpoint, end: lastpoint)
             lastLineDraw.append("drawRectangle")
+            
         } else if MyVariables.flag == "drawStraightLine" {
+            isDrawingStraightLine = true
             lastpoint = touch.locationInView(self)
+            straightline_obj = StraightLine(start: lastpoint, end: lastpoint, color: drawColor, l_width: l_w)
+            lastLineDraw.append("drawStraightLine")
         }
     }
     
@@ -119,6 +126,7 @@ class drawing: UIView, UITextFieldDelegate {
             
         } else if MyVariables.flag == "drawStraightLine" {
             newPoint = touch.locationInView(self) //it assigh the moves point
+            straightline_obj!.end = newPoint
             self.setNeedsDisplay()
         }
     }
@@ -157,11 +165,9 @@ class drawing: UIView, UITextFieldDelegate {
             tmpcnt++
             
         } else if MyVariables.flag == "drawStraightLine" {
-            lastLineDraw.append("drawStraightLine")
-            lines.append(Line(start: lastpoint, end: newPoint, color: drawColor, l_width: l_w))
-            straightline_obj.append(lines)
-            newPoint = lastpoint
-            lines = []
+            isDrawingStraightLine = false
+            straightlines.append(straightline_obj!)
+            straightline_obj = nil
             self.setNeedsDisplay()
             tmpcnt++
         }
@@ -169,7 +175,7 @@ class drawing: UIView, UITextFieldDelegate {
     
     override func drawRect(rect: CGRect) {
         
-        if strokes.count > 0 || strokesOpacity.count > 0 || circles.count > 0 || rectangles.count > 0 || straightline_obj.count > 0 {
+        if strokes.count > 0 || strokesOpacity.count > 0 || circles.count > 0 || rectangles.count > 0 || straightlines.count > 0 {
             undo.hidden = false
         }
         
@@ -209,21 +215,53 @@ class drawing: UIView, UITextFieldDelegate {
             CGContextStrokePath(cxt)
         }
         
-        //for DrawStraightLine
-        for stroke in straightline_obj {
-            if stroke.count > 0 {
-                CGContextBeginPath(cxt)
-                CGContextSetAlpha(cxt, 1.0)
-                CGContextSetLineWidth(cxt, stroke.first!.l_width)
-                CGContextMoveToPoint(cxt, stroke.first!.start.x, stroke.first!.start.y)
-            }
-            
-            for line in stroke {
-                CGContextSetStrokeColorWithColor(cxt, line.color.CGColor)
-                CGContextAddLineToPoint(cxt, line.end.x, line.end.y)
-            }
+        //Draw StraightLine
+        //if straightline is being drawin
+        if (isDrawingStraightLine)
+        {
+            // Set the straightline outerline-width
+            CGContextSetLineWidth(cxt, straightline_obj!.l_width)
+            // Set the straightline outerline-colour
+            CGContextSetStrokeColorWithColor(cxt,straightline_obj?.color.CGColor)
+            // Set straightline opacity
+            CGContextSetAlpha(cxt, 1.0)
+            // Create straightline
+            //println(straightline_obj!.start.x)
+            //println(straightline_obj!.end.x)
+            CGContextMoveToPoint(cxt, straightline_obj!.start.x, straightline_obj!.start.y)
+            CGContextAddLineToPoint(cxt, straightline_obj!.end.x, straightline_obj!.end.y)
+            // Draw
             CGContextStrokePath(cxt)
         }
+        
+        for straightline in straightlines {
+            CGContextSetLineWidth(cxt, straightline.l_width)
+            // Set the straightline outerline-colour
+            CGContextSetStrokeColorWithColor(cxt,straightline.color.CGColor)
+            // Set straightline opacity
+            CGContextSetAlpha(cxt, 1.0)
+            // Create straightline
+            CGContextMoveToPoint(cxt, straightline.start.x, straightline.start.y)
+            CGContextAddLineToPoint(cxt, straightline.end.x, straightline.end.y)
+            // Draw
+            CGContextStrokePath(cxt)
+        }
+        
+//        //for DrawStraightLine
+//        for stroke in straightline_obj {
+//            if stroke.count > 0 {
+//                CGContextBeginPath(cxt)
+//                CGContextSetAlpha(cxt, 1.0)
+//                CGContextSetLineWidth(cxt, stroke.first!.l_width)
+//                CGContextMoveToPoint(cxt, stroke.first!.start.x, stroke.first!.start.y)
+//            }
+//            
+//            for line in stroke {
+//                CGContextSetStrokeColorWithColor(cxt, line.color.CGColor)
+//                CGContextAddLineToPoint(cxt, line.end.x, line.end.y)
+//            }
+//            CGContextStrokePath(cxt)
+//        }
         
         //Draw Circle
         //if circle is being drawin
@@ -335,7 +373,7 @@ class drawing: UIView, UITextFieldDelegate {
             center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
             center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
 
-        } else if MyVariables.flag == "drawStraightLine" {
+        } /*else if MyVariables.flag == "drawStraightLine" {
             
             if lines.count > 0 {
                 CGContextBeginPath(cxt)
@@ -352,7 +390,7 @@ class drawing: UIView, UITextFieldDelegate {
             
             UIGraphicsEndImageContext()
             
-        }
+        } */
     }
     
     func onPan(recognizer : UIPanGestureRecognizer) {

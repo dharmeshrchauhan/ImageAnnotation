@@ -171,7 +171,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                 self.mainRotationView.hidden = true
                 self.shapeView.hidden = true
                 self.mainShapeView.hidden = true
-                
+
                 self.colorView.center.y  -= self.drawView.bounds.height
                 self.lineWidthView.center.x += self.drawView.bounds.width
                 self.functionalityView.center.y  -= self.drawView.bounds.height
@@ -257,7 +257,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         //reset all the containt if new image is selected
         drawView.strokes = []
         drawView.strokesOpacity = []
-        drawView.straightline_obj = []
+        drawView.straightlines = []
         drawView.lastLineDraw = []
         drawView.circles = []
         drawView.rectangles = []
@@ -311,6 +311,33 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     }
     
     @IBAction func btnImagePickerClicked(sender: AnyObject) {
+        
+        if imageView.image != nil {
+            var alertController = UIAlertController(title: "Save Image", message: "Do you want to save the image in camera roll.", preferredStyle: .Alert)
+            
+            // Create the actions
+            var okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                UIAlertAction in
+                self.saveImage(self)
+            }
+            var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+                UIAlertAction in
+                self.takeImage()
+            }
+            
+            // Add the actions
+            alertController.addAction(okAction)
+            alertController.addAction(cancelAction)
+            
+            // Present the controller
+            self.presentViewController(alertController, animated: true, completion: nil)
+        } else {
+            takeImage()
+        }
+    }
+    
+    func takeImage()
+    {
         //for iOS 8
         if (NSClassFromString("UIAlertController") != nil)
         {
@@ -346,7 +373,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                 popover?.presentPopoverFromRect(buttonItemView!.frame, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
             }
         }
-        //for iOS 7
+            //for iOS 7
         else {
             var actionSheet: UIActionSheet = UIActionSheet()
             actionSheet.title = "Choose Image"
@@ -357,6 +384,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
             actionSheet.delegate = self
             actionSheet.showInView(self.view)
         }
+
     }
     
     //ImagePicker delegate method
@@ -543,7 +571,14 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     //Draw line on drawView
     @IBAction func drawLineAction(sender: AnyObject) {
         MyVariables.flag = "drawLine"
+        
         let image = UIImage(named: "FreeLine.png") as UIImage!
+        maskImage = UIImage(named: "Mask1.png") as UIImage!
+        
+        var img:UIImage = colorImage
+        var img2 = UIImage.getMaskedArtworkFromPicture(img, withMask: maskImage)
+        colorButton.setImage(img2, forState: UIControlState.Normal)
+        
         functionalityButton.setImage(image, forState: .Normal)
         UIView.animateWithDuration(0.5, animations: {
             self.functionalityView.alpha = 0
@@ -684,7 +719,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         cropRightArrowImage.hidden = true
         cropLeftArrowImage.hidden = true
         
-        if drawView.strokes.count > 0 || drawView.strokesOpacity.count > 0 || drawView.circles.count > 0 || drawView.rectangles.count > 0 || drawView.straightline_obj.count > 0 {
+        if drawView.strokes.count > 0 || drawView.strokesOpacity.count > 0 || drawView.circles.count > 0 || drawView.rectangles.count > 0 || drawView.straightlines.count > 0 {
             undo.hidden = false
         } else {
             undo.hidden = true
@@ -834,8 +869,8 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                         drawView.setNeedsDisplay()
                     }
                 } else if removedShapeType == "drawStraightLine" {
-                    if drawView.straightline_obj.count > 0 {
-                        var removedStraightLine = drawView.straightline_obj.removeLast() // removeLast line
+                    if drawView.straightlines.count > 0 {
+                        var removedStraightLine = drawView.straightlines.removeLast() // removeLast line
                         drawView.redoArray.append(removedStraightLine) // add last removedLine into redoArray
                         drawView.redoshapetypes.append(removedShapeType) // add last removedShape into redoshapetypes
                         drawView.setNeedsDisplay()
@@ -869,7 +904,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
             case "drawRectangle":
                 drawView.rectangles.append(shape as! Rectangle)
             case "drawStraightLine":
-                drawView.straightline_obj.append(shape as! Array<Line>)
+                drawView.straightlines.append(shape as! StraightLine)
             default:
                 println("something wrong")
             }
@@ -877,8 +912,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
             
             if drawView.lastLineDraw.count == drawView.tmpcnt || drawView.redoArray.count == 0 {
                 redo.hidden = true
-            } else {
-                //println("Hello")
             }
         }
     }
