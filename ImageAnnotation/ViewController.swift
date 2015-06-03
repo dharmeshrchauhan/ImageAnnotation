@@ -29,6 +29,8 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     var rotation: CGFloat = 0.0
     
+    var isImageSaved: Bool = false
+    
     var saveBarButton: UIBarButtonItem?
     
     var colorImage : UIImage = UIImage(named: "White.png") as UIImage!
@@ -49,8 +51,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     @IBOutlet weak var colorButton: UIButton!
 
     @IBOutlet weak var btnGallery: UIButton!
-    
-    @IBOutlet weak var label: UILabel!
     
     @IBOutlet weak var functionalityButton: UIButton!
     
@@ -117,7 +117,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         super.viewDidLoad()
         drawView.view_controller = self
         //hide all buttons and views
-        textFieldButton.hidden = true
+        //textFieldButton.hidden = true
         cropButton.hidden = true
         
         colorButton.hidden = true
@@ -152,8 +152,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         self.view.addGestureRecognizer(tapRecognizer)
     }
     
-
-    //hide all other view when user touch the screen
+    //hide all other view when user touch the screen any where
     func hideView(sender: UITapGestureRecognizer) {
         UIView.animateWithDuration(0.25, animations: {
             self.colorView.center.y += self.drawView.bounds.height
@@ -269,9 +268,9 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         
         colorButton.hidden = false
         functionalityButton.hidden = false
+        
         undo.hidden = true
         redo.hidden = true
-        label.hidden = true
         btnGallery.hidden = true
         colorView.hidden = true
         lineWidthView.hidden = true
@@ -289,11 +288,11 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         cropRightArrowImage.hidden = true
         cropLeftArrowImage.hidden = true
         self.navigationItem.rightBarButtonItem = saveBarButton
-        //By default drawLine
-        MyVariables.flag = "drawLine"
+        isImageSaved = false
         //set default lineWidth and color
         drawView.drawColor = UIColor.whiteColor()
         drawView.l_w = 1
+        MyVariables.flag = "drawLine"
         //set default images
         let image = UIImage(named: "FreeLine.png") as UIImage!
         functionalityButton.setImage(image, forState: .Normal)
@@ -313,24 +312,29 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     @IBAction func btnImagePickerClicked(sender: AnyObject) {
         
         if imageView.image != nil {
-            var alertController = UIAlertController(title: "Save Image", message: "Do you want to save the image in camera roll.", preferredStyle: .Alert)
             
-            // Create the actions
-            var okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
-                UIAlertAction in
-                self.saveImage(self)
+            if isImageSaved == false {
+                var alertController = UIAlertController(title: "Save Image", message: "Do you want to save the image in camera roll.", preferredStyle: .Alert)
+                
+                // Create the actions
+                var okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) {
+                    UIAlertAction in
+                    self.saveImage(self)
+                }
+                var cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) {
+                    UIAlertAction in
+                    self.takeImage()
+                }
+                
+                // Add the actions
+                alertController.addAction(okAction)
+                alertController.addAction(cancelAction)
+                
+                // Present the controller
+                self.presentViewController(alertController, animated: true, completion: nil)
+            } else {
+                takeImage()
             }
-            var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
-                UIAlertAction in
-                self.takeImage()
-            }
-            
-            // Add the actions
-            alertController.addAction(okAction)
-            alertController.addAction(cancelAction)
-            
-            // Present the controller
-            self.presentViewController(alertController, animated: true, completion: nil)
         } else {
             takeImage()
         }
@@ -451,9 +455,10 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                     lineWidthView.hidden = false
                     mainLineWidthView.hidden = false
                 }
-                            
-                colorView.center.y  += drawView.bounds.height
-                lineWidthView.center.x -= drawView.bounds.width
+                
+                colorView?.center.y  += drawView.bounds.height
+                println("\(colorView?.center.y)","\(drawView.bounds.height)")
+                lineWidthView?.center.x -= drawView.bounds.width
                 
                 UIView.animateWithDuration(0.25, animations: {
                     self.colorView.center.y -= self.drawView.bounds.height
@@ -486,7 +491,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     //Show functionalityView
     @IBAction func selectFunctionality(sender: AnyObject) {
         if imageView.image != nil {
-                        
+            
             if functionalityView.hidden == true {
                 functionalityView.hidden = false
                 
@@ -518,6 +523,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     //Rotation Methods
     @IBAction func rotationAction(sender: AnyObject) {
+        functionalityButton.tag = 1
         if rotationView.hidden == true {
             rotationView.hidden = false
             mainRotationView.hidden = false
@@ -544,6 +550,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     }
     
     @IBAction func sideRotationAction(button: UIButton) {
+        isImageSaved = false
         
         if(button.titleLabel?.text == "R") {
             rotation = 90.0
@@ -571,6 +578,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     //Draw line on drawView
     @IBAction func drawLineAction(sender: AnyObject) {
         MyVariables.flag = "drawLine"
+        isImageSaved = false
         
         let image = UIImage(named: "FreeLine.png") as UIImage!
         maskImage = UIImage(named: "Mask1.png") as UIImage!
@@ -578,8 +586,8 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         var img:UIImage = colorImage
         var img2 = UIImage.getMaskedArtworkFromPicture(img, withMask: maskImage)
         colorButton.setImage(img2, forState: UIControlState.Normal)
-        
         functionalityButton.setImage(image, forState: .Normal)
+        
         UIView.animateWithDuration(0.5, animations: {
             self.functionalityView.alpha = 0
             }, completion: { (b:Bool) -> Void in
@@ -591,20 +599,9 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     //Draw opacity line on drawView
     @IBAction func drawOpacityLineAction(sender: AnyObject) {
         MyVariables.flag = "drawOpacityLine"
+        isImageSaved = false
+        
         let image = UIImage(named: "OpacityLine.png") as UIImage!
-        if drawView.drawColor == UIColor.redColor() {
-            colorImage = UIImage(named: "Red.png") as UIImage!
-        } else if drawView.drawColor == UIColor.blueColor() {
-            colorImage = UIImage(named: "Blue.png") as UIImage!
-        } else if drawView.drawColor == UIColor.yellowColor() {
-            colorImage = UIImage(named: "Yellow.png") as UIImage!
-        } else if drawView.drawColor == UIColor.blackColor() {
-            colorImage = UIImage(named: "Black.png") as UIImage!
-        } else if drawView.drawColor == UIColor.orangeColor() {
-            colorImage = UIImage(named: "Orange.png") as UIImage!
-        } else if drawView.drawColor == UIColor.whiteColor() {
-            colorImage = UIImage(named: "White.png") as UIImage!
-        }
         maskImage = UIImage(named: "Mask5.png") as UIImage!
         
         var img:UIImage = colorImage
@@ -738,14 +735,23 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     //Add TextField
     @IBAction func addTextFieldAction(sender: AnyObject) {
         MyVariables.flag = "addTextField"
+        
+        let image = UIImage(named: "Text.png") as UIImage!
+        maskImage = UIImage(named: "Mask5.png") as UIImage!
+        
+        var img:UIImage = colorImage
+        
+        var img2 = UIImage.getMaskedArtworkFromPicture(img, withMask: maskImage)
+        
+        colorButton.setImage(img2, forState: UIControlState.Normal)
+        functionalityButton.setImage(image, forState: .Normal)
+        
         UIView.animateWithDuration(0.5, animations: {
             self.functionalityView.alpha = 0
             }, completion: { (b:Bool) -> Void in
                 self.functionalityView.hidden = true
                 self.functionalityView.alpha = 1
         })
-        let image = UIImage(named: "Text.png") as UIImage!
-        functionalityButton.setImage(image, forState: .Normal)
     }
     
     //Add shapes methods
@@ -779,7 +785,15 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     //Add Circle
     @IBAction func addCircle(sender: AnyObject) {
         MyVariables.flag = "drawCircle"
+        isImageSaved = false
+        
         let image = UIImage(named: "Circle.png") as UIImage!
+        maskImage = UIImage(named: "Mask1.png") as UIImage!
+        
+        var img:UIImage = colorImage
+        var img2 = UIImage.getMaskedArtworkFromPicture(img, withMask: maskImage)
+        colorButton.setImage(img2, forState: UIControlState.Normal)
+        
         functionalityButton.setImage(image, forState: .Normal)
         UIView.animateWithDuration(0.5, animations: {
             self.functionalityView.alpha = 0
@@ -792,6 +806,8 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     //Add Rectangle
     @IBAction func addRectangle(sender: AnyObject) {
         MyVariables.flag = "drawRectangle"
+        isImageSaved = false
+        
         let image = UIImage(named: "Rectangle.png") as UIImage!
         functionalityButton.setImage(image, forState: .Normal)
         UIView.animateWithDuration(0.5, animations: {
@@ -805,6 +821,8 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     //Draw StraighLine
     @IBAction func drawStraightLine(sender: AnyObject) {
         MyVariables.flag = "drawStraightLine"
+        isImageSaved = false
+        
         let image = UIImage(named: "Line.png") as UIImage!
         functionalityButton.setImage(image, forState: .Normal)
         UIView.animateWithDuration(0.5, animations: {
@@ -817,6 +835,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     //Undo Operation
     @IBAction func undoAction(sender: AnyObject) {
+        isImageSaved = false
         colorView.hidden = true
         functionalityView.hidden = true
         lineWidthView.hidden = true
@@ -848,6 +867,8 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                         drawView.setNeedsDisplay()
                     }
                 } else if removedShapeType == "addTextField" {
+                    undo.hidden = false
+                    println("\(drawView.textFields.count)")
                     if drawView.textFields.count > 0 {
                         var removedTextField = drawView.textFields.removeLast() // removeLast textField
                         drawView.redoArray.append(removedTextField) // add last removedTextField into redoArray
@@ -882,6 +903,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     //Redo Operation
     @IBAction func redoAction(sender: AnyObject) {
+        isImageSaved = false
         colorView.hidden = true
         functionalityView.hidden = true
         lineWidthView.hidden = true
@@ -918,6 +940,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     //Save the result Image into Gallery
     @IBAction func saveImage(sender: AnyObject) {
+        isImageSaved = true
         var image = takeScreenshot(resultView)
         UIImageWriteToSavedPhotosAlbum(image, self, Selector("image:didFinishSavingWithError:contextInfo:"), nil)
     }
@@ -937,7 +960,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         if(error != nil) {
             UIAlertView(title: "Error", message: "Image could not be saved.Please try again", delegate: nil, cancelButtonTitle: "Close").show()
         } else{
-            UIAlertView(title: "Success", message: "Image successfully saved to Camera Roll", delegate: nil, cancelButtonTitle: "Close").show()
+            UIAlertView(title: "Success", message: "Image was successfully saved in Camera Roll", delegate: nil, cancelButtonTitle: "Close").show()
         }
     }
     

@@ -11,6 +11,7 @@ import UIKit
 class drawing: UIView, UITextFieldDelegate {
 
     var view_controller: ViewController?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.clearColor()
@@ -42,7 +43,6 @@ class drawing: UIView, UITextFieldDelegate {
     var redoArray: Array<Any> = []
     
     var tmpcnt: Int = 0
-    var cnt: CGFloat = 0
     var lastpoint: CGPoint!
     var newPoint: CGPoint!
     var drawColor = UIColor.whiteColor()
@@ -73,8 +73,9 @@ class drawing: UIView, UITextFieldDelegate {
             lastpoint = touch.locationInView(self) //it assigh the last point that touch
             
         } else if MyVariables.flag == "addTextField" {
-            objTextField = TextField(color: drawColor)
+//            undo.hidden = false
             lastpoint = touch.locationInView(self)
+            objTextField = TextField(color: drawColor, start: lastpoint)
             lastLineDraw.append("addTextField")
             self.setNeedsDisplay()
             
@@ -247,22 +248,6 @@ class drawing: UIView, UITextFieldDelegate {
             CGContextStrokePath(cxt)
         }
         
-//        //for DrawStraightLine
-//        for stroke in straightline_obj {
-//            if stroke.count > 0 {
-//                CGContextBeginPath(cxt)
-//                CGContextSetAlpha(cxt, 1.0)
-//                CGContextSetLineWidth(cxt, stroke.first!.l_width)
-//                CGContextMoveToPoint(cxt, stroke.first!.start.x, stroke.first!.start.y)
-//            }
-//            
-//            for line in stroke {
-//                CGContextSetStrokeColorWithColor(cxt, line.color.CGColor)
-//                CGContextAddLineToPoint(cxt, line.end.x, line.end.y)
-//            }
-//            CGContextStrokePath(cxt)
-//        }
-        
         //Draw Circle
         //if circle is being drawin
         if (isDrawingCircle)
@@ -357,14 +342,15 @@ class drawing: UIView, UITextFieldDelegate {
         } else if MyVariables.flag == "addTextField" {
 
             textField?.textColor = objTextField?.color
-            textField = UITextField(frame: CGRect(x: lastpoint.x, y: lastpoint.y, width: 200, height: 50))
+            textField = UITextField(frame: CGRect(x: objTextField!.start.x, y: objTextField!.start.y, width: 200, height: 20))
             
-            self.addSubview(textField!)
             textFields.append(textField!)
+            self.addSubview(textField!)
             
+            textField?.delegate = self
             textField!.multipleTouchEnabled = true
             textField!.userInteractionEnabled = true
-            textField?.delegate = self
+            
             // Add runtime PanGestureRecognizer into UITextField
             textField?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "onPan:"))
             
@@ -372,27 +358,9 @@ class drawing: UIView, UITextFieldDelegate {
             var center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
             center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
             center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-
-        } /*else if MyVariables.flag == "drawStraightLine" {
-            
-            if lines.count > 0 {
-                CGContextBeginPath(cxt)
-                CGContextSetLineWidth(cxt, lines.first!.l_width)
-                CGContextMoveToPoint(cxt, lines.first!.start.x, lines.first!.start.y)
-            }
-            
-            for line in lines {
-                CGContextSetStrokeColorWithColor(cxt, line.color.CGColor)
-                CGContextAddLineToPoint(cxt, line.end.x, line.end.y)
-            }
-            
-            CGContextStrokePath(cxt)
-            
-            UIGraphicsEndImageContext()
-            
-        } */
+        }
     }
-    
+
     func onPan(recognizer : UIPanGestureRecognizer) {
         let translation = recognizer.translationInView(self)
         recognizer.view!.center = CGPoint(x:recognizer.view!.center.x + translation.x, y:recognizer.view!.center.y + translation.y)
