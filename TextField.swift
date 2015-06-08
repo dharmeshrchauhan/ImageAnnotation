@@ -11,8 +11,12 @@ import Foundation
 class TextField {
     
     var color: UIColor
+    var start: CGPoint
+    var fontSize: CGFloat
     
-    init(color _color: UIColor!) {
+    init(color _color: UIColor!, start _start: CGPoint, fontSize _fontSize: CGFloat) {
         color = _color
+        start = _start
+        fontSize = _fontSize
     }
 }
