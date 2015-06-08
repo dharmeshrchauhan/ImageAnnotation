@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>9BCAB355-A7CA-4F2C-9B11-74C0CB0AE2B5</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>ImageAnnotation</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>AE4F12565B73BA0E7BE15CB7973EDB0AE072CF5F</key>
 		<string>https://github.com/dharmeshrchauhan/ImageAnnotation.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>ImageAnnotation.xcodeproj/project.xcworkspace</string>
+	<string>ImageAnnotation.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>AE4F12565B73BA0E7BE15CB7973EDB0AE072CF5F</key>

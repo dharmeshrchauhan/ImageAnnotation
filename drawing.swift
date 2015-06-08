@@ -236,7 +236,7 @@ class drawing: UIView, UITextFieldDelegate {
             if stroke.count > 0 {
                 CGContextBeginPath(cxt)
                 CGContextSetAlpha(cxt, lineOpacity)
-                CGContextSetLineWidth(cxt, 10)
+                CGContextSetLineWidth(cxt, 13)
                 CGContextMoveToPoint(cxt, stroke.first!.start.x, stroke.first!.start.y)
             }
             

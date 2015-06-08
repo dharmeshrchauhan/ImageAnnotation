@@ -237,7 +237,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         }
     }
     
-    //ImagePicker delegate method.. for iOS 7
+    //ImagePicker delegate method
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject])
     {
         picker.dismissViewControllerAnimated(true, completion: nil)
@@ -269,7 +269,13 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         drawView.circles = []
         drawView.rectangles = []
         if drawView.textFields.count > 0 {
-            drawView.removeFromSuperview()
+            for view in self.drawView.subviews {
+                if view.isKindOfClass(UITextField) {
+                    view.removeFromSuperview()
+                }
+            }
+            drawView.cntTextField = 0
+            drawView.textFields = []
         }
         rotation = 0
         self.imageView.transform = CGAffineTransformMakeRotation(degreesToRadians(rotation))
@@ -410,7 +416,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                 popover?.presentPopoverFromRect(buttonItemView!.frame, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
             }
         }
-            //for iOS 7
+        //for iOS 7
         else {
             var actionSheet: UIActionSheet = UIActionSheet()
             actionSheet.title = "Choose Image"
@@ -421,7 +427,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
             actionSheet.delegate = self
             actionSheet.showInView(self.view)
         }
-
     }
     
     //ImagePicker delegate method
@@ -478,7 +483,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         if imageView.image != nil {
             
             if colorView.hidden == true {
-                
+               
                 if MyVariables.flag == "drawOpacityLine"
                 {
                     colorView.hidden = false
@@ -489,7 +494,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                     lineWidthView.hidden = false
                     mainLineWidthView.hidden = false
                 }
-                            
+                
                 colorView.center.y  += drawView.bounds.height
                 lineWidthView.center.x -= drawView.bounds.width
                 
