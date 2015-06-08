@@ -27,16 +27,15 @@ class drawing: UIView, UITextFieldDelegate {
     var isDrawingCircle: Bool = false
     var isDrawingRectangle: Bool = false
     var isDrawingStraightLine: Bool = false
+    var keyboardStatus: Bool = false
     
-    var lines: Array<Line> = []
     var objTextField: TextField?
     var circle_obj: Circle?
     var rectangle_obj: Rectangle?
     var straightline_obj: StraightLine?
-    
-    var textFields: Array<UITextField> = []
-    var redoTextFields: Array<UITextField> = []
-    
+    var textField: UITextField?
+
+    var lines: Array<Line> = []
     var strokes: Array<Array<Line>> = []
     var strokesOpacity: Array<Array<Line>> = []
     var lastLineDraw: Array<String> = []
@@ -44,6 +43,7 @@ class drawing: UIView, UITextFieldDelegate {
     var circles: Array<Circle> = []
     var rectangles: Array<Rectangle> = []
     var straightlines: Array<StraightLine> = []
+    var textFields: Array<UITextField> = []
     var redoArray: Array<Any> = []
     
     var tmpcnt: Int = 0
@@ -52,13 +52,10 @@ class drawing: UIView, UITextFieldDelegate {
     var newPoint: CGPoint!
     var drawColor = UIColor.whiteColor()
     var l_w: CGFloat! = 1
-    var textFieldFontSize: CGFloat = 15
+    var textFieldFontSize: CGFloat = 20
     var lineOpacity: CGFloat = 0.0
     
-    var textField: UITextField?
-
     @IBOutlet weak var undo: UIButton!
-    
     @IBOutlet weak var redo: UIButton!
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -73,43 +70,48 @@ class drawing: UIView, UITextFieldDelegate {
         }
         
         if MyVariables.flag == "drawLine" {
+            view_controller!.isImageSaved = false
             lastpoint = touch.locationInView(self) //it assigh the last point that touch
             
         } else if MyVariables.flag == "drawOpacityLine" {
             lastpoint = touch.locationInView(self) //it assigh the last point that touch
             
         } else if MyVariables.flag == "addTextField" {
-            undo.hidden = false
-            tmpcnt++
-            var textFieldWidth: CGFloat = 30
-            var textFieldHeight: CGFloat = 40
             
-            lastpoint = touch.locationInView(self)
-            objTextField = TextField(color: drawColor, start: lastpoint, fontSize: textFieldFontSize)
-            lastLineDraw.append("addTextField")
-            textField = UITextField(frame: CGRect(x: objTextField!.start.x, y: objTextField!.start.y, width: textFieldWidth, height: textFieldHeight))
-            textField!.textColor = objTextField!.color
-            textField?.font = UIFont.systemFontOfSize(objTextField!.fontSize)
-            
-            textField!.borderStyle = UITextBorderStyle.None
-            textField!.layer.masksToBounds = true
-            textField!.layer.borderColor = objTextField!.color.CGColor
-            textField!.layer.borderWidth = 0.5
-            textField?.tag = cntTextField++
-        
-            textFields.append(textField!)
-            self.addSubview(textField!)
-            textField!.becomeFirstResponder()
-            
-            textField!.delegate = self
-            textField!.multipleTouchEnabled = true
-            textField!.userInteractionEnabled = true
-            
-            // Add runtime PanGestureRecognizer into UITextField
-            textField?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "onPan:"))
-            
-            self.setNeedsDisplay()
-            
+            if keyboardStatus == false {
+                tmpcnt++
+                var textFieldWidth: CGFloat = 30
+                var textFieldHeight: CGFloat = 40
+                
+                lastpoint = touch.locationInView(self)
+                objTextField = TextField(color: drawColor, start: lastpoint, fontSize: textFieldFontSize)
+                
+                lastLineDraw.append("addTextField")
+                
+                textField = UITextField(frame: CGRect(x: objTextField!.start.x, y: objTextField!.start.y, width: textFieldWidth, height: textFieldHeight))
+                
+                textField!.textColor = objTextField!.color
+                
+                textField?.font = UIFont.systemFontOfSize(objTextField!.fontSize)
+                textField!.borderStyle = UITextBorderStyle.None
+                textField!.layer.masksToBounds = true
+                textField!.layer.borderColor = objTextField!.color.CGColor
+                textField!.layer.borderWidth = 0.5
+                textField?.tag = cntTextField++
+                
+                textFields.append(textField!)
+                self.addSubview(textField!)
+                textField!.becomeFirstResponder()
+                
+                textField!.delegate = self
+                textField!.multipleTouchEnabled = true
+                textField!.userInteractionEnabled = true
+                
+                // Add runtime PanGestureRecognizer into UITextField
+                textField?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "onPan:"))
+                
+                self.setNeedsDisplay()
+            }
         } else if MyVariables.flag == "drawCircle" {
             isDrawingCircle = true
             lastpoint = touch.locationInView(self)
@@ -251,11 +253,8 @@ class drawing: UIView, UITextFieldDelegate {
         //if straightline is being drawin
         if (isDrawingStraightLine)
         {
-            // Set the straightline outerline-width
             CGContextSetLineWidth(cxt, straightline_obj!.l_width)
-            // Set the straightline outerline-colour
             CGContextSetStrokeColorWithColor(cxt,straightline_obj?.color.CGColor)
-            // Set straightline opacity
             CGContextSetAlpha(cxt, 1.0)
             // Create straightline
             CGContextMoveToPoint(cxt, straightline_obj!.start.x, straightline_obj!.start.y)
@@ -266,9 +265,7 @@ class drawing: UIView, UITextFieldDelegate {
         
         for straightline in straightlines {
             CGContextSetLineWidth(cxt, straightline.l_width)
-            // Set the straightline outerline-colour
             CGContextSetStrokeColorWithColor(cxt,straightline.color.CGColor)
-            // Set straightline opacity
             CGContextSetAlpha(cxt, 1.0)
             // Create straightline
             CGContextMoveToPoint(cxt, straightline.start.x, straightline.start.y)
@@ -367,7 +364,6 @@ class drawing: UIView, UITextFieldDelegate {
             CGContextStrokePath(cxt)
             lineOpacity = 0.0
             UIGraphicsEndImageContext()
-            
         }
     }
 
@@ -395,19 +391,39 @@ class drawing: UIView, UITextFieldDelegate {
         return true
     }
     
+    func textFieldDidEndEditing(textField: UITextField) {
+        
+        // it check textField is empty or not if empty then it does not add to subview as well as does not append to textFields array
+        if count(textField.text) <= 0 {
+            for view in self.subviews {
+                if view.isKindOfClass(UITextField) {
+                    if view.tag == cntTextField - 1 {
+                        view.removeFromSuperview()
+                        textFields.removeLast()
+                        cntTextField--
+                        undo.hidden = true
+                        self.setNeedsDisplay()
+                    }
+                }
+            }
+        }
+    }
+    
     func keyboardWillShow(notification: NSNotification) {
+        keyboardStatus = true
         var keyboardHeight: CGFloat?
         var info:NSDictionary = notification.userInfo!
         
         var keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
         
-        if view_controller?.screenTouchPoint?.y > keyboardSize.height  {
+        if view_controller?.screenTouchPoint?.y > keyboardSize.height {
             keyboardHeight = keyboardSize.height + 200
             self.view_controller!.resultViewTopConstraint.constant = self.view_controller!.resultViewTopConstraint.constant - keyboardHeight!
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
+        keyboardStatus = false
         var keyboardHeight: CGFloat?
         var info:NSDictionary = notification.userInfo!
         
