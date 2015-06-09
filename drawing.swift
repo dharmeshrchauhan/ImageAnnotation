@@ -47,7 +47,10 @@ class drawing: UIView, UITextFieldDelegate {
     var redoArray: Array<Any> = []
     
     var tmpcnt: Int = 0
+<<<<<<< HEAD
     var cntTextField: Int = 1000
+=======
+>>>>>>> origin/master
     var lastpoint: CGPoint!
     var newPoint: CGPoint!
     var drawColor = UIColor.whiteColor()
@@ -77,6 +80,14 @@ class drawing: UIView, UITextFieldDelegate {
             lastpoint = touch.locationInView(self) //it assigh the last point that touch
             
         } else if MyVariables.flag == "addTextField" {
+<<<<<<< HEAD
+=======
+//            undo.hidden = false
+            lastpoint = touch.locationInView(self)
+            objTextField = TextField(color: drawColor, start: lastpoint)
+            lastLineDraw.append("addTextField")
+            self.setNeedsDisplay()
+>>>>>>> origin/master
             
             if keyboardStatus == false {
                 tmpcnt++
@@ -364,6 +375,29 @@ class drawing: UIView, UITextFieldDelegate {
             CGContextStrokePath(cxt)
             lineOpacity = 0.0
             UIGraphicsEndImageContext()
+<<<<<<< HEAD
+=======
+            
+        } else if MyVariables.flag == "addTextField" {
+
+            textField?.textColor = objTextField?.color
+            textField = UITextField(frame: CGRect(x: objTextField!.start.x, y: objTextField!.start.y, width: 200, height: 20))
+            
+            textFields.append(textField!)
+            self.addSubview(textField!)
+            
+            textField?.delegate = self
+            textField!.multipleTouchEnabled = true
+            textField!.userInteractionEnabled = true
+            
+            // Add runtime PanGestureRecognizer into UITextField
+            textField?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "onPan:"))
+            
+            // Keyboard stuff.
+            var center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+            center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+            center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+>>>>>>> origin/master
         }
     }
 
