@@ -47,10 +47,7 @@ class drawing: UIView, UITextFieldDelegate {
     var redoArray: Array<Any> = []
     
     var tmpcnt: Int = 0
-<<<<<<< HEAD
     var cntTextField: Int = 1000
-=======
->>>>>>> origin/master
     var lastpoint: CGPoint!
     var newPoint: CGPoint!
     var drawColor = UIColor.whiteColor()
@@ -80,19 +77,11 @@ class drawing: UIView, UITextFieldDelegate {
             lastpoint = touch.locationInView(self) //it assigh the last point that touch
             
         } else if MyVariables.flag == "addTextField" {
-<<<<<<< HEAD
-=======
-//            undo.hidden = false
-            lastpoint = touch.locationInView(self)
-            objTextField = TextField(color: drawColor, start: lastpoint)
-            lastLineDraw.append("addTextField")
-            self.setNeedsDisplay()
->>>>>>> origin/master
             
             if keyboardStatus == false {
                 tmpcnt++
                 var textFieldWidth: CGFloat = 30
-                var textFieldHeight: CGFloat = 40
+                var textFieldHeight: CGFloat = 50
                 
                 lastpoint = touch.locationInView(self)
                 objTextField = TextField(color: drawColor, start: lastpoint, fontSize: textFieldFontSize)
@@ -375,29 +364,6 @@ class drawing: UIView, UITextFieldDelegate {
             CGContextStrokePath(cxt)
             lineOpacity = 0.0
             UIGraphicsEndImageContext()
-<<<<<<< HEAD
-=======
-            
-        } else if MyVariables.flag == "addTextField" {
-
-            textField?.textColor = objTextField?.color
-            textField = UITextField(frame: CGRect(x: objTextField!.start.x, y: objTextField!.start.y, width: 200, height: 20))
-            
-            textFields.append(textField!)
-            self.addSubview(textField!)
-            
-            textField?.delegate = self
-            textField!.multipleTouchEnabled = true
-            textField!.userInteractionEnabled = true
-            
-            // Add runtime PanGestureRecognizer into UITextField
-            textField?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "onPan:"))
-            
-            // Keyboard stuff.
-            var center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
-            center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-            center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
->>>>>>> origin/master
         }
     }
 
@@ -415,14 +381,19 @@ class drawing: UIView, UITextFieldDelegate {
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
         var txtAfterUpdate:NSString = self.textField!.text as NSString
-        
-        txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
-    
-        var r: CGRect = txtAfterUpdate.boundingRectWithSize(CGSizeMake(250, 0), options: NSStringDrawingOptions.UsesLineFragmentOrigin , attributes: { [NSFontAttributeName: UIFont.systemFontOfSize(self.objTextField!.fontSize)] }(), context: nil)
- 
-        textField.frame.size.width = r.width + 10
-        
-        return true
+        println("\(self.textField?.frame.size.width)")
+        if self.textField?.frame.size.width < 250 {
+            txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
+            
+            var r: CGRect = txtAfterUpdate.boundingRectWithSize(CGSizeMake(260, 0), options: NSStringDrawingOptions.UsesLineFragmentOrigin , attributes: { [NSFontAttributeName: UIFont.systemFontOfSize(self.objTextField!.fontSize)] }(), context: nil)
+            
+            textField.frame.size.width = r.width + 10
+            
+            return true
+        }
+        else {
+            return false
+        }
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
@@ -445,27 +416,27 @@ class drawing: UIView, UITextFieldDelegate {
     
     func keyboardWillShow(notification: NSNotification) {
         keyboardStatus = true
-        var keyboardHeight: CGFloat?
+        
         var info:NSDictionary = notification.userInfo!
         
         var keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
         
-        if view_controller?.screenTouchPoint?.y > keyboardSize.height {
-            keyboardHeight = keyboardSize.height + 200
-            self.view_controller!.resultViewTopConstraint.constant = self.view_controller!.resultViewTopConstraint.constant - keyboardHeight!
+        if view_controller?.screenTouchPoint?.y > keyboardSize.height + 25 {
+            var keyboardHeight = keyboardSize.height + 200
+            self.view_controller!.resultViewTopConstraint.constant = self.view_controller!.resultViewTopConstraint.constant - keyboardHeight
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
         keyboardStatus = false
-        var keyboardHeight: CGFloat?
+        
         var info:NSDictionary = notification.userInfo!
         
         var keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
         
-        if view_controller?.screenTouchPoint?.y > keyboardSize.height {
-            keyboardHeight = keyboardSize.height + 200
-            self.view_controller!.resultViewTopConstraint.constant = self.view_controller!.resultViewTopConstraint.constant + keyboardHeight!
+        if view_controller?.screenTouchPoint?.y > keyboardSize.height + 25 {
+            var keyboardHeight = keyboardSize.height + 200
+            self.view_controller!.resultViewTopConstraint.constant = self.view_controller!.resultViewTopConstraint.constant + keyboardHeight
         }
         
         textField!.userInteractionEnabled = false

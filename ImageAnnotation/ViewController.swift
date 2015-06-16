@@ -26,17 +26,11 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     var picker: UIImagePickerController? = UIImagePickerController()
     var popover: UIPopoverController? = nil
     var rotation: CGFloat = 0.0
-<<<<<<< HEAD
     var tmpLineWidth: CGFloat = 1
     var displayWidth: CGFloat?
     var displayHeight: CGFloat?
     var screenTouchPoint: CGPoint?
     var isImageSaved: Bool = false
-=======
-    
-    var isImageSaved: Bool = false
-    
->>>>>>> origin/master
     var saveBarButton: UIBarButtonItem?
     var colorImage : UIImage = UIImage(named: "Black.png") as UIImage!
     var maskImage : UIImage = UIImage(named: "Mask1.png") as UIImage!
@@ -45,10 +39,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     @IBOutlet weak var cropButton: UIButton!
     @IBOutlet weak var colorButton: UIButton!
     @IBOutlet weak var btnGallery: UIButton!
-<<<<<<< HEAD
-=======
-    
->>>>>>> origin/master
     @IBOutlet weak var functionalityButton: UIButton!
     @IBOutlet weak var btnDone: UIButton!
     @IBOutlet weak var btnCancel: UIButton!
@@ -161,12 +151,15 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        super.touchesBegan(touches, withEvent: event)
-
-        let array = Array(touches)
-        let touch = array[0] as! UITouch
         
-        screenTouchPoint = touch.locationInView(self.view)
+        if drawView.keyboardStatus != true {
+            super.touchesBegan(touches, withEvent: event)
+            
+            let array = Array(touches)
+            let touch = array[0] as! UITouch
+            
+            screenTouchPoint = touch.locationInView(self.view)
+        }
     }
     
     //Take image form Gallery
@@ -265,15 +258,11 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         
         colorButton.hidden = false
         functionalityButton.hidden = false
-        
         undo.hidden = true
         redo.hidden = true
-<<<<<<< HEAD
         cropView.hidden = true
         btnCancel.hidden = true
         btnDone.hidden = true
-=======
->>>>>>> origin/master
         btnGallery.hidden = true
         
         colorView.hidden = true
@@ -291,16 +280,12 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         cropLeftArrowImage.hidden = true
         
         self.navigationItem.rightBarButtonItem = saveBarButton
-<<<<<<< HEAD
         //By default drawLine
         MyVariables.flag = "drawLine"
-=======
->>>>>>> origin/master
         isImageSaved = false
         //set default lineWidth and color
         drawView.drawColor = UIColor.blackColor()
         drawView.l_w = 1
-        MyVariables.flag = "drawLine"
         //set default images
         let image = UIImage(named: "FreeLine.png") as UIImage!
         functionalityButton.setImage(image, forState: .Normal)
@@ -319,7 +304,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
     
     @IBAction func btnImagePickerClicked(sender: AnyObject) {
         if imageView.image != nil {
-<<<<<<< HEAD
             if isImageSaved == false {
                 // iOS 8
                 if (NSClassFromString("UIAlertController") != nil) {
@@ -352,29 +336,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                 }
             }
             else {
-=======
-            
-            if isImageSaved == false {
-                var alertController = UIAlertController(title: "Save Image", message: "Do you want to save the image in camera roll.", preferredStyle: .Alert)
-                
-                // Create the actions
-                var okAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) {
-                    UIAlertAction in
-                    self.saveImage(self)
-                }
-                var cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) {
-                    UIAlertAction in
-                    self.takeImage()
-                }
-                
-                // Add the actions
-                alertController.addAction(okAction)
-                alertController.addAction(cancelAction)
-                
-                // Present the controller
-                self.presentViewController(alertController, animated: true, completion: nil)
-            } else {
->>>>>>> origin/master
                 takeImage()
             }
         } else {
@@ -520,14 +481,8 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                     mainLineWidthView.hidden = false
                 }
                 
-<<<<<<< HEAD
                 colorView.center.y  += drawView.bounds.height
                 lineWidthView.center.x -= drawView.bounds.width
-=======
-                colorView?.center.y  += drawView.bounds.height
-                println("\(colorView?.center.y)","\(drawView.bounds.height)")
-                lineWidthView?.center.x -= drawView.bounds.width
->>>>>>> origin/master
                 
                 UIView.animateWithDuration(0.5, animations: {
                     self.colorView.center.y -= self.drawView.bounds.height
@@ -699,7 +654,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         return 3.14 * (x) / 180.0
     }
     
-<<<<<<< HEAD
     //Add shapes methods
     @IBAction func shapeAction(sender: AnyObject) {
         if shapeView.hidden == true {
@@ -723,12 +677,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                     self.mainShapeView.hidden = true
             })
         }
-=======
-    //Draw line on drawView
-    @IBAction func drawLineAction(sender: AnyObject) {
-        MyVariables.flag = "drawLine"
-        isImageSaved = false
->>>>>>> origin/master
         
         let image = UIImage(named: "Circle.png") as UIImage!
         functionalityButton.setImage(image, forState: .Normal)
@@ -755,8 +703,8 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         var img:UIImage = colorImage
         var img2 = UIImage.getMaskedArtworkFromPicture(img, withMask: maskImage)
         colorButton.setImage(img2, forState: UIControlState.Normal)
-        functionalityButton.setImage(image, forState: .Normal)
         
+        functionalityButton.setImage(image, forState: .Normal)
         UIView.animateWithDuration(0.5, animations: {
             self.functionalityView.alpha = 0
             }, completion: { (b:Bool) -> Void in
@@ -765,24 +713,10 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         })
     }
     
-<<<<<<< HEAD
     //Add Rectangle
     @IBAction func addRectangle(sender: AnyObject) {
         MyVariables.flag = "drawRectangle"
         isImageSaved = false
-=======
-    //Draw opacity line on drawView
-    @IBAction func drawOpacityLineAction(sender: AnyObject) {
-        MyVariables.flag = "drawOpacityLine"
-        isImageSaved = false
-        
-        let image = UIImage(named: "OpacityLine.png") as UIImage!
-        maskImage = UIImage(named: "Mask5.png") as UIImage!
-        
-        var img:UIImage = colorImage
-        
-        var img2 = UIImage.getMaskedArtworkFromPicture(img, withMask: maskImage)
->>>>>>> origin/master
         
         let image = UIImage(named: "Rectangle.png") as UIImage!
         functionalityButton.setImage(image, forState: .Normal)
@@ -935,110 +869,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         functionalityButton.hidden = false
     }
     
-<<<<<<< HEAD
-=======
-    //Add TextField
-    @IBAction func addTextFieldAction(sender: AnyObject) {
-        MyVariables.flag = "addTextField"
-        
-        let image = UIImage(named: "Text.png") as UIImage!
-        maskImage = UIImage(named: "Mask5.png") as UIImage!
-        
-        var img:UIImage = colorImage
-        
-        var img2 = UIImage.getMaskedArtworkFromPicture(img, withMask: maskImage)
-        
-        colorButton.setImage(img2, forState: UIControlState.Normal)
-        functionalityButton.setImage(image, forState: .Normal)
-        
-        UIView.animateWithDuration(0.5, animations: {
-            self.functionalityView.alpha = 0
-            }, completion: { (b:Bool) -> Void in
-                self.functionalityView.hidden = true
-                self.functionalityView.alpha = 1
-        })
-    }
-    
-    //Add shapes methods
-    @IBAction func shapeAction(sender: AnyObject) {
-        if shapeView.hidden == true {
-            addCircle(self)
-            shapeView.hidden = false
-            mainShapeView.hidden = false
-            functionalityView.hidden = true
-            
-            shapeView.center.x += drawView.bounds.width
-            
-            UIView.animateWithDuration(0.25, animations: {
-                self.shapeView.center.x -= self.drawView.bounds.width
-            })
-        } else {
-            shapeView.center.y  -= view.bounds.height
-            
-            UIView.animateWithDuration(0.25, animations: {
-                self.shapeView.center.x += self.view.bounds.width
-                }, completion: { (b:Bool) -> Void in
-                    self.shapeView.hidden = true
-                    self.mainShapeView.hidden = true
-            })
-        }
-        
-        let image = UIImage(named: "Circle.png") as UIImage!
-        functionalityButton.setImage(image, forState: .Normal)
-    }
-    
-    //Add Circle
-    @IBAction func addCircle(sender: AnyObject) {
-        MyVariables.flag = "drawCircle"
-        isImageSaved = false
-        
-        let image = UIImage(named: "Circle.png") as UIImage!
-        maskImage = UIImage(named: "Mask1.png") as UIImage!
-        
-        var img:UIImage = colorImage
-        var img2 = UIImage.getMaskedArtworkFromPicture(img, withMask: maskImage)
-        colorButton.setImage(img2, forState: UIControlState.Normal)
-        
-        functionalityButton.setImage(image, forState: .Normal)
-        UIView.animateWithDuration(0.5, animations: {
-            self.functionalityView.alpha = 0
-            }, completion: { (b:Bool) -> Void in
-                self.functionalityView.hidden = true
-                self.functionalityView.alpha = 1
-        })
-    }
-    
-    //Add Rectangle
-    @IBAction func addRectangle(sender: AnyObject) {
-        MyVariables.flag = "drawRectangle"
-        isImageSaved = false
-        
-        let image = UIImage(named: "Rectangle.png") as UIImage!
-        functionalityButton.setImage(image, forState: .Normal)
-        UIView.animateWithDuration(0.5, animations: {
-            self.functionalityView.alpha = 0
-            }, completion: { (b:Bool) -> Void in
-                self.functionalityView.hidden = true
-                self.functionalityView.alpha = 1
-        })
-    }
-    
-    //Draw StraighLine
-    @IBAction func drawStraightLine(sender: AnyObject) {
-        MyVariables.flag = "drawStraightLine"
-        isImageSaved = false
-        
-        let image = UIImage(named: "Line.png") as UIImage!
-        functionalityButton.setImage(image, forState: .Normal)
-        UIView.animateWithDuration(0.5, animations: {
-            self.functionalityView.alpha = 0
-            }, completion: { (b:Bool) -> Void in
-                self.functionalityView.hidden = true
-                self.functionalityView.alpha = 1
-        })
-    }
-    
->>>>>>> origin/master
     //Undo Operation
     @IBAction func undoAction(sender: AnyObject) {
         isImageSaved = false
@@ -1073,8 +903,6 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
                         drawView.setNeedsDisplay()
                     }
                 } else if removedShapeType == "addTextField" {
-                    undo.hidden = false
-                    println("\(drawView.textFields.count)")
                     if drawView.textFields.count > 0 {
                         for view in self.drawView.subviews {
                             if view.isKindOfClass(UITextField) {
@@ -1187,7 +1015,7 @@ class ViewController: UIViewController,UIAlertViewDelegate,UIImagePickerControll
         var line_width : CGFloat!
         
         whiteBackgroundImage.hidden = false
-        
+ 
         if(button.titleLabel?.text == "R") {
             drawView.drawColor = UIColor.redColor()
             colorImage = UIImage(named: "Red.png") as UIImage!

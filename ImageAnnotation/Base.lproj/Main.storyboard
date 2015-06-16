@@ -102,9 +102,6 @@
                                     <action selector="undoAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="rCq-ZV-aoB"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Border" translatesAutoresizingMaskIntoConstraints="NO" id="vKZ-wI-dFu">
-                                <rect key="frame" x="8" y="528" width="30" height="30"/>
-                            </imageView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Msw-V3-8WP">
                                 <rect key="frame" x="272" y="154" width="45" height="389"/>
                                 <subviews>
@@ -642,6 +639,9 @@
                                     <action selector="selectColor:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="o9B-ct-T0b"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Border" translatesAutoresizingMaskIntoConstraints="NO" id="vKZ-wI-dFu">
+                                <rect key="frame" x="8" y="528" width="30" height="30"/>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u5i-jh-xqA">
                                 <rect key="frame" x="57" y="249" width="207" height="133"/>
                                 <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
